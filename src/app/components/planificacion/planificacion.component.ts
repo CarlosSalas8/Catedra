@@ -106,10 +106,8 @@ export class PlanificacionComponent implements OnInit {
 
   guardarDatos() {
     if (this.form.valid) {
-      // Obtener los datos del formulario
       const formData = this.form.value;
   
-      // Guardar los datos generales del formulario (excepto los items de actividades)
       const generalData = {
         docente: formData.docente,
         ayudante: formData.ayudante,
@@ -119,31 +117,29 @@ export class PlanificacionComponent implements OnInit {
         modalidad: formData.modalidad
       };
   
-      // Guardar cada actividad en su propio documento
       const batch = this.firestore.firestore.batch();
   
       formData.items.forEach((item: any) => {
         const newDocRef = this.firestore.collection('items').doc().ref;
-        batch.set(newDocRef, { ...generalData, ...item, tipo: 'primer_bimestre' });
+        batch.set(newDocRef, { id: newDocRef.id, ...generalData, ...item, tipo: 'primer_bimestre' });
       });
   
       formData.itemsSegundo.forEach((item: any) => {
         const newDocRef = this.firestore.collection('items').doc().ref;
-        batch.set(newDocRef, { ...generalData, ...item, tipo: 'segundo_bimestre' });
+        batch.set(newDocRef, { id: newDocRef.id, ...generalData, ...item, tipo: 'segundo_bimestre' });
       });
   
       formData.itemsRecuperacion.forEach((item: any) => {
         const newDocRef = this.firestore.collection('items').doc().ref;
-        batch.set(newDocRef, { ...generalData, ...item, tipo: 'recuperacion' });
+        batch.set(newDocRef, { id: newDocRef.id, ...generalData, ...item, tipo: 'recuperacion' });
       });
   
-      // Ejecutar el batch
       batch.commit()
         .then(() => {
           console.log('Datos guardados correctamente en Firebase');
-          this.form.reset(); // Reiniciar el formulario después de enviar los datos
+          this.form.reset();
           alert('¡Datos guardados correctamente!');
-          this.router.navigateByUrl('/vista'); // Navega a la vista después de guardar los datos 
+          this.router.navigateByUrl('/vista');
         })
         .catch(error => {
           console.error('Error al guardar los datos en Firebase:', error);
@@ -153,6 +149,7 @@ export class PlanificacionComponent implements OnInit {
       alert('Por favor, completa todos los campos del formulario.');
     }
   }
+  
   
 
   // Métodos para obtener los controles específicos del Primer Bimestre

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -13,13 +14,17 @@ export class VistaComponent implements OnInit{
   actividadesSegundoBimestre: Observable<any[]> | undefined;
   actividadesRecuperacion: Observable<any[]> | undefined;
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore, private router: Router) { }
 
   ngOnInit(): void {
     this.actividadesPrimerBimestre = this.firestore.collection('items', ref => ref.where('tipo', '==', 'primer_bimestre')).valueChanges();
     this.actividadesSegundoBimestre = this.firestore.collection('items', ref => ref.where('tipo', '==', 'segundo_bimestre')).valueChanges();
     this.actividadesRecuperacion = this.firestore.collection('items', ref => ref.where('tipo', '==', 'recuperacion')).valueChanges();
     this.setupMobileMenuToggle();
+  }
+
+  revisarActividad(id: string): void {
+    this.router.navigate(['/revisar', id]);
   }
 
   setupMobileMenuToggle(): void {

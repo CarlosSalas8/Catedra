@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,7 +19,7 @@
               <div class="flex space-x-4 ml-4">
                 <a href="#"
                   class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
-                  aria-current="page" [routerLink]="'/planificacion'">AYUDANTE DE CÁTEDRA</a>
+                  aria-current="page" [routerLink]="'/vista'">AYUDANTE DE CÁTEDRA</a>
                 <a href="#"
                   class=" bg-white text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page" [routerLink]="'/periodo'">PERÍODO</a>
@@ -74,6 +75,7 @@
       </div>
     </div>
   </nav>
+
   <aside id="logo-sidebar"
     class="fixed top-0 left-0 z-40 w-52 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
     aria-label="Sidebar">
@@ -119,102 +121,85 @@
     </div>
   </aside>
 
-  <div class="mt-20 p-4 sm:ml-64 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 rounded-lg">
-    <!-- Primer Bimestre -->
-    <div *ngIf="actividadesPrimerBimestre | async as actividadesPrimer" class="mb-8">
-      <div *ngFor="let actividad of actividadesPrimer">
-        <div class="bg-white shadow-lg text-black p-5 mb-10 h-64 flex flex-col justify-between rounded-lg">
-          <div class="space-y-4">
-            <p class="text-center"><strong>Primer Bimestre - Actividad: <br></strong>{{ actividad.actividad }}</p>
-            <p class="text-center"><strong>Fecha de inicio: <br></strong>{{ actividad.fechaInicio }}</p>
-            <p class="text-center"><strong>Fecha de fin: <br></strong>{{ actividad.fechaFin }}</p>
-            
+
+  <div class="p-4 sm:ml-64">
+    <div class="p-4 mt-14">
+      <div class="flex items-center justify-center h-48 rounded relative">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="flex flex-col items-center justify-center px-4">
+            <img src="/assets/images0.png" alt="Imagen" class="inset-0 m-auto object-cover rounded max-w-11/12" />
+            <p class="text-xl text-gray-950 text-center mt-4 font-bold leading-relaxed">
+              UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA<br>
+              PRESENTACIÓN DE PLANIFICACIÓN AYUDANTE DE CÁTEDRA<br>
+              PERIODO ABRIL - AGOSTO 2024
+            </p>
           </div>
-          <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)" class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
-        </div>
         </div>
       </div>
-    </div>
   
-    <!-- Segundo Bimestre -->
-    <div *ngIf="actividadesSegundoBimestre | async as actividadesSegundo" class="mb-4">
-      <div *ngFor="let actividad of actividadesSegundo">
-        <div class="bg-white shadow-lg text-black p-5 mb-10 h-64 flex flex-col justify-between rounded-lg">
-          <div class="space-y-4">
-            <p class="text-center"><strong>Segundo Bimestre - Actividad: <br></strong>{{ actividad.actividad }}</p>
-            <p class="text-center"><strong>Fecha de inicio: <br></strong>{{ actividad.fechaInicio }}</p>
-            <p class="text-center"><strong>Fecha de fin: <br></strong>{{ actividad.fechaFin }}</p>
-          </div>
-          <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)" class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
+      <div *ngIf="actividad" class="mt-10">
+        <h2 class="text-2xl mb-2">Detalles de la Actividad</h2>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <table class="min-w-full divide-y divide-gray-200">
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Actividad:</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.actividad }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Fecha de inicio:</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.fechaInicio }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Fecha de fin:</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.fechaFin }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Medio de Verificación:</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.medioVerificacion }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Tipo:</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.tipo }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div *ngIf="actividad" class="mt-10">
+        <h2 class="text-2xl mb-2">Subir Archivos</h2>
+        <div class="bg-gray-200  shadow-md rounded-lg overflow-hidden">
+          <div class="p-6">
+            <div class="flex items-center justify-center w-full">
+              <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-customOrangeLight dark:hover:bg-customBlue dark:bg-customBlueLight hover:bg-customOrangeDark dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-customBlueDark">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">PDF files only</p>
+                </div>
+                <input id="dropzone-file" type="file" accept=".pdf" class="hidden" (change)="onFileSelected($event)" />
+              </label>
+            </div>
+            <div *ngIf="selectedFile" class="mt-4">
+              <p><strong>Archivo seleccionado:</strong> {{ selectedFile.name }}</p>
+              <button class="bg-customOrange text-white font-bold py-2 px-4 rounded mt-2" (click)="uploadFile()">
+                <span *ngIf="isLoading">Cargando...</span>
+                <span *ngIf="!isLoading">Subir Archivo</span>
+              </button>
+            </div>
+            <div *ngIf="showSuccessMessage" class="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+              <strong class="font-bold">¡Archivo subido con éxito!</strong>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  
-    <!-- Recuperación -->
-    <div *ngIf="actividadesRecuperacion | async as actividadesRecuperacion" class="mb-4">
-      <div *ngFor="let actividad of actividadesRecuperacion">
-        <div class="bg-white shadow-lg text-black p-5 mb-10 h-64 flex flex-col justify-between rounded-lg">
-          <div class="space-y-4">
-            <p class="text-center"><strong>Actividad de Recuperación - Actividad:</strong><br>{{ actividad.actividad }}</p>
-            <p class="text-center"><strong>Fecha de inicio:</strong><br>{{ actividad.fechaInicio }}</p>
-            <p class="text-center"><strong>Fecha de fin:</strong><br>{{ actividad.fechaFin }}</p>
-          </div>
-          <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)" class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
-          </div>
-        </div>
+
+      <div *ngIf="fileUrl" class="mt-4">
+        <p><strong>URL del archivo subido:</strong></p>
+        <a [href]="fileUrl" target="_blank">{{ fileUrl }}</a>
       </div>
+
     </div>
   </div>
-
-  
-
-
-
-
-  <!--
-        
-        <div *ngFor="let formulario of formularios | async" class="bg-white border border-black text-black h-64 p-4 mb-4">
-            
-              <p>Docente: {{ formulario.docente }}</p>
-            <p>Ayudante: {{ formulario.ayudante }}</p>
-            <p>Facultad: {{ formulario.facultad }}</p>
-            <p>Carrera: {{ formulario.carrera }}</p>
-            <p>Asignatura: {{ formulario.asignatura }}</p>
-        
-            Acceder a los valores de 'items' 
-            <div *ngFor="let item of formulario.items">
-                <p>Actividad: {{ item.actividad }}</p>
-                <p>Fecha de inicio: {{ item.fechaInicio }}</p>
-                <p>Fecha de fin: {{ item.fechaFin }}</p>
-                <p>Medio de verificación: {{ item.medioVerificacion }}</p>
-            </div>
-        
-            Acceder a los valores de 'itemsSegundo' 
-            <div *ngFor="let item of formulario.itemsSegundo">
-                <p>Actividad (Segundo): {{ item.actividad }}</p>
-                <p>Fecha de inicio (Segundo): {{ item.fechaInicio }}</p>
-                <p>Fecha de fin (Segundo): {{ item.fechaFin }}</p>
-                <p>Medio de verificación (Segundo): {{ item.medioVerificacion }}</p>
-            </div>
-        
-             Acceder a los valores de 'itemsRecuperacion' 
-            <div *ngFor="let item of formulario.itemsRecuperacion">
-                <p>Actividad (Recuperación): {{ item.actividad }}</p>
-                <p>Fecha de inicio (Recuperación): {{ item.fechaInicio }}</p>
-                <p>Fecha de fin (Recuperación): {{ item.fechaFin }}</p>
-                <p>Medio de verificación (Recuperación): {{ item.medioVerificacion }}</p>
-            </div>
-        
-            <p>Modalidad: {{ formulario.modalidad }}</p>
-            
-            
-        </div>
-
-        -->
 </body>
 
 </html>
