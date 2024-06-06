@@ -9,6 +9,8 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { SharedModule } from './components/shared/shared.module';
+import { AuthService } from './services/auth.service';
+import { AdminGuard, AlumnoGuard, AuthGuard, ProfesorGuard } from './services/auth.guard';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,13 @@ import { SharedModule } from './components/shared/shared.module';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     SharedModule
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    AuthGuard,
+    AdminGuard,
+    ProfesorGuard,
+    AlumnoGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { VistaRoutingModule } from './vista-routing.module';
 import { VistaComponent } from './vista.component';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({

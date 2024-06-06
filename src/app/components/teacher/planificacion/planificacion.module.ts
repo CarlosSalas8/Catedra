@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PlanificacionRoutingModule } from './planificacion-routing.module';
 import { PlanificacionComponent } from './planificacion.component';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
