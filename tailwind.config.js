@@ -9,10 +9,14 @@ module.exports = {
         customBlue: '#044170',
         customBlue2: '#0D4B82',
         customWhite: '#F7F9F9',
-        customC2: '#c2e6fd'
+        customC2: '#c2e6fd',
+        home: '#FFD98D'
       },
     },
   },
   plugins: [],
+  fontFamily: {
+    'montserrat': ['Montserrat', 'sans-serif'],
+  },
 }
 

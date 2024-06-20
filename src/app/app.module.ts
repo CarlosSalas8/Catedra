@@ -11,16 +11,21 @@ import { environment } from 'src/environments/environment';
 import { SharedModule } from './components/shared/shared.module';
 import { AuthService } from './services/auth.service';
 import { AdminGuard, AlumnoGuard, AuthGuard, ProfesorGuard } from './services/auth.guard';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
+    AngularFireAuthModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     SharedModule
   ],
