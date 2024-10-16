@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as firebase from 'firebase/compat';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { GoogleAuthProvider } from 'firebase/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,20 @@ export class AuthService {
     role: 'profesor' // Cambia esto según el rol del usuario autenticado
   };
 
-  constructor(private afAuth: AngularFireAuth) { }
+  constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore) { }
+
+  login(email: string, password: string) {
+    return this.afAuth.signInWithEmailAndPassword(email, password).then(userCredential => {
+      const user = userCredential.user;
+      return this.firestore.collection('docentes').ref.where('email', '==', email).get().then(querySnapshot => {
+        if (querySnapshot.empty) {
+          throw new Error('No se encontró el usuario en la base de datos de docentes.');
+        }
+        return user;
+      });
+    });
+  }
+
 
   loginWithEmail(email: string, password: string) {
     return this.afAuth.signInWithEmailAndPassword(email, password);
@@ -31,7 +45,6 @@ export class AuthService {
     return this.afAuth.authState;
   }
 
-  
 
   isAuthenticated(): boolean {
     return this.user.isAuthenticated;
@@ -48,4 +61,5 @@ export class AuthService {
   isAlumno(): boolean {
     return this.user.role === 'alumno';
   }
+
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PeriodoService } from 'src/app/services/periodo.service';
 
 @Component({
   selector: 'app-home',
@@ -6,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
+  activePeriod: any | null = null;
+
+  constructor(public periodoService: PeriodoService){}
   
   ngOnInit(): void {
     this.setupMobileMenuToggle();
+    this.periodoService.activePeriod$.subscribe(periodo => {
+      this.activePeriod = periodo;
+    });
   }
 
 

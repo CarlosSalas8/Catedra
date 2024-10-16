@@ -1,0 +1,195 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="h-screen overflow-auto">
+  <nav class="fixed top-0 z-50 w-full bg-customOrange">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start pl-0 ml-0">
+          <div class="flex flex-shrink-0 items-center">
+            <img class="h-14 w-36" src="/assets/logoutpl.png" alt="Your Company" />
+
+            <div class="hidden sm:ml-6 sm:block">
+              <div class="flex space-x-4 ml-4">
+                <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
+                  aria-current="page">AYUDANTE DE CÁTEDRA</a>
+                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
+              </div>
+              <div class="absolute inset-y-0 right-0 flex items-center">
+                <a href="#"
+                  class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
+                  aria-current="page" [routerLink]="'/logout'">CERRAR SESIÓN</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center sm:hidden">
+          <button type="button" id="mobile-menu-button"
+            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-950 hover:bg-customPeach hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            aria-controls="mobile-menu" aria-expanded="false">
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Open main menu</span>
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+              aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+              aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div class="relative ml-3">
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hidden sm:hidden" id="mobile-menu">
+      <div class="space-y-1 px-2 pb-3 pt-2">
+        <a href="#"
+          class="text-gray-950 hover:bg-customPeach hover:text-black block rounded-md px-3 py-2 text-base font-bold"
+          aria-current="page">Home</a>
+        <a href="#"
+          class="text-gray-950 hover:bg-customPeach hover:text-black block rounded-md px-3 py-2 text-base font-bold">User</a>
+        <a href="#"
+          class="text-gray-950 hover:bg-customPeach hover:text-black block rounded-md px-3 py-2 text-base font-bold">Activities</a>
+      </div>
+    </div>
+  </nav>
+  <aside id="logo-sidebar"
+    class="fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
+    aria-label="Sidebar">
+    <div class="h-full px-2 pb-4 overflow-y-auto bg-white dark:bg-customBlue">
+      <ul class="space-y-2 font-medium">
+        <li>
+          <a [routerLink]="'/home-admin'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector2.png" alt="Home" class="w-8 h-8">
+            <span class="sr-only">Home</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="'/seguimiento'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector5.png" alt="Planificacion" class="w-8 h-8">
+            <span class="sr-only">Planificacion</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="'/subir-tutores'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector6.png" alt="Activities" class="w-8 h-8">
+            <span class="sr-only">Activities</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+
+  <div class="p-4 sm:ml-20">
+    <div class="p-4 mt-14">
+      <div class="flex items-center justify-center h-48 rounded relative">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="flex flex-col items-center justify-center px-4">
+            <img src="/assets/images0.png" alt="Imagen" class="inset-0 m-auto object-cover rounded max-w-11/12" />
+            <p class="text-xl text-gray-950 text-center mt-4 font-bold leading-relaxed">
+              UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA<br>
+              PRESENTACIÓN DE PLANIFICACIÓN AYUDANTE DE CÁTEDRA<br>
+              PERIODO ABRIL - AGOSTO 2024
+            </p>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="actividad" class="mt-10">
+        <h2 class="text-2xl mb-2">Detalles del Docente</h2><br>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <table class="min-w-full divide-y divide-gray-200">
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Nombre y apellido del docente tutor:</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.nombre }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Nombre y apellido del estudiante tutor:</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.nombre }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Facultad</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.facultad }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Carrera</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.carrera }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Asignatura</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.asignatura }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div *ngIf="actividades.length > 0" class="mt-10">
+        <h2 class="text-2xl mb-2">Actividades</h2><br>
+        <div
+          class="container mx-auto p-3 bg-white overflow-hidden flex flex-col justify-center max-h-full shadow-md sm:rounded-lg">
+          <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500">
+              <thead class="text-xs text-black uppercase bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3">Actividades a realizar</th>
+                  <th class="px-6 py-3">Fecha de inicio</th>
+                  <th class="px-6 py-3">Fecha de fin</th>
+                  <th class="px-6 py-3">Medio de verificación</th>
+                  <th class="px-6 py-3">Estado</th>
+                  <th class="px-6 py-3">Evidencia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let actividad of actividades" class="bg-white border-b hover:bg-gray-50">
+                  <td class="px-6 py-4 truncate">{{ actividad.actividad }}</td>
+                  <td class="px-6 py-4">{{ actividad.fechaInicio }}</td>
+                  <td class="px-6 py-4">{{ actividad.fechaFin }}</td>
+                  <td class="px-6 py-4">{{ actividad.medioVerificacion }}</td>
+                  <td class="px-6 py-4">
+                    <span
+                      [ngClass]="{'text-red-500': actividad.estado === 'Faltante', 'text-green-500': actividad.estado === 'Completado'}">
+                      {{ actividad.estado }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <a [routerLink]="['/actividades-docentes', docenteId, 'validar', actividad.id]" class="text-blue-600 hover:underline">Ingresar</a>
+                  </td>                                    
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="actividades.length === 0" class="mt-10">
+        <h2 class="text-2xl mb-2">No hay actividades para este docente</h2>
+      </div>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</body>
+
+</html>

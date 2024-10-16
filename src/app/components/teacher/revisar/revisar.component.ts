@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
+import { PeriodoService } from 'src/app/services/periodo.service';
 
 @Component({
   selector: 'app-revisar',
@@ -10,6 +11,7 @@ import { finalize } from 'rxjs';
   styleUrls: ['./revisar.component.css']
 })
 export class RevisarComponent implements OnInit {
+  activePeriod: any | null = null;
   actividad: any;
   selectedFile: any;
   fileUrl: string | undefined;
@@ -17,7 +19,7 @@ export class RevisarComponent implements OnInit {
   isLoading: boolean = false;
   showSuccessMessage: boolean = false;
 
-  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, private storage: AngularFireStorage) { }
+  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, private storage: AngularFireStorage,public periodoService: PeriodoService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -26,6 +28,9 @@ export class RevisarComponent implements OnInit {
         this.actividad = data;
       });
     }
+    this.periodoService.activePeriod$.subscribe(periodo => {
+      this.activePeriod = periodo;
+    });
     this.setupMobileMenuToggle();
   }
 

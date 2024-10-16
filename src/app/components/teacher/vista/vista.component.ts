@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { PeriodoService } from 'src/app/services/periodo.service';
 
 @Component({
   selector: 'app-vista',
@@ -9,19 +10,26 @@ import { Observable } from 'rxjs';
   styleUrls: ['./vista.component.css']
 })
 export class VistaComponent implements OnInit{
-
+  activePeriod: any | null = null;
   actividadesPrimerBimestre: Observable<any[]> | undefined;
   actividadesSegundoBimestre: Observable<any[]> | undefined;
   actividadesRecuperacion: Observable<any[]> | undefined;
+  periodos: Observable<any[]> | undefined;
+  selectedPeriodId: string | undefined;
 
-  constructor(private firestore: AngularFirestore, private router: Router) { }
+  constructor(private firestore: AngularFirestore, private router: Router, public periodoService: PeriodoService) { }
 
   ngOnInit(): void {
-    this.actividadesPrimerBimestre = this.firestore.collection('items', ref => ref.where('tipo', '==', 'primer_bimestre')).valueChanges();
-    this.actividadesSegundoBimestre = this.firestore.collection('items', ref => ref.where('tipo', '==', 'segundo_bimestre')).valueChanges();
-    this.actividadesRecuperacion = this.firestore.collection('items', ref => ref.where('tipo', '==', 'recuperacion')).valueChanges();
+    this.actividadesPrimerBimestre = this.periodoService.getActivitiesByActivePeriod('primer_bimestre');
+    this.actividadesSegundoBimestre = this.periodoService.getActivitiesByActivePeriod('segundo_bimestre');
+    this.actividadesRecuperacion = this.periodoService.getActivitiesByActivePeriod('recuperacion');
+    this.periodoService.activePeriod$.subscribe(periodo => {
+      this.activePeriod = periodo;
+    });
     this.setupMobileMenuToggle();
   }
+
+  
 
   revisarActividad(id: string): void {
     this.router.navigate(['/revisar', id]);

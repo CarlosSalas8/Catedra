@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { PeriodoService } from 'src/app/services/periodo.service';
 
 
 @Component({
@@ -11,8 +12,11 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit{
   loginForm: FormGroup;
+  email: string = '';
+  password: string = '';
+  errorMessage: string = '';
 
-  constructor(private authService: AuthService,private router: Router, private fb: FormBuilder) {
+  constructor(private authService: AuthService,private router: Router, private fb: FormBuilder, public periodoService: PeriodoService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -25,25 +29,27 @@ export class LoginComponent implements OnInit{
     this.setupMobileMenuToggle();
   }
 
-
+  
   loginWithEmail() {
-    const { email, password } = this.loginForm.value;
-    console.log('Correo:', email, 'Contraseña:', password);  
-    this.authService.loginWithEmail(email, password).then(
-      (res) => {
-        console.log('Login exitoso', res);
-      },
-      (err) => {
-        console.error('Error en el login', err);
-      }
-    );
+    if (this.loginForm.valid) {
+      const email = this.loginForm.value.email;
+      const password = this.loginForm.value.password;
+
+      this.authService.login(email, password).then(user => {
+        console.log('Login exitoso', user);
+        // Redirigir al usuario a la página principal u otra ruta deseada
+        this.router.navigate(['/ventanas']); // Ejemplo de redirección a '/dashboard'
+      }).catch(error => {
+        this.errorMessage = error.message; // Mostrar mensaje de error
+      });
+    }
   }
 
   loginWithGoogle() {
     this.authService.loginWithGoogle().then(
       (res) => {
         console.log('Login con Google exitoso', res);
-        this.router.navigate(['/planificacion']); 
+        this.router.navigate(['/ventanas']); 
       },
       (err) => {
         console.error('Error en el login con Google', err);

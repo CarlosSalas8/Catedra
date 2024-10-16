@@ -16,13 +16,11 @@
 
             <div class="hidden sm:ml-6 sm:block">
               <div class="flex space-x-4 ml-4">
-                <a href="#"
-                  class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
-                  aria-current="page" [routerLink]="'/planificacion'">AYUDANTE DE CÁTEDRA</a>
-                <a href="#"
-                  class=" bg-white text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
-                  aria-current="page" [routerLink]="'/periodo'">PERÍODO</a>
+                <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
+                  aria-current="page">AYUDANTE DE CÁTEDRA</a>
+                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
               </div>
+
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#"
                   class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
@@ -75,51 +73,43 @@
     </div>
   </nav>
   <aside id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-52 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
+    class="fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
     aria-label="Sidebar">
-    <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-customBlue">
+    <div class="h-full px-2 pb-4 overflow-y-auto bg-white dark:bg-customBlue">
       <ul class="space-y-2 font-medium">
         <li>
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group" [routerLink]="'/home'">
-            <span class="ms-3">Home</span>
+          <a [routerLink]="'/home-ayudante'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector.png" alt="Home" class="w-8 h-8">
+            <span class="sr-only">Home</span>
           </a>
         </li>
         <li>
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-
-            <span class="flex-1 ms-3 whitespace-nowrap">User</span>
-
+          <a [routerLink]="'/planificacion'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector2.png" alt="Planificacion" class="w-8 h-8">
+            <span class="sr-only">Planificacion</span>
           </a>
         </li>
         <li>
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-
-            <span class="flex-1 ms-3 whitespace-nowrap">Activities</span>
-
+          <a [routerLink]="'/vista'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector4.png" alt="Activities" class="w-8 h-8">
+            <span class="sr-only">Activities</span>
           </a>
         </li>
         <li>
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-
-            <span class="flex-1 ms-3 whitespace-nowrap">Sign In</span>
-          </a>
-        </li>
-        <li>
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-
-            <span class="flex-1 ms-3 whitespace-nowrap">Sign Up</span>
+          <a [routerLink]="'/presentacion'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector3.png" alt="Sign In" class="w-8 h-8">
+            <span class="sr-only">Presentation</span>
           </a>
         </li>
       </ul>
     </div>
   </aside>
 
-  <div class="mt-20 p-4 sm:ml-64 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 rounded-lg">
+  <div class="mt-20 p-4 sm:ml-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 rounded-lg">
     <!-- Primer Bimestre -->
     <div *ngIf="actividadesPrimerBimestre | async as actividadesPrimer" class="mb-8">
       <div *ngFor="let actividad of actividadesPrimer">
@@ -128,15 +118,15 @@
             <p class="text-center"><strong>Primer Bimestre - Actividad: <br></strong>{{ actividad.actividad }}</p>
             <p class="text-center"><strong>Fecha de inicio: <br></strong>{{ actividad.fechaInicio }}</p>
             <p class="text-center"><strong>Fecha de fin: <br></strong>{{ actividad.fechaFin }}</p>
-            
           </div>
           <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)" class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
-        </div>
+            <button (click)="revisarActividad(actividad.id)"
+              class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
+          </div>
         </div>
       </div>
     </div>
-  
+
     <!-- Segundo Bimestre -->
     <div *ngIf="actividadesSegundoBimestre | async as actividadesSegundo" class="mb-4">
       <div *ngFor="let actividad of actividadesSegundo">
@@ -147,74 +137,31 @@
             <p class="text-center"><strong>Fecha de fin: <br></strong>{{ actividad.fechaFin }}</p>
           </div>
           <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)" class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
+            <button (click)="revisarActividad(actividad.id)"
+              class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
           </div>
         </div>
       </div>
     </div>
-  
+
     <!-- Recuperación -->
     <div *ngIf="actividadesRecuperacion | async as actividadesRecuperacion" class="mb-4">
       <div *ngFor="let actividad of actividadesRecuperacion">
         <div class="bg-white shadow-lg text-black p-5 mb-10 h-64 flex flex-col justify-between rounded-lg">
           <div class="space-y-4">
-            <p class="text-center"><strong>Actividad de Recuperación - Actividad:</strong><br>{{ actividad.actividad }}</p>
+            <p class="text-center"><strong>Actividad de Recuperación - Actividad:</strong><br>{{ actividad.actividad }}
+            </p>
             <p class="text-center"><strong>Fecha de inicio:</strong><br>{{ actividad.fechaInicio }}</p>
             <p class="text-center"><strong>Fecha de fin:</strong><br>{{ actividad.fechaFin }}</p>
           </div>
           <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)" class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
+            <button (click)="revisarActividad(actividad.id)"
+              class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  
-
-
-
-
-  <!--
-        
-        <div *ngFor="let formulario of formularios | async" class="bg-white border border-black text-black h-64 p-4 mb-4">
-            
-              <p>Docente: {{ formulario.docente }}</p>
-            <p>Ayudante: {{ formulario.ayudante }}</p>
-            <p>Facultad: {{ formulario.facultad }}</p>
-            <p>Carrera: {{ formulario.carrera }}</p>
-            <p>Asignatura: {{ formulario.asignatura }}</p>
-        
-            Acceder a los valores de 'items' 
-            <div *ngFor="let item of formulario.items">
-                <p>Actividad: {{ item.actividad }}</p>
-                <p>Fecha de inicio: {{ item.fechaInicio }}</p>
-                <p>Fecha de fin: {{ item.fechaFin }}</p>
-                <p>Medio de verificación: {{ item.medioVerificacion }}</p>
-            </div>
-        
-            Acceder a los valores de 'itemsSegundo' 
-            <div *ngFor="let item of formulario.itemsSegundo">
-                <p>Actividad (Segundo): {{ item.actividad }}</p>
-                <p>Fecha de inicio (Segundo): {{ item.fechaInicio }}</p>
-                <p>Fecha de fin (Segundo): {{ item.fechaFin }}</p>
-                <p>Medio de verificación (Segundo): {{ item.medioVerificacion }}</p>
-            </div>
-        
-             Acceder a los valores de 'itemsRecuperacion' 
-            <div *ngFor="let item of formulario.itemsRecuperacion">
-                <p>Actividad (Recuperación): {{ item.actividad }}</p>
-                <p>Fecha de inicio (Recuperación): {{ item.fechaInicio }}</p>
-                <p>Fecha de fin (Recuperación): {{ item.fechaFin }}</p>
-                <p>Medio de verificación (Recuperación): {{ item.medioVerificacion }}</p>
-            </div>
-        
-            <p>Modalidad: {{ formulario.modalidad }}</p>
-            
-            
-        </div>
-
-        -->
 </body>
 
 </html>

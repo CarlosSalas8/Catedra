@@ -20,9 +20,7 @@
                 <a href="#"
                   class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page" [routerLink]="'/vista'">AYUDANTE DE CÁTEDRA</a>
-                <a href="#"
-                  class=" bg-white text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
-                  aria-current="page" [routerLink]="'/periodo'">PERÍODO</a>
+                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#"
@@ -77,44 +75,36 @@
   </nav>
 
   <aside id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-52 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
+    class="fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
     aria-label="Sidebar">
-    <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-customBlue">
+    <div class="h-full px-2 pb-4 overflow-y-auto bg-white dark:bg-customBlue">
       <ul class="space-y-2 font-medium">
         <li>
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group" [routerLink]="'/home'">
-            <span class="ms-3">Home</span>
+          <a [routerLink]="'/home-ayudante'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector.png" alt="Home" class="w-8 h-8">
+            <span class="sr-only">Home</span>
           </a>
         </li>
         <li>
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-
-            <span class="flex-1 ms-3 whitespace-nowrap">User</span>
-
+          <a [routerLink]="'/planificacion'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector2.png" alt="Planificacion" class="w-8 h-8">
+            <span class="sr-only">Planificacion</span>
           </a>
         </li>
         <li>
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-
-            <span class="flex-1 ms-3 whitespace-nowrap">Activities</span>
-
+          <a [routerLink]="'/vista'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector4.png" alt="Activities" class="w-8 h-8">
+            <span class="sr-only">Activities</span>
           </a>
         </li>
         <li>
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-
-            <span class="flex-1 ms-3 whitespace-nowrap">Sign In</span>
-          </a>
-        </li>
-        <li>
-          <a href="#"
-            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-
-            <span class="flex-1 ms-3 whitespace-nowrap">Sign Up</span>
+          <a [routerLink]="'/presentacion'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector3.png" alt="Sign In" class="w-8 h-8">
+            <span class="sr-only">Presentation</span>
           </a>
         </li>
       </ul>
@@ -122,7 +112,7 @@
   </aside>
 
 
-  <div class="p-4 sm:ml-64">
+  <div class="p-4 sm:ml-20">
     <div class="p-4 mt-14">
       <div class="flex items-center justify-center h-48 rounded relative">
         <div class="absolute inset-0 flex items-center justify-center">
@@ -138,7 +128,7 @@
       </div>
   
       <div *ngIf="actividad" class="mt-10">
-        <h2 class="text-2xl mb-2">Detalles de la Actividad</h2>
+        <h2 class="text-2xl mb-2">Detalles de la Actividad</h2><br>
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
           <table class="min-w-full divide-y divide-gray-200">
             <tr>
