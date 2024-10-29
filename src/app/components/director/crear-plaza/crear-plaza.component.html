@@ -68,29 +68,36 @@
     </div>
   </nav>
   <aside id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform -translate-x-full bg-customBlue border-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
+    class="fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform -translate-x-full bg-customBlue order-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
     aria-label="Sidebar">
     <div class="h-full px-2 pb-4 overflow-y-auto bg-customBlue dark:bg-customBlue">
       <ul class="space-y-2 font-medium">
         <li>
-          <a [routerLink]="'/home-admin'"
+          <a [routerLink]="'/home-director'"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/Vector2.png" alt="Home" class="w-8 h-8">
+            <img src="/assets/Vector.png" alt="Home" class="w-8 h-8">
             <span class="sr-only">Home</span>
           </a>
         </li>
         <li>
-          <a [routerLink]="'/seguimiento'"
+          <a 
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/Vector5.png" alt="Planificacion" class="w-8 h-8">
+            <img src="/assets/Vector2.png" alt="Planificacion" class="w-8 h-8">
             <span class="sr-only">Planificacion</span>
           </a>
         </li>
         <li>
-          <a [routerLink]="'/subir-tutores'"
+          <a 
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/Vector6.png" alt="Activities" class="w-8 h-8">
+            <img src="/assets/Vector4.png" alt="Activities" class="w-8 h-8">
             <span class="sr-only">Activities</span>
+          </a>
+        </li>
+        <li>
+          <a 
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector3.png" alt="Sign In" class="w-8 h-8">
+            <span class="sr-only">Presentation</span>
           </a>
         </li>
       </ul>
@@ -100,43 +107,16 @@
 
   <div class="p-4 sm:ml-20">
     <div class="p-4 mt-14">
-      <div class="container mx-auto p-6 bg-white overflow-hidden flex flex-col justify-center max-h-full">
-        <h2 class="text-xl font-semibold text-black mb-4 text-center" style="font-size: 22px;">Seguimiento de actividades</h2>
-        
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <div class="flex items-center">
-            <span class="bg-gray-300 px-10 p-3 border border-gray-300 border-r-0 rounded-l-lg font-semibold">Buscar</span>
-            <input type="text" class="p-3 border border-gray-300 rounded-r-lg w-full" placeholder="Nombre del tutor">
-          </div>
-          <table class="w-full text-sm text-left text-gray-500 mt-8">
-            <thead class="text-xs text-black uppercase bg-gray-50  ">
-              <tr>
-                <th scope="col" class="px-6 py-3">Nombre y Apellido Tutor</th>
-                <th scope="col" class="px-6 py-3">Facultad</th>
-                <th scope="col" class="px-6 py-3">Carrera</th>
-                <th scope="col" class="px-6 py-3">Asignatura</th>
-                <th scope="col" class="px-6 py-3">Plan docente</th>
-                <th scope="col" class="px-6 py-3">Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let docente of docentes$ | async" class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100 ">
-                <td class="px-6 py-4">{{ docente.nombre }}</td>
-                <td class="px-6 py-4">{{ docente.facultad }}</td>
-                <td class="px-6 py-4">{{ docente.carrera }}</td>
-                <td class="px-6 py-4">{{ docente.asignatura }}</td>
-                <td class="px-6 py-4"><a href="#" class="text-blue-600 hover:underline">VER</a></td>
-                <td class="px-6 py-4">
-                  <a [routerLink]="['/actividades-docentes', docente.id]" class="text-blue-600 hover:underline">Ver planificación</a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="flex flex-col items-center justify-center h-full w-full">
+        <div class="container mx-auto  bg-white flex flex-col justify-center">
+          <h1 class="text-black text-center font-semibold" style="font-size: 45px;">
+            PLAZAS <br>
+            Ayudante de Cátedra
+          </h1>
         </div>
       </div>
     </div>
   </div>
-  
 </body>
 
 </html>
