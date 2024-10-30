@@ -19,7 +19,8 @@
               <div class="flex space-x-4 ml-4">
                 <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page">AYUDANTE DE CÁTEDRA</a>
-                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
+                <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{
+                  activePeriod?.nombre || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#"
@@ -76,21 +77,21 @@
           <a [routerLink]="'/home-admin'"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
             <img src="/assets/Vector2.png" alt="Home" class="w-8 h-8">
-            <span class="sr-only">Home</span>
+            <span class="sr-only">Home Admin</span>
           </a>
         </li>
-        <li>
-          <a [routerLink]="'/seguimiento'"
-            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/Vector5.png" alt="Planificacion" class="w-8 h-8">
-            <span class="sr-only">Planificacion</span>
-          </a>
-        </li>
+        <a [routerLink]="'/actividades-docentes'" routerLinkActive="bg-customBlue4 text-white"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+          <img src="/assets/Vector5.png" alt="Activities" class="w-8 h-8">
+          <span class="sr-only">Actividades Docente</span>
+        </a>
+
         <li>
           <a [routerLink]="'/subir-tutores'"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
             <img src="/assets/Vector6.png" alt="Activities" class="w-8 h-8">
-            <span class="sr-only">Activities</span>
+            <span class="sr-only">Subir Tutores</span>
           </a>
         </li>
       </ul>
@@ -169,8 +170,9 @@
                     </span>
                   </td>
                   <td class="px-6 py-4">
-                    <a [routerLink]="['/actividades-docentes', docenteId, 'validar', actividad.id]" class="text-blue-600 hover:underline">Ingresar</a>
-                  </td>                                    
+                    <a [routerLink]="['/actividades-docentes', docenteId, 'validar', actividad.id]"
+                      class="text-blue-600 hover:underline">Ingresar</a>
+                  </td>
                 </tr>
               </tbody>
             </table>

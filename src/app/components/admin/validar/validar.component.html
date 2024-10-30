@@ -80,13 +80,13 @@
             <span class="sr-only">Home</span>
           </a>
         </li>
-        <li>
-          <a [routerLink]="'/seguimiento'"
-            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/Vector5.png" alt="Planificacion" class="w-8 h-8">
-            <span class="sr-only">Planificacion</span>
-          </a>
-        </li>
+        <a [routerLink]="'/actividades-docentes'" routerLinkActive="bg-customBlue4 text-white"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+          <img src="/assets/Vector5.png" alt="Activities" class="w-8 h-8">
+          <span class="sr-only">Activities</span>
+        </a>
+
         <li>
           <a [routerLink]="'/subir-tutores'"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
@@ -142,18 +142,22 @@
           </tr>
           <tr>
             <td class="px-4 py-2 whitespace-nowrap">{{ docente.nombre }}</td>
-            <td class="px-2 py-2 whitespace-nowrap bg-customgreen text-black text-center font-bold border-b-2 border-black">Validado</td>
+            <td
+              class="px-2 py-2 whitespace-nowrap bg-customgreen text-black text-center font-bold border-b-2 border-black">
+              Validado</td>
           </tr>
           <tr>
             <td class="px-4 py-2 whitespace-nowrap">{{ docente.nombre }}</td>
-            <td class="px-2 py-2 whitespace-nowrap bg-customgray text-black text-center font-bold border-b-2 border-black">No Validado</td>
+            <td
+              class="px-2 py-2 whitespace-nowrap bg-customgray text-black text-center font-bold border-b-2 border-black">
+              No Validado</td>
           </tr>
         </table>
       </div>
-      
+
     </div>
   </div>
-  
+
 
 
 </body>
