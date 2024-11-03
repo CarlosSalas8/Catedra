@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inicio de Sesión</title>
+</head>
+
+<body class="bg-white flex flex-col min-h-screen text-center">
+  <main class="flex-1 mt-16 p-8">
+    <div class="max-w-xl mx-auto p-10 border rounded-lg shadow-lg bg-white">
+      <h1 class="text-2xl font-bold mb-4">Requisitos previos para continuar al Sistema de Gestión del Proyecto Ayudante de Cátedra</h1>
+      <p class="mb-4 font-semibold text-lg">Valida tu carrera UTPL</p>
+      <p class="mb-6 text-gray-600">Con esta información nos permitimos mostrarte todas las plazas que te interesan de tu carrera</p>
+      
+      <form (submit)="validarCarrera()">
+        <div class="flex items-center space-x-4 mb-4">
+          <label for="carreras" class="block text-xl font-bold">Carreras</label>
+          <select id="carreras" class="flex-1 p-2 border border-gray-300 rounded" [(ngModel)]="carreraSeleccionada" name="carrera">
+            <option value="">Selecciona tu carrera</option>
+            <option value="medicina">MEDICINA</option>
+            <option value="computacion">COMPUTACION</option>
+            <!-- Agrega más opciones si es necesario -->
+          </select>
+          <button type="submit" class="bg-customBlue text-white p-2 w-32 rounded hover:bg-customBlueHover">Validar</button>
+        </div>
+      </form>
+      
+      <p class="mt-4 text-sm text-gray-500">Nota: Si necesitas cambiar tu carrera para que puedas visualizar las plazas de tu interés escríbenos al siguiente correo:</p>
+      <p class="mt-2 text-customBlueHover">liid_utpl&commat;utpl.edu.ec</p>
+    </div>
+  </main>
+  
+  <footer class="dark:bg-customBlue text-white text-center p-4">
+    2024 Proyecto Ayudante de Cátedra
+  </footer>
+</body>
+
+  </html>

@@ -8,12 +8,14 @@ const routes: Routes = [
   { path: 'home', loadChildren: () => import('./components/home/home.module').then(x => x.HomeModule)},
   { path: 'login', loadChildren: () => import('./components/login/login.module').then(x => x.LoginModule)},
   { path: 'ventanas', loadChildren: () => import('./components/home/ventanas/ventanas.module').then(x => x.VentanasModule)},
+  { path: 'carrera', loadChildren: () => import('./components/home/carrera/carrera.module').then(x => x.CarreraModule)},
 
   { path: 'home-ayudante', loadChildren: () => import('./components/teacher/home-ayudante/home-ayudante.module').then(x => x.HomeAyudanteModule)},
   { path: 'planificacion', loadChildren: () => import('./components/teacher/planificacion/planificacion.module').then(x => x.PlanificacionModule), canActivate: [AuthGuard, ProfesorGuard] },
   { path: 'vista', loadChildren: () => import('./components/teacher/vista/vista.module').then(x => x.VistaModule), canActivate: [AuthGuard, ProfesorGuard] },
   { path: 'revisar/:id', loadChildren: () => import('./components/teacher/revisar/revisar.module').then(x => x.RevisarModule), canActivate: [AuthGuard, ProfesorGuard] },
   { path: 'presentacion', loadChildren: () => import('./components/teacher/presentacion/presentacion.module').then(x => x.PresentacionModule), canActivate: [AuthGuard, ProfesorGuard] },
+  { path: 'plazas', loadChildren: () => import('./components/teacher/plazas/plazas.module').then(x => x.PlazasModule), canActivate: [AuthGuard, ProfesorGuard] },
   
 
 

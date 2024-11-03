@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CrearPlazaRoutingModule } from './crear-plaza-routing.module';
+import { CarreraRoutingModule } from './carrera-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { CrearPlazaComponent } from './crear-plaza.component';
+import { CarreraComponent } from './carrera.component';
 import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    CrearPlazaComponent
+    CarreraComponent
   ],
   imports: [
     CommonModule,
-    CrearPlazaRoutingModule,
+    CarreraRoutingModule,
     SharedModule,
-    FormsModule 
+    FormsModule
   ]
 })
-export class CrearPlazaModule { }
+export class CarreraModule { }

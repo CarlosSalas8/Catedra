@@ -19,7 +19,8 @@
               <div class="flex space-x-4 ml-4">
                 <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page">AYUDANTE DE CÁTEDRA</a>
-                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
+                <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{
+                  activePeriod?.nombre || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#"
@@ -87,14 +88,14 @@
           </a>
         </li>
         <li>
-          <a 
+          <a
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
             <img src="/assets/Vector4.png" alt="Activities" class="w-8 h-8">
             <span class="sr-only">Activities</span>
           </a>
         </li>
         <li>
-          <a 
+          <a
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
             <img src="/assets/Vector3.png" alt="Sign In" class="w-8 h-8">
             <span class="sr-only">Presentation</span>
@@ -108,16 +109,159 @@
   <div class="p-4 sm:ml-20">
     <div class="p-4 mt-14">
       <div class="flex flex-col items-center justify-center h-full w-full">
-        <div class="container mx-auto  bg-white flex flex-col justify-center">
-          <h1 class="text-black text-center font-semibold" style="font-size: 45px;">
+        <div class="container mx-auto bg-white flex flex-col justify-center">
+          <h1 class="text-black text-center font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
             PLAZAS <br>
             Ayudante de Cátedra
           </h1>
+
+          <br>
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div class="flex flex-col md:flex-row items-center text-lg mb-4">
+              <button (click)="toggleModal()"
+                class="bg-customBlue text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold hover:bg-customBlueHover mb-4 md:mb-0 md:mr-4">
+                CREAR NUEVA PLAZA
+              </button>
+              <p class="text-gray-600 text-sm text-center sm:px-4 md:px-20 lg:px-80 py-3">
+                ¡Recuerda que como carrera se pueden postular hasta 3 plazas,<br> si requieres ingresar más plazas
+                comunícate con <strong>Nuve Bruceño <br> </strong> <em>nlbriceno&commat;utpl.edu.ec</em>!
+              </p>
+
+            </div>
+            <table class="w-full text-sm text-left text-gray-500 mt-8">
+              <thead class="text-xs text-black uppercase bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Docente</th>
+                  <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Asignatura</th>
+                  <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Malla curricular</th>
+                  <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Ciclo requerido</th>
+                  <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Paralelo</th>
+                  <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Postulantes</th>
+                  <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Visualizar</th>
+                  <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let plazas of plazas$ | async"
+                  class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100 ">
+                  <td class="px-6 py-4">{{ plazas.docente }}</td>
+                  <td class="px-6 py-4">{{ plazas.asignatura }}</td>
+                  <td class="px-6 py-4">{{ plazas.malla }}</td>
+                  <td class="px-6 py-4">{{ plazas.ciclo }}</td>
+                  <td class="px-6 py-4">{{ plazas.paralelo }}</td>
+                  <td class="px-6 py-4">{{ totalPostulantes }}</td>
+                  <td class="px-6 py-4">
+                    <a [routerLink]="['', plazas.id]" class="text-customBlueHover hover:underline">Ver Postulantes</a>
+                  </td>
+                  <td class="px-6 py-4">
+                    <button (click)="toggleModal(plazas)" class="text-customBlueHover hover:underline mr-4">Editar</button>
+                    <button (click)="eliminarPlaza(plazas.id)" class="text-red-600 hover:underline">Eliminar</button>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-8 rounded-3xl shadow-lg max-w-lg md:max-w-2xl lg:max-w-5xl mx-auto">
+      <!-- Título del formulario -->
+      <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Crear Plaza</h2>
+
+      <!-- Información del Director y Carrera -->
+      <div class="flex justify-center mt-4">
+        <p class="text-sm text-gray-700 text-center">
+          <span class="font-semibold">DIRECTOR:</span> SANTIAGO JOEL JUMBO LEIVA
+        </p>
+      </div>
+      <div class="flex justify-center mb-6">
+        <p class="text-sm text-gray-700 text-center">
+          <span class="font-semibold">CARRERA:</span> INGENIERÍA INDUSTRIAL
+        </p>
+      </div>
+
+      <!-- Formulario de entrada -->
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+          <!-- Asignatura -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Asignatura</label>
+            <input formControlName="asignatura" type="text" placeholder="LOGISTICAS Y TRANSPORTE"
+              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+          </div>
+
+          <!-- Docente -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Docente</label>
+            <input formControlName="docente" type="text" placeholder="LENIN VICUÑA"
+              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+          </div>
+
+          <!-- Correo del docente -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Correo de docente</label>
+            <input formControlName="correo" type="email" placeholder="lmvicuna2@utpl.edu.ec"
+              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+          </div>
+
+          <!-- Paralelo -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Paralelo</label>
+            <input formControlName="paralelo" type="text" placeholder="A"
+              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+          </div>
+
+          <!-- Malla Curricular -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Malla Curricular</label>
+            <select formControlName="malla" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+              <option value="">Selecciona una opción</option>
+              <option value="Malla1">Malla1</option>
+              <option value="Malla2">Malla2</option>
+              <!-- Agrega más opciones según corresponda -->
+            </select>
+          </div>
+
+          <!-- Ciclo requerido -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Ciclo requerido</label>
+            <select formControlName="ciclo" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+              <option value="">Selecciona una opción</option>
+              <option value="Ciclo1">Ciclo1</option>
+              <option value="Ciclo2">Ciclo2</option>
+              <!-- Agrega más opciones según corresponda -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-center mt-6 space-x-4">
+          <button type="button" (click)="toggleModal()"
+            class="bg-gray-300 hover:bg-gray-400 text-customBlue font-semibold py-3 px-8 rounded-lg">Cancelar</button>
+          <button type="submit"
+            class="bg-customBlue hover:bg-customBlueHover text-white font-semibold py-3 px-11 rounded-lg">Crear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>
-

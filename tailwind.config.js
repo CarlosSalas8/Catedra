@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        customBlueHover: '#05568d',
         customOrange: '#FFAB02',
         customPeach: '#FFD19B',
         customBlue: '#044170',
