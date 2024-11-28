@@ -14,7 +14,6 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 export class PlanificacionComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
-  periodoActivo: any;
   activePeriod: any | null = null;
   showPeriodInput: boolean = false;
   periodoGuardado: boolean = false;
@@ -29,16 +28,18 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       carrera: ['', Validators.required],
       asignatura: ['', Validators.required],
       modalidad: ['', Validators.required],
-      items: this.fb.array([]),
-      itemsSegundo: this.fb.array([]),
-      itemsRecuperacion: this.fb.array([]),
+      items: this.fb.array([]), // Primer bimestre
+      itemsSegundo: this.fb.array([]), // Segundo bimestre
+      itemsRecuperacion: this.fb.array([]),  // Recuperación
       
     });
+    console.log('Formulario inicializado:', this.form); // Para validar que el formulario está correctamente creado
   }
 
   ngOnInit(): void {
     this.periodoService.activePeriod$.subscribe(periodo => {
       this.activePeriod = periodo;
+      console.log('Periodo activo recibido:', this.activePeriod);
     });
     this.setupMobileMenuToggle();
   }
@@ -115,8 +116,14 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
 
   
 
-  guardarDatos() {
-    if (this.form.valid && this.periodoActivo) {
+  guardarDatos(): void {
+    // Verifica si el formulario es válido
+    console.log('Formulario válido. Datos a guardar:', this.form.valid);
+    console.log('Periodo activo recibido:', this.activePeriod);
+
+    if (this.form.valid && this.activePeriod) {
+      console.log('Formulario válido. Datos a guardar:', this.form.value);
+
       const formData = this.form.value;
 
       const generalData = {
@@ -128,27 +135,36 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
         modalidad: formData.modalidad
       };
 
+      console.log('Datos generales a guardar:', generalData);
+
       const batch = this.firestore.firestore.batch();
 
-      this.periodoService.saveActivities(batch, generalData, formData.items, 'primer_bimestre', this.periodoActivo.id);
-      this.periodoService.saveActivities(batch, generalData, formData.itemsSegundo, 'segundo_bimestre', this.periodoActivo.id);
-      this.periodoService.saveActivities(batch, generalData, formData.itemsRecuperacion, 'recuperacion', this.periodoActivo.id);
+      // Guardar actividades en Firebase
+      try {
+        this.periodoService.saveActivities(batch, generalData, formData.items, 'primer_bimestre', this.activePeriod.id);
+        this.periodoService.saveActivities(batch, generalData, formData.itemsSegundo, 'segundo_bimestre', this.activePeriod.id);
+        this.periodoService.saveActivities(batch, generalData, formData.itemsRecuperacion, 'recuperacion', this.activePeriod.id);
 
-      batch.commit()
-        .then(() => {
-          console.log('Datos guardados correctamente en Firebase');
-          this.form.reset();
-          alert('¡Datos guardados correctamente!');
-          this.router.navigateByUrl('/vista');
-        })
-        .catch(error => {
-          console.error('Error al guardar los datos en Firebase:', error);
-          alert('Error al guardar los datos. Por favor, inténtalo de nuevo.');
-        });
+        batch.commit()
+          .then(() => {
+            console.log('Datos guardados correctamente en Firebase');
+            this.form.reset();
+            alert('¡Datos guardados correctamente!');
+            this.router.navigateByUrl('/vista');
+          })
+          .catch(error => {
+            console.error('Error al guardar los datos en Firebase:', error);
+            alert('Error al guardar los datos. Por favor, inténtalo de nuevo.');
+          });
+      } catch (e) {
+        console.error('Error inesperado durante el guardado:', e);
+      }
     } else {
+      console.warn('Formulario inválido o no hay periodo activo');
       alert('Por favor, completa todos los campos del formulario y asegúrate de que hay un periodo activo.');
     }
   }
+
 
   // Métodos para obtener los controles específicos del Primer Bimestre
   getActividadControl(index: number): FormControl {

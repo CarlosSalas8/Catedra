@@ -29,7 +29,7 @@ export class ValidarComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.docenteId = params.get('id'); // Obtener el id del docente de los parámetros de la ruta
       if (this.docenteId) {
-        this.firestore.collection('docentes').doc(this.docenteId).valueChanges().subscribe(docenteData => {
+        this.firestore.collection('directores').doc(this.docenteId).valueChanges().subscribe(docenteData => {
           this.docente = docenteData;
         });
       }

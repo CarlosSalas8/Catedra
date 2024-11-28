@@ -12,12 +12,12 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 export class SeguimientoComponent implements OnInit{
   activePeriod: any | null = null;
   
-  docentes$: Observable<any[]> | undefined;
+  directores$: Observable<any[]> | undefined;
   
   constructor(public periodoService: PeriodoService,private firestore: AngularFirestore,private router: Router) {}
 
   ngOnInit(): void {
-    this.docentes$ = this.firestore.collection('docentes').valueChanges();
+    this.directores$ = this.firestore.collection('directores').valueChanges();
 
     this.periodoService.activePeriod$.subscribe(periodo => {
       this.activePeriod = periodo;

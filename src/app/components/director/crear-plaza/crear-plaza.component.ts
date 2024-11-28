@@ -72,6 +72,7 @@ export class CrearPlazaComponent implements OnInit {
       this.selectedPlaza = null;
       this.form.reset();
     }
+    
   }
 
 
@@ -101,7 +102,7 @@ export class CrearPlazaComponent implements OnInit {
       this.firestore.collection('plazas').doc(plazaId).set({
         id: plazaId, // Include the generated ID in the document
         ...formData,
-        periodo: this.activePeriod ? this.activePeriod.id : null
+        periodoId: this.activePeriod ? this.activePeriod.id : null
       }).then(() => {
         console.log('Plaza guardada exitosamente en Firebase con ID:', plazaId);
         this.form.reset(); // Limpia el formulario tras guardar
@@ -110,10 +111,9 @@ export class CrearPlazaComponent implements OnInit {
       });
     }
   }
+  
 
-
-
-  editarPlaza(): void {
+    editarPlaza(): void {
     const formData = this.form.value;
     this.firestore.collection('plazas').doc(this.selectedPlaza.id).update(formData)
       .then(() => {
@@ -124,6 +124,8 @@ export class CrearPlazaComponent implements OnInit {
         console.error('Error al actualizar en Firebase:', error);
       });
   }
+  
+  
 
   eliminarPlaza(id: string): void {
     console.log('Eliminando plaza con ID:', id); // Verifica que el ID sea correcto

@@ -97,7 +97,7 @@ export class SubirTutoresComponent implements OnInit {
       // Usamos Promise.all para asegurar que todas las operaciones de guardado se completen antes de mostrar un mensaje
       await Promise.all(
         data.map(async (docente: any) => {
-          const docRef = this.firestore.collection('docentes').doc();
+          const docRef = this.firestore.collection('directores').doc();
           const id = docRef.ref.id;
           docente.id = id; // Añadir el ID al documento
           await docRef.set(docente); // Crear el documento con el ID y los datos

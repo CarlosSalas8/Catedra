@@ -40,7 +40,7 @@ export class ProfesorGuard implements CanActivate {
 
   canActivate(): boolean {
     const user = this.authService.getCurrentUser();
-    if (user && this.authService.isProfesor()) {
+    if (user && this.authService.isDocente()) {
       return true;
     } else {
       this.router.navigate(['/access-denied']);

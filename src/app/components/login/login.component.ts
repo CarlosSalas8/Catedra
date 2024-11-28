@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
+import { Usuario } from '../models/usuario.model';
 
 
 @Component({
@@ -15,12 +17,22 @@ export class LoginComponent implements OnInit{
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+  loading: boolean = false; // Estado de carga
+  activePeriod: any | null = null;
 
-  constructor(private authService: AuthService,private router: Router, private fb: FormBuilder, public periodoService: PeriodoService) {
+
+  constructor(private authService: AuthService,private router: Router, private fb: FormBuilder, public periodoService: PeriodoService, private firestore: AngularFirestore) {
+    
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+
     });
+
+    this.periodoService.activePeriod$.subscribe(periodo => {
+      this.activePeriod = periodo;
+    });
+
   }
 
   
@@ -30,32 +42,89 @@ export class LoginComponent implements OnInit{
   }
 
   
-  loginWithEmail() {
-    if (this.loginForm.valid) {
-      const email = this.loginForm.value.email;
-      const password = this.loginForm.value.password;
+  loginWithMicrosoft() {
+    this.loading = true; // Inicia el estado de carga
+    this.errorMessage = ''; // Limpia el mensaje de error
 
-      this.authService.login(email, password).then(user => {
-        console.log('Login exitoso', user);
-        // Redirigir al usuario a la página principal u otra ruta deseada
-        this.router.navigate(['/ventanas']); // Ejemplo de redirección a '/dashboard'
-      }).catch(error => {
-        this.errorMessage = error.message; // Mostrar mensaje de error
-      });
-    }
-  }
-
-  loginWithGoogle() {
-    this.authService.loginWithGoogle().then(
-      (res) => {
-        console.log('Login con Google exitoso', res);
-        this.router.navigate(['/carrera']); 
+    this.authService.loginWithMicrosoft().then(
+      (user) => {
+        console.log('Login con Microsoft exitoso', user);
+        this.router.navigate(['/ventanas']); // Redirige al usuario
       },
-      (err) => {
-        console.error('Error en el login con Google', err);
+      (error) => {
+        console.error('Error en login con Microsoft:', error);
+        this.errorMessage = 'No se pudo iniciar sesión con Microsoft.';
+        this.loading = false; // Finaliza el estado de carga
       }
     );
   }
+
+  loginWithGoogle() {
+    this.loading = true;
+    this.errorMessage = '';
+  
+    this.authService.loginWithGoogle().then(
+      async (user) => {
+        if (!user) {
+          console.error('Error inesperado: no se obtuvo un usuario tras iniciar sesión.');
+          this.loading = false;
+          return;
+        }
+  
+        console.log('Login con Google exitoso:', user);
+  
+        try {
+          // Obtener el documento del usuario desde Firestore
+          const userDoc = await this.firestore.collection('usuarios').doc(user.uid).get().toPromise();
+  
+          if (userDoc?.exists) {
+            const userData = userDoc.data() as Usuario;
+            const rol = userData?.rol;
+            const asignatura = userData?.asignatura;
+  
+            if (rol === 'docente' || rol === 'director') {
+              // Redirigir según el rol del usuario
+              const homeRoute = rol === 'docente' ? '/home-ayudante' : '/home-director';
+              console.log(`Redirigiendo al ${homeRoute}`);
+              this.router.navigate([homeRoute]);
+            } else if (rol === 'student') {
+              // Verificar si el estudiante ya tiene una asignatura asignada
+              if (asignatura) {
+                console.log('El usuario ya tiene una asignatura asignada, redirigiendo al home-ayudante...');
+                this.router.navigate(['/home-ayudante'], { queryParams: { carrera: asignatura } });
+              } else {
+                console.log('El usuario no tiene asignatura asignada, redirigiendo a selección de carrera...');
+                this.router.navigate(['/carrera']);
+              }
+            } else {
+              console.error('Rol desconocido:', rol);
+              alert('Rol no válido. Contacte al administrador.');
+            }
+          } else {
+            console.error('Usuario no encontrado en la colección "usuarios".');
+            this.router.navigate(['/carrera']);
+          }
+        } catch (error) {
+          console.error('Error al obtener datos del usuario:', error);
+          this.router.navigate(['/carrera']);
+        } finally {
+          this.loading = false;
+        }
+      },
+      (error) => {
+        console.error('Error en el login con Google:', error);
+        this.errorMessage = 'No se pudo iniciar sesión con Google. Intenta nuevamente.';
+        this.loading = false;
+      }
+    );
+  }
+  
+  
+  
+  
+  
+  
+
 
   logout() {
     this.authService.logout();
@@ -84,3 +153,25 @@ export class LoginComponent implements OnInit{
  
 
 }
+
+
+  /*
+  loginWithEmail() {
+    if (this.loginForm.valid) {
+      const email = this.loginForm.value.email;
+      const password = this.loginForm.value.password;
+
+      this.authService.login(email, password).then(user => {
+        console.log('Login exitoso', user);
+        // Redirigir al usuario a la página principal u otra ruta deseada
+        
+
+
+        this.router.navigate(['/ventanas']); // Ejemplo de redirección a '/dashboard'
+      }).catch(error => {
+        this.errorMessage = error.message; // Mostrar mensaje de error
+      });
+    }
+  }
+    */
+
