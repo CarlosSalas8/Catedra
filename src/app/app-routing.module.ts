@@ -5,18 +5,22 @@ import { AuthGuard, AdminGuard, ProfesorGuard, AlumnoGuard } from './services/au
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
-  { path: 'home', loadChildren: () => import('./components/home/home.module').then(x => x.HomeModule)},
+  { path: 'home', loadChildren: () => import('./components/home/home/home.module').then(x => x.HomeModule)},
   { path: 'login', loadChildren: () => import('./components/login/login.module').then(x => x.LoginModule)},
   { path: 'ventanas', loadChildren: () => import('./components/home/ventanas/ventanas.module').then(x => x.VentanasModule)},
   { path: 'carrera', loadChildren: () => import('./components/home/carrera/carrera.module').then(x => x.CarreraModule)},
 
-  { path: 'home-ayudante', loadChildren: () => import('./components/teacher/home-ayudante/home-ayudante.module').then(x => x.HomeAyudanteModule)},
-  { path: 'planificacion', loadChildren: () => import('./components/teacher/planificacion/planificacion.module').then(x => x.PlanificacionModule)},
-  { path: 'vista', loadChildren: () => import('./components/teacher/vista/vista.module').then(x => x.VistaModule)},
-  { path: 'revisar/:id', loadChildren: () => import('./components/teacher/revisar/revisar.module').then(x => x.RevisarModule)},
-  { path: 'presentacion', loadChildren: () => import('./components/teacher/presentacion/presentacion.module').then(x => x.PresentacionModule)},
-  { path: 'plazas', loadChildren: () => import('./components/teacher/plazas/plazas.module').then(x => x.PlazasModule) },
-  
+  { path: 'home-ayudante', loadChildren: () => import('./components/student/home-ayudante/home-ayudante.module').then(x => x.HomeAyudanteModule)},
+  { path: 'planificacion', loadChildren: () => import('./components/student/planificacion/planificacion.module').then(x => x.PlanificacionModule)},
+  { path: 'vista', loadChildren: () => import('./components/student/vista/vista.module').then(x => x.VistaModule)},
+  { path: 'revisar/:id', loadChildren: () => import('./components/student/revisar/revisar.module').then(x => x.RevisarModule)},
+  { path: 'presentacion', loadChildren: () => import('./components/student/presentacion/presentacion.module').then(x => x.PresentacionModule)},
+  { path: 'plazas', loadChildren: () => import('./components/student/plazas/plazas.module').then(x => x.PlazasModule) },
+
+
+  { path: 'home-docente', loadChildren: () => import('./components/docente/home-docente/home-docente.module').then(x => x.HomeDocenteModule) },
+  { path: 'seguimiento-docente', loadChildren: () => import('./components/docente/seguimiento-docente/seguimiento-docente.module').then(x => x.SeguimientoDocenteModule) },
+  { path: 'presentacion-docente', loadChildren: () => import('./components/docente/presentacion-docente/presentacion-docente.module').then(x => x.PresentacionDocenteModule) },
 
 
   { path: 'home-admin', loadChildren: () => import('./components/admin/home-admin/home-admin.module').then(x => x.HomeAdminModule)},
@@ -25,7 +29,6 @@ const routes: Routes = [
 
   { path: 'home-director', loadChildren: () => import('./components/director/home-director/home-director.module').then(x => x.HomeDirectorModule)},
   { path: 'crear-plaza', loadChildren: () => import('./components/director/crear-plaza/crear-plaza.module').then(x => x.CrearPlazaModule)},
-
   { path: 'actividades-docentes/:id', loadChildren: () => import('./components/admin/actividades-docentes/actividades-docentes.module').then(m => m.ActividadesDocentesModule) },
   { path: 'actividades-docentes/:id/validar/:actividadId', loadChildren: () => import('./components/admin/validar/validar.module').then(m => m.ValidarModule) },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }

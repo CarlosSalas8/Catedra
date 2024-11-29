@@ -12,7 +12,7 @@ import { Usuario } from '../models/usuario.model';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   email: string = '';
   password: string = '';
@@ -21,8 +21,8 @@ export class LoginComponent implements OnInit{
   activePeriod: any | null = null;
 
 
-  constructor(private authService: AuthService,private router: Router, private fb: FormBuilder, public periodoService: PeriodoService, private firestore: AngularFirestore) {
-    
+  constructor(private authService: AuthService, private router: Router, private fb: FormBuilder, public periodoService: PeriodoService, private firestore: AngularFirestore) {
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -35,19 +35,24 @@ export class LoginComponent implements OnInit{
 
   }
 
-  
+
 
   ngOnInit(): void {
     this.setupMobileMenuToggle();
   }
 
-  
+
   loginWithMicrosoft() {
     this.loading = true; // Inicia el estado de carga
     this.errorMessage = ''; // Limpia el mensaje de error
 
     this.authService.loginWithMicrosoft().then(
       (user) => {
+        if (!user) {
+          console.error('El usuario cerró la ventana emergente o no se completó el login.');
+          this.loading = false; // Libera el estado de carga
+          return;
+        }
         console.log('Login con Microsoft exitoso', user);
         this.router.navigate(['/ventanas']); // Redirige al usuario
       },
@@ -58,6 +63,8 @@ export class LoginComponent implements OnInit{
       }
     );
   }
+
+
 
   loginWithGoogle() {
     this.loading = true;
@@ -82,23 +89,31 @@ export class LoginComponent implements OnInit{
             const rol = userData?.rol;
             const asignatura = userData?.asignatura;
   
-            if (rol === 'docente' || rol === 'director') {
-              // Redirigir según el rol del usuario
-              const homeRoute = rol === 'docente' ? '/home-ayudante' : '/home-director';
-              console.log(`Redirigiendo al ${homeRoute}`);
-              this.router.navigate([homeRoute]);
-            } else if (rol === 'student') {
-              // Verificar si el estudiante ya tiene una asignatura asignada
-              if (asignatura) {
-                console.log('El usuario ya tiene una asignatura asignada, redirigiendo al home-ayudante...');
-                this.router.navigate(['/home-ayudante'], { queryParams: { carrera: asignatura } });
+            // Asegurarse de que el rol sea válido y redirigir
+            if (rol) {
+              if (rol === 'admin') {
+                console.log('Usuario con rol admin, redirigiendo a home-admin...');
+                this.router.navigate(['/home-admin']);
+              } else if (rol === 'docente' || rol === 'director') {
+                const homeRoute = rol === 'docente' ? '/home-docente' : '/home-director';
+                console.log(`Redirigiendo al ${homeRoute}`);
+                this.router.navigate([homeRoute]);
+              } else if (rol === 'student') {
+                if (asignatura) {
+                  console.log('El usuario ya tiene una asignatura asignada, redirigiendo al home-ayudante...');
+                  this.router.navigate(['/home-ayudante'], { queryParams: { carrera: asignatura } });
+                } else {
+                  console.log('El usuario no tiene asignatura asignada, redirigiendo a selección de carrera...');
+                  this.router.navigate(['/carrera']);
+                }
               } else {
-                console.log('El usuario no tiene asignatura asignada, redirigiendo a selección de carrera...');
-                this.router.navigate(['/carrera']);
+                console.error('Rol desconocido:', rol);
+                alert('Rol no válido. Contacte al administrador.');
               }
             } else {
-              console.error('Rol desconocido:', rol);
-              alert('Rol no válido. Contacte al administrador.');
+              console.error('Rol no encontrado en los datos del usuario.');
+              alert('No se pudo obtener el rol del usuario. Contacte al administrador.');
+              this.router.navigate(['/carrera']);
             }
           } else {
             console.error('Usuario no encontrado en la colección "usuarios".');
@@ -106,10 +121,11 @@ export class LoginComponent implements OnInit{
           }
         } catch (error) {
           console.error('Error al obtener datos del usuario:', error);
+          alert('Error al intentar obtener los datos del usuario.');
           this.router.navigate(['/carrera']);
         } finally {
           this.loading = false;
-        }
+        } 
       },
       (error) => {
         console.error('Error en el login con Google:', error);
@@ -119,11 +135,8 @@ export class LoginComponent implements OnInit{
     );
   }
   
-  
-  
-  
-  
-  
+
+
 
 
   logout() {
@@ -150,28 +163,9 @@ export class LoginComponent implements OnInit{
     }
   }
 
- 
+
 
 }
 
 
-  /*
-  loginWithEmail() {
-    if (this.loginForm.valid) {
-      const email = this.loginForm.value.email;
-      const password = this.loginForm.value.password;
-
-      this.authService.login(email, password).then(user => {
-        console.log('Login exitoso', user);
-        // Redirigir al usuario a la página principal u otra ruta deseada
-        
-
-
-        this.router.navigate(['/ventanas']); // Ejemplo de redirección a '/dashboard'
-      }).catch(error => {
-        this.errorMessage = error.message; // Mostrar mensaje de error
-      });
-    }
-  }
-    */
 

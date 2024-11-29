@@ -11,7 +11,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 export class AuthService {
   private user = {
     isAuthenticated: true, // Cambia esto según tu lógica de autenticación
-    role: 'profesor' // Cambia esto según el rol del usuario autenticado
+    role: 'default' // Cambia esto según el rol del usuario autenticado
   };
 
   constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore) { }
@@ -36,28 +36,33 @@ export class AuthService {
   loginWithGoogle() {
     return this.afAuth.signInWithPopup(new GoogleAuthProvider()).then(async (userCredential) => {
       const user = userCredential.user;
-  
+      
       if (!user) throw new Error('No se pudo autenticar el usuario');
-  
+    
       const userEmail = user.email;
       if (!userEmail) throw new Error('No se encontró el correo del usuario');
-  
-      // Verificar si el usuario existe en la colección 'directores'
+    
+      // Verificar si el usuario está en la colección de administradores
+      const adminSnapshot = await this.firestore.collection('usuarios').ref.where('rol', '==', 'admin').where('email', '==', userEmail).get();
+    
+      // Verificar si el usuario está en la colección 'directores'
       const docenteSnapshot = await this.firestore.collection('directores').ref.where('email', '==', userEmail).get();
-  
-      // Verificar si el usuario existe en la colección 'plazas'
+    
+      // Verificar si el usuario está en la colección 'plazas'
       const plazaSnapshot = await this.firestore.collection('plazas').ref.where('correo', '==', userEmail).get();
-  
-      // Determinar el rol y registrar el usuario en la colección 'usuarios'
-      let rol = 'student'; // Default to 'student'
+    
+      // Determinar el rol
+      let rol = 'student'; // Por defecto el rol es 'student'
       
-      if (!docenteSnapshot.empty) {
+      if (!adminSnapshot.empty) {
+        rol = 'admin'; // Si el usuario es un administrador
+      } else if (!docenteSnapshot.empty) {
         rol = 'director'; // Si el usuario es un director
       } else if (!plazaSnapshot.empty) {
         rol = 'docente'; // Si el usuario es un docente
       }
-  
-      // Crear el usuario en la colección 'usuarios' con el rol correspondiente
+    
+      // Crear o actualizar SOLO el usuario autenticado en la colección 'usuarios' con el rol correspondiente
       await this.firestore.collection('usuarios').doc(user.uid).set({
         email: userEmail,
         name: user.displayName,
@@ -65,7 +70,7 @@ export class AuthService {
         lastLogin: new Date(),
         rol: rol
       }, { merge: true });
-  
+    
       // Retorna el usuario autenticado
       return user;
     }).catch(error => {
@@ -73,6 +78,7 @@ export class AuthService {
       throw error;
     });
   }
+  
   
   
   

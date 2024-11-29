@@ -17,17 +17,18 @@
 
             <div class="hidden sm:ml-6 sm:block">
               <div class="flex space-x-4 ml-4">
-                <a class="text-gray-950 hover:text-black rounded-md px-3 py-2 text-sm font-bold"
+                <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page">AYUDANTE DE CÁTEDRA</a>
-                <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{
-                  activePeriod?.nombre || 'PERÍODO' }}</span>
+                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
-                <a href="#" class="text-gray-950 hover:bg-customPeach hover:text-black  px-3 py-2 text-sm font-bold"
-                  aria-current="page" [routerLink]="'/login'">CERRAR SESIÓN</a>
+                <a href="#"
+                  class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
+                  aria-current="page" [routerLink]="'/logout'">CERRAR SESIÓN</a>
               </div>
             </div>
           </div>
+
         </div>
         <div class="absolute inset-y-0 right-0 flex items-center sm:hidden">
           <button type="button" id="mobile-menu-button"
@@ -45,6 +46,7 @@
             </svg>
           </button>
         </div>
+
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
           <div class="relative ml-3">
             <div>
@@ -57,7 +59,7 @@
       <div class="space-y-1 px-2 pb-3 pt-2">
         <a href="#"
           class="text-gray-950 hover:bg-customPeach hover:text-black block rounded-md px-3 py-2 text-base font-bold"
-          aria-current="page" [routerLink]="'/home'">Home</a>
+          aria-current="page">Home</a>
         <a href="#"
           class="text-gray-950 hover:bg-customPeach hover:text-black block rounded-md px-3 py-2 text-base font-bold">User</a>
         <a href="#"
@@ -66,52 +68,43 @@
     </div>
   </nav>
   <aside id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform -translate-x-full bg-customBlue border-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
+    class="fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform -translate-x-full bg-customBlue order-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
     aria-label="Sidebar">
     <div class="h-full px-2 pb-4 overflow-y-auto bg-customBlue dark:bg-customBlue">
       <ul class="space-y-2 font-medium">
         <li>
-          <a [routerLink]="'/home-admin'"
+          <a [routerLink]="'/home-ayudante'" routerLinkActive="bg-customBlue4 text-white"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/administrador.png" alt="Home" class="w-8 h-8">
-            <span class="sr-only">Administrador</span>
-            <div
-              class="absolute left-16 transform -translate-y-1/2 w-56 bg-gray-800 text-white text-sm rounded-lg hidden group-hover:block p-2 z-50">
-              Ir a la ventana de administrador
-            </div>
+            <img src="/assets/Vector2.png" alt="Home" class="w- h-8">
+            <span class="sr-only">Home Ayudante</span>
           </a>
         </li>
         <li>
-          <a [routerLink]="'/home-docente'"
-            class="flex items-center justify-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/docente.png" alt="Planificacion" class="w-9 h-9">
-            <div
-              class="absolute left-16 transform -translate-y-1/2 w-48 bg-gray-800 text-white text-sm rounded-lg hidden group-hover:block p-2 z-50">
-              Ir a la ventana de Docente
-            </div>
+          <a [routerLink]="'/plazas'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/plaza.png" alt="Planificacion" class="w-8 h-8">
+            <span class="sr-only">Crear Plaza</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="'/planificacion'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/activity.png" alt="Planificacion" class="w-11 h-11">
             <span class="sr-only">Planificacion</span>
           </a>
         </li>
         <li>
-          <a [routerLink]="'/home-ayudante'"
-            class="flex items-center justify-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/usuarios.png" alt="Sign In" class="w-9 h-9">
-            <span class="sr-only">Ayudante</span>
-            <div
-              class="absolute left-16 transform -translate-y-1/2 w-48 bg-gray-800 text-white text-sm rounded-lg hidden group-hover:block p-2 z-50">
-              Ir a la ventana de Ayudante
-            </div>
+          <a [routerLink]="'/vista'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector4.png" alt="Activities" class="w-8 h-8">
+            <span class="sr-only">Vista</span>
           </a>
         </li>
         <li>
-          <a [routerLink]="'/home-director'"
-            class="flex items-center justify-center p-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/director.png" alt="Activities" class="w-10 h-10">
-            <span class="sr-only">Director</span>
-            <div
-              class="absolute left-16 transform -translate-y-1/2 w-48 bg-gray-800 text-white text-sm rounded-lg hidden group-hover:block p-2 z-50">
-              Ir a la ventana de Director
-            </div>
+          <a [routerLink]="'/presentacion'"
+            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+            <img src="/assets/Vector3.png" alt="Sign In" class="w-8 h-8">
+            <span class="sr-only">Presentation</span>
           </a>
         </li>
       </ul>
@@ -119,12 +112,10 @@
   </aside>
 
 
-
-
-  <div class="p-4 sm:ml-20 mt-16">
-    <div class="p-4">
+  <div class="p-4 sm:ml-20">
+    <div class="p-4 mt-14">
       <div class="flex flex-col items-center justify-center h-full w-full">
-        <div class="container mx-auto bg-white flex flex-col justify-center">
+        <div class="container mx-auto  bg-white flex flex-col justify-center">
           <h1 class="text-black text-center font-semibold" style="font-size: 45px;">
             Bienvenidos al Sistema de Gestión del Proyecto Ayudante de Cátedra
           </h1>
@@ -132,17 +123,16 @@
             <img src="/assets/image_home.png" alt="Kids playing" class="w-max h-max md:h-2/3">
           </div>
           <div class="p-4 border-2 mt-10 rounded-lg font-sans bg-gray-50">
-            <p class="text-xl text-black text-left mt-4 font-semibold leading-relaxed " style="font-size: 30px;">
-              ¿Quién es el Ayudante de Cátedra?
+            <p class="text-xl text-black text-left mt-4 font-semibold leading-relaxed">
+              Objetivos
             </p>
-            <ul class="text-base text-black text-left mt-4 leading-relaxed list-disc list-inside" style="font-size: 19px;">
-              Según el Reglamento de carrera y escalafón del docente e investigador del sistema de Educación Superior,
-              define al ayudante de cátedra o de investigación al estudiante que asiste a un docente o investigador en
-              sus actividades de docencia e investigación, conforme a las especificaciones y directrices y bajo la
-              responsabilidad de éste. No sustituye ni reemplaza al docente o investigador. El ayudante de cátedra es un
-              estudiante que por sus méritos académicos será seleccionado para cumplir funciones concretas y específicas
-              relacionadas con actividades de docencia, investigación y prácticum. El estudiante podrá ser renovado como
-              ayudante de cátedra, después de una evaluación positiva y por pedido expreso del docente.
+            <ul class="text-base text-black text-left mt-4 leading-relaxed list-disc list-inside">
+              <li>Mejorar el rendimiento académico y desarrollar en los estudiantes hábitos de estudio que les permita
+                aumentar sus habilidades intelectuales para evitar la reprobación, rezago y abandono estudiantil.</li>
+              <li>Para evitar la reprobación, rezago y abandono estudiantil.</li>
+              <li>Fortalecer la formación del estudiante, para mejorar su desempeño académico.</li>
+              <li>Brindar soporte al modelo educativo de la UTPL por medio de asesoramiento permanente al estudiante por
+                parte de un par en espacios formales de tutorías de la asignatura y adicionales.</li>
             </ul>
           </div>
         </div>

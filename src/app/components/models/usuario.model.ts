@@ -3,7 +3,7 @@ export interface Usuario {
     name: string;
     photoURL: string;
     lastLogin: Date;
-    rol: 'docente' | 'director' | 'student'; // Define los posibles valores del rol
+    rol: 'docente' | 'director' | 'student' | 'admin'; // Define los posibles valores del rol
     asignatura?: string; // Optional, solo si se requiere para algunos usuarios
     
   }

@@ -80,11 +80,10 @@
         <li>
           <a [routerLink]="'/home-ayudante'"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/Vector.png" alt="Home" class="w-8 h-8">
+            <img src="/assets/Vector2.png" alt="Home" class="w-8 h-8">
             <span class="sr-only">Home Ayudante</span>
           </a>
         </li>
-
         <li>
           <a [routerLink]="'/plazas'"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
@@ -92,23 +91,22 @@
             <span class="sr-only">Plazas</span>
           </a>
         </li>
-        
         <li>
           <a [routerLink]="'/planificacion'"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/Vector2.png" alt="Planificacion" class="w-8 h-8">
+            <img src="/assets/activity.png" alt="Planificacion" class="w-11 h-11">
             <span class="sr-only">Planificacion</span>
           </a>
         </li>
         <li>
-          <a [routerLink]="'/vista'" routerLinkActive="bg-customBlue4 text-white"
+          <a [routerLink]="'/vista'" 
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
             <img src="/assets/Vector4.png" alt="Activities" class="w-8 h-8">
             <span class="sr-only">Vista</span>
           </a>
         </li>
         <li>
-          <a [routerLink]="'/presentacion'"
+          <a [routerLink]="'/presentacion'" routerLinkActive="bg-customBlue4 text-white"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
             <img src="/assets/Vector3.png" alt="Sign In" class="w-8 h-8">
             <span class="sr-only">Presentation</span>
@@ -118,59 +116,12 @@
     </div>
   </aside>
 
-  <div class="mt-20 p-4 sm:ml-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 rounded-lg">
-    <!-- Primer Bimestre -->
-    <div *ngIf="actividadesPrimerBimestre | async as actividadesPrimer" class="mb-8">
-      <div *ngFor="let actividad of actividadesPrimer">
-        <div class="bg-white shadow-lg text-black p-5 mb-10 h-64 flex flex-col justify-between rounded-lg">
-          <div class="space-y-4">
-            <p class="text-center"><strong>Primer Bimestre - Actividad: <br></strong>{{ actividad.actividad }}</p>
-            <p class="text-center"><strong>Fecha de inicio: <br></strong>{{ actividad.fechaInicio }}</p>
-            <p class="text-center"><strong>Fecha de fin: <br></strong>{{ actividad.fechaFin }}</p>
-          </div>
-          <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)"
-              class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Segundo Bimestre -->
-    <div *ngIf="actividadesSegundoBimestre | async as actividadesSegundo" class="mb-4">
-      <div *ngFor="let actividad of actividadesSegundo">
-        <div class="bg-white shadow-lg text-black p-5 mb-10 h-64 flex flex-col justify-between rounded-lg">
-          <div class="space-y-4">
-            <p class="text-center"><strong>Segundo Bimestre - Actividad: <br></strong>{{ actividad.actividad }}</p>
-            <p class="text-center"><strong>Fecha de inicio: <br></strong>{{ actividad.fechaInicio }}</p>
-            <p class="text-center"><strong>Fecha de fin: <br></strong>{{ actividad.fechaFin }}</p>
-          </div>
-          <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)"
-              class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Recuperación -->
-    <div *ngIf="actividadesRecuperacion | async as actividadesRecuperacion" class="mb-4">
-      <div *ngFor="let actividad of actividadesRecuperacion">
-        <div class="bg-white shadow-lg text-black p-5 mb-10 h-64 flex flex-col justify-between rounded-lg">
-          <div class="space-y-4">
-            <p class="text-center"><strong>Actividad de Recuperación - Actividad:</strong><br>{{ actividad.actividad }}
-            </p>
-            <p class="text-center"><strong>Fecha de inicio:</strong><br>{{ actividad.fechaInicio }}</p>
-            <p class="text-center"><strong>Fecha de fin:</strong><br>{{ actividad.fechaFin }}</p>
-          </div>
-          <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)"
-              class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
-          </div>
-        </div>
-      </div>
+  <div class="p-4 sm:ml-20"> 
+    <div class="p-4 mt-14">
     </div>
   </div>
+
+  
 </body>
 
 </html>

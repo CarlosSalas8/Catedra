@@ -33,10 +33,6 @@ export class PeriodoService {
     return this.activePeriod$;
   }
 
-
-
-
-
   getAllPeriods(): Observable<any[]> {
     return this.firestore.collection('periodos').valueChanges();
   }

@@ -40,9 +40,15 @@ export class CarreraComponent {
           const rol = userData?.rol;
     
           switch (rol) {
+            
+            case 'admin':
+              console.log('El usuario es administrador, redirigiendo...');
+              this.router.navigate(['/home-admin']);
+              break;
+
             case 'docente':
               console.log('El usuario es docente, redirigiendo...');
-              this.router.navigate(['/home-ayudante']);
+              this.router.navigate(['/home-docente']);
               break;
             
             case 'director':
