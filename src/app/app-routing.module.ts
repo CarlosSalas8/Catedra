@@ -22,15 +22,16 @@ const routes: Routes = [
   { path: 'seguimiento-docente', loadChildren: () => import('./components/docente/seguimiento-docente/seguimiento-docente.module').then(x => x.SeguimientoDocenteModule) },
   { path: 'presentacion-docente', loadChildren: () => import('./components/docente/presentacion-docente/presentacion-docente.module').then(x => x.PresentacionDocenteModule) },
 
-
   { path: 'home-admin', loadChildren: () => import('./components/admin/home-admin/home-admin.module').then(x => x.HomeAdminModule)},
   { path: 'seguimiento', loadChildren: () => import('./components/admin/seguimiento/seguimiento.module').then(x => x.SeguimientoModule)},
   { path: 'subir-tutores', loadChildren: () => import('./components/admin/subir-tutores/subir-tutores.module').then(x => x.SubirTutoresModule)},
+  { path: 'actividades-docentes/:id', loadChildren: () => import('./components/admin/actividades-docentes/actividades-docentes.module').then(m => m.ActividadesDocentesModule) },
+  { path: 'actividades-docentes/:id/validar/:actividadId', loadChildren: () => import('./components/admin/validar/validar.module').then(m => m.ValidarModule) },
 
   { path: 'home-director', loadChildren: () => import('./components/director/home-director/home-director.module').then(x => x.HomeDirectorModule)},
   { path: 'crear-plaza', loadChildren: () => import('./components/director/crear-plaza/crear-plaza.module').then(x => x.CrearPlazaModule)},
-  { path: 'actividades-docentes/:id', loadChildren: () => import('./components/admin/actividades-docentes/actividades-docentes.module').then(m => m.ActividadesDocentesModule) },
-  { path: 'actividades-docentes/:id/validar/:actividadId', loadChildren: () => import('./components/admin/validar/validar.module').then(m => m.ValidarModule) },
+  { path: 'postulantes/:id', loadChildren: () => import('./components/director/postulantes/postulantes.module').then(x => x.PostulantesModule)},
+
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

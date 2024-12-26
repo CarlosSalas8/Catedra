@@ -4,6 +4,7 @@ import * as firebase from 'firebase/compat';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { GoogleAuthProvider, OAuthProvider } from 'firebase/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { PeriodoService } from './periodo.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,13 @@ export class AuthService {
     isAuthenticated: true, // Cambia esto según tu lógica de autenticación
     role: 'default' // Cambia esto según el rol del usuario autenticado
   };
+  activePeriod: any | null = null;
 
-  constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore) { }
+  constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore, public periodoService: PeriodoService) { 
+    this.periodoService.activePeriod$.subscribe(periodo => {
+      this.activePeriod = periodo;
+    });
+  }
 
   login(email: string, password: string) {
     return this.afAuth.signInWithEmailAndPassword(email, password).then(userCredential => {
@@ -64,11 +70,13 @@ export class AuthService {
     
       // Crear o actualizar SOLO el usuario autenticado en la colección 'usuarios' con el rol correspondiente
       await this.firestore.collection('usuarios').doc(user.uid).set({
+        usuarioId: user.uid,
         email: userEmail,
         name: user.displayName,
         photoURL: user.photoURL,
         lastLogin: new Date(),
-        rol: rol
+        rol: rol,
+        periodoId: this.activePeriod.id
       }, { merge: true });
     
       // Retorna el usuario autenticado
@@ -78,6 +86,24 @@ export class AuthService {
       throw error;
     });
   }
+
+  getCurrentUser4(): Observable<any> {
+    return this.afAuth.authState.pipe(
+      switchMap((user) => {
+        if (user) {
+          return this.firestore.collection('usuarios').doc(user.uid).valueChanges();
+        } else {
+          return [];
+        }
+      })
+    );
+  }
+
+  getPlazas(): Observable<any[]> {
+    return this.firestore.collection('plazas').valueChanges({ idField: 'id' });
+  }
+
+  
   
   
   

@@ -149,9 +149,10 @@
                   <td class="px-6 py-4">{{ plazas.malla }}</td>
                   <td class="px-6 py-4">{{ plazas.ciclo }}</td>
                   <td class="px-6 py-4">{{ plazas.paralelo }}</td>
-                  <td class="px-6 py-4">{{ totalPostulantes }}</td>
+                  <td class="px-6 py-4">{{ plazas.totalPostulantes }}</td>
+
                   <td class="px-6 py-4">
-                    <a [routerLink]="['', plazas.id]" class="text-customBlueHover hover:underline">Ver Postulantes</a>
+                    <a [routerLink]="['/postulantes', plazas.id]" class="text-customBlueHover hover:underline">Ver Postulantes</a>
                   </td>
                   <td class="px-6 py-4">
                     <button (click)="toggleModal(plazas)" class="text-customBlueHover hover:underline mr-4">Editar</button>
@@ -173,17 +174,19 @@
       <!-- Título del formulario -->
       <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Crear Plaza</h2>
 
-      <!-- Información del Director y Carrera -->
-      <div class="flex justify-center mt-4">
+      <div *ngIf="director" class="flex flex-col items-center">
         <p class="text-sm text-gray-700 text-center">
-          <span class="font-semibold">DIRECTOR:</span> SANTIAGO JOEL JUMBO LEIVA
+          <span class="font-semibold">DIRECTOR:</span> {{ director.nombre }}
+        </p>
+        <p class="text-sm text-gray-700 text-center">
+          <span class="font-semibold">ASIGNATURA:</span> {{ director.asignatura }}
         </p>
       </div>
-      <div class="flex justify-center mb-6">
-        <p class="text-sm text-gray-700 text-center">
-          <span class="font-semibold">CARRERA:</span> INGENIERÍA INDUSTRIAL
-        </p>
+      <div *ngIf="!director" class="text-center">
+        <p class="text-sm text-red-500">No se encontró información del director autenticado.</p>
       </div>
+      
+      
 
       <!-- Formulario de entrada -->
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -221,7 +224,7 @@
           <div>
             <label class="block text-gray-700 font-medium mb-2">Malla Curricular</label>
             <select formControlName="malla" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
-              <option value="">Selecciona una opción</option>
+              <option value="" disabled selected>Selecciona una opción</option>
               <option value="Malla1">Malla1</option>
               <option value="Malla2">Malla2</option>
               <!-- Agrega más opciones según corresponda -->
@@ -232,7 +235,7 @@
           <div>
             <label class="block text-gray-700 font-medium mb-2">Ciclo requerido</label>
             <select formControlName="ciclo" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
-              <option value="">Selecciona una opción</option>
+              <option value="" disabled selected>Selecciona una opción</option>
               <option value="Ciclo1">Ciclo1</option>
               <option value="Ciclo2">Ciclo2</option>
               <!-- Agrega más opciones según corresponda -->

@@ -96,11 +96,12 @@ export class SubirTutoresComponent implements OnInit {
     try {
       // Usamos Promise.all para asegurar que todas las operaciones de guardado se completen antes de mostrar un mensaje
       await Promise.all(
-        data.map(async (docente: any) => {
+        data.map(async (directores: any) => {
           const docRef = this.firestore.collection('directores').doc();
           const id = docRef.ref.id;
-          docente.id = id; // Añadir el ID al documento
-          await docRef.set(docente); // Crear el documento con el ID y los datos
+          directores.id = id; // Añadir el ID al documento
+          directores.periodoId = this.activePeriod.id;
+          await docRef.set(directores); // Crear el documento con el ID y los datos
         })
       );
       this.successMessage = 'Archivo CSV subido correctamente.';

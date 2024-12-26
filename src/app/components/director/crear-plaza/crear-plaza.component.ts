@@ -1,28 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
 
 @Component({
   selector: 'app-crear-plaza',
   templateUrl: './crear-plaza.component.html',
-  styleUrls: ['./crear-plaza.component.css']
+  styleUrls: ['./crear-plaza.component.css'],
 })
 export class CrearPlazaComponent implements OnInit {
-
   form: FormGroup;
   activePeriod: any | null = null;
-  periodoActivo: any;
-  periodos: Observable<any[]> | undefined;
   isModalOpen: boolean = false;
-  totalPostulantes: number = 0; // Contador de plazas 
   selectedPlaza: any | null = null;
-
   plazas$: Observable<any[]> | undefined;
+  director: any = null;
 
-  constructor(public periodoService: PeriodoService, private fb: FormBuilder, private firestore: AngularFirestore, private router: Router) {
+  constructor(
+    public periodoService: PeriodoService,
+    private fb: FormBuilder,
+    private firestore: AngularFirestore,
+    private router: Router,
+    private authService: AuthService,
+    private auth: AngularFireAuth
+  ) {
     this.form = this.fb.group({
       asignatura: ['', Validators.required],
       docente: ['', Validators.required],
@@ -34,12 +40,19 @@ export class CrearPlazaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Cargar plazas asociadas al usuario autenticado
+    this.auth.user.subscribe((user) => {
+      if (user && user.email) {
+        this.getDirectorAutenticado(user.email);
+        this.cargarPlazas(user.email);
+      }
+    });
 
-    this.plazas$ = this.firestore.collection('plazas').valueChanges();
-
-    this.periodoService.activePeriod$.subscribe(periodo => {
+    // Suscribirse al período activo
+    this.periodoService.activePeriod$.subscribe((periodo) => {
       this.activePeriod = periodo;
     });
+
     this.setupMobileMenuToggle();
   }
 
@@ -62,20 +75,62 @@ export class CrearPlazaComponent implements OnInit {
     }
   }
 
+  getDirectorAutenticado(email: string): void {
+    this.firestore
+      .collection('directores', (ref) => ref.where('email', '==', email))
+      .valueChanges()
+      .subscribe((data: any[]) => {
+        if (data.length > 0) {
+          this.director = data[0]; // Guardar el director autenticado
+          console.log('Director autenticado:', this.director);
+        } else {
+          console.warn('No se encontró director para el email:', email);
+        }
+      });
+  }
+
+  cargarPlazas(email: string): void {
+    this.firestore
+      .collection('directores', (ref) => ref.where('email', '==', email))
+      .get()
+      .subscribe((directorSnapshot) => {
+        if (!directorSnapshot.empty) {
+          const director = directorSnapshot.docs[0].data() as { id: string };
+          this.plazas$ = this.firestore
+            .collection('plazas', (ref) =>
+              ref.where('directorId', '==', director.id)
+            )
+            .snapshotChanges()
+            .pipe(
+              map((actions) =>
+                actions.map((action) => {
+                  const data = action.payload.doc.data() as any;
+                  const id = action.payload.doc.id;
+                  return {
+                    ...data,
+                    id,
+                    totalPostulantes: data.postulantes
+                      ? data.postulantes.length
+                      : 0, // Calcular el total de postulantes
+                  };
+                })
+              )
+            );
+        }
+      });
+  }
+
+
   toggleModal(plaza?: any): void {
     this.isModalOpen = !this.isModalOpen;
     if (plaza) {
-      console.log('Plaza seleccionada para editar:', plaza); // Agrega esta línea para depuración
       this.selectedPlaza = plaza;
-      this.form.patchValue(plaza); // Carga la plaza seleccionada en el formulario
+      this.form.patchValue(plaza);
     } else {
       this.selectedPlaza = null;
       this.form.reset();
     }
-    
   }
-
-
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -84,63 +139,88 @@ export class CrearPlazaComponent implements OnInit {
       } else {
         this.guardarDatos();
       }
-      this.toggleModal(); // Cierra el modal al enviar el formulario
+      this.toggleModal();
     } else {
       console.log('Formulario no válido');
     }
   }
 
-
   guardarDatos(): void {
     if (this.form.valid) {
       const formData = this.form.value;
+      const asignatura = formData.asignatura;
+      const paralelo = formData.paralelo;
+      const periodoId = this.activePeriod ? this.activePeriod.id : null;
 
-      // Generate a new document ID
-      const plazaId = this.firestore.createId();
-
-      // Use the generated ID to add the plaza
-      this.firestore.collection('plazas').doc(plazaId).set({
-        id: plazaId, // Include the generated ID in the document
-        ...formData,
-        periodoId: this.activePeriod ? this.activePeriod.id : null
-      }).then(() => {
-        console.log('Plaza guardada exitosamente en Firebase con ID:', plazaId);
-        this.form.reset(); // Limpia el formulario tras guardar
-      }).catch(error => {
-        console.error('Error al guardar en Firebase:', error);
-      });
+      // Verificar duplicados antes de guardar
+      this.firestore
+        .collection('plazas', (ref) =>
+          ref
+            .where('asignatura', '==', asignatura)
+            .where('paralelo', '==', paralelo)
+            .where('periodoId', '==', periodoId)
+        )
+        .get()
+        .subscribe((snapshot) => {
+          if (!snapshot.empty) {
+            console.error(
+              'Ya existe una plaza con la misma asignatura, paralelo y periodo.'
+            );
+          } else {
+            // Crear plaza
+            const plazaId = this.firestore.createId();
+            this.firestore
+              .collection('plazas')
+              .doc(plazaId)
+              .set({
+                id: plazaId,
+                ...formData,
+                periodoId: periodoId,
+                directorId: this.director?.id || null,
+                postulantes: [], // Inicializar como un arreglo vacío
+              })
+              .then(() => {
+                console.log('Plaza creada exitosamente.');
+                this.form.reset();
+              })
+              .catch((error) => {
+                console.error('Error al guardar en Firebase:', error);
+              });
+          }
+        });
     }
   }
-  
 
-    editarPlaza(): void {
+
+  editarPlaza(): void {
     const formData = this.form.value;
-    this.firestore.collection('plazas').doc(this.selectedPlaza.id).update(formData)
+    this.firestore
+      .collection('plazas')
+      .doc(this.selectedPlaza.id)
+      .update({
+        ...formData,
+        postulantes: this.selectedPlaza.postulantes || [], // Mantener postulantes existentes
+      })
       .then(() => {
-        console.log('Plaza actualizada exitosamente en Firebase');
+        console.log('Plaza actualizada exitosamente en Firebase.');
         this.form.reset();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error al actualizar en Firebase:', error);
       });
   }
-  
-  
+
 
   eliminarPlaza(id: string): void {
-    console.log('Eliminando plaza con ID:', id); // Verifica que el ID sea correcto
-    this.firestore.collection('plazas').doc(id).delete()
+    this.firestore
+      .collection('plazas')
+      .doc(id)
+      .delete()
       .then(() => {
-        console.log('Plaza eliminada exitosamente de Firebase');
+        console.log('Plaza eliminada exitosamente.');
       })
-      .catch(error => {
-        console.error('Error al eliminar de Firebase:', error);
+      .catch((error) => {
+        console.error('Error al eliminar la plaza:', error);
       });
   }
-
-
-
-
-
-
 }
