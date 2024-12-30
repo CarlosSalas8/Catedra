@@ -20,7 +20,7 @@
                 <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page">AYUDANTE DE CÁTEDRA</a>
                 <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{
-                  activePeriod?.nombre || 'PERÍODO' }}</span>
+                  activePeriod?.name || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#"
@@ -113,41 +113,41 @@
           </div>
         </div>
       </div>
-      <div *ngIf="actividad" class="bg-white shadow-md rounded-lg overflow-hidden p-6 mt-8">
+      <div *ngIf="activity" class="bg-white shadow-md rounded-lg overflow-hidden p-6 mt-8">
         <h2 class="text-2xl mb-4 font-bold">Detalles de la Actividad</h2>
         <table class="min-w-full divide-y divide-gray-200">
           <tr>
             <td class="px-4 py-2 whitespace-nowrap"><strong>Actividad:</strong></td>
-            <td class="px-4 py-2 whitespace-nowrap">{{ actividad.actividad }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ activity.activity }}</td>
           </tr>
           <tr>
             <td class="px-4 py-2 whitespace-nowrap"><strong>Fecha de inicio:</strong></td>
-            <td class="px-4 py-2 whitespace-nowrap">{{ actividad.fechaInicio }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ activity.startdate }}</td>
           </tr>
           <tr>
             <td class="px-4 py-2 whitespace-nowrap"><strong>Fecha de fin:</strong></td>
-            <td class="px-4 py-2 whitespace-nowrap">{{ actividad.fechaFin }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ activity.enddate }}</td>
           </tr>
           <tr>
             <td class="px-4 py-2 whitespace-nowrap"><strong>Medio de verificación:</strong></td>
-            <td class="px-4 py-2 whitespace-nowrap">{{ actividad.medioVerificacion }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ activity.verificationmethod }}</td>
           </tr>
         </table>
       </div>
-      <div *ngIf="docente" class="bg-white shadow-md rounded-lg overflow-hidden p-6 mt-8">
+      <div *ngIf="teacher" class="bg-white shadow-md rounded-lg overflow-hidden p-6 mt-8">
         <h2 class="text-2xl mb-4 font-bold">Detalles del Docente</h2>
         <table class="min-w-full divide-y divide-gray-200">
           <tr>
             <td class="px-4 py-2 whitespace-nowrap"><strong>Nombres y Apellidos:</strong></td>
           </tr>
           <tr>
-            <td class="px-4 py-2 whitespace-nowrap">{{ docente.nombre }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ teacher.name }}</td>
             <td
               class="px-2 py-2 whitespace-nowrap bg-customgreen text-black text-center font-bold border-b-2 border-black">
               Validado</td>
           </tr>
           <tr>
-            <td class="px-4 py-2 whitespace-nowrap">{{ docente.nombre }}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{{ teacher.name }}</td>
             <td
               class="px-2 py-2 whitespace-nowrap bg-customgray text-black text-center font-bold border-b-2 border-black">
               No Validado</td>

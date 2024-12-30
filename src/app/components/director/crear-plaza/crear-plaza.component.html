@@ -20,7 +20,7 @@
                 <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page">AYUDANTE DE CÁTEDRA</a>
                 <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{
-                  activePeriod?.nombre || 'PERÍODO' }}</span>
+                  activePeriod?.name || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#"
@@ -144,11 +144,11 @@
               <tbody>
                 <tr *ngFor="let plazas of plazas$ | async"
                   class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100 ">
-                  <td class="px-6 py-4">{{ plazas.docente }}</td>
-                  <td class="px-6 py-4">{{ plazas.asignatura }}</td>
-                  <td class="px-6 py-4">{{ plazas.malla }}</td>
-                  <td class="px-6 py-4">{{ plazas.ciclo }}</td>
-                  <td class="px-6 py-4">{{ plazas.paralelo }}</td>
+                  <td class="px-6 py-4">{{ plazas.nameTeacher }}</td>
+                  <td class="px-6 py-4">{{ plazas.subject }}</td>
+                  <td class="px-6 py-4">{{ plazas.curriculum }}</td>
+                  <td class="px-6 py-4">{{ plazas.academicCycle }}</td>
+                  <td class="px-6 py-4">{{ plazas.parallel }}</td>
                   <td class="px-6 py-4">{{ plazas.totalPostulantes }}</td>
 
                   <td class="px-6 py-4">
@@ -174,15 +174,15 @@
       <!-- Título del formulario -->
       <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Crear Plaza</h2>
 
-      <div *ngIf="director" class="flex flex-col items-center">
+      <div *ngIf="directors" class="flex flex-col items-center">
         <p class="text-sm text-gray-700 text-center">
-          <span class="font-semibold">DIRECTOR:</span> {{ director.nombre }}
+          <span class="font-semibold">DIRECTOR:</span> {{ directors.name }}
         </p>
         <p class="text-sm text-gray-700 text-center">
-          <span class="font-semibold">ASIGNATURA:</span> {{ director.asignatura }}
+          <span class="font-semibold">ASIGNATURA:</span> {{ directors.subject }}
         </p>
       </div>
-      <div *ngIf="!director" class="text-center">
+      <div *ngIf="!directors" class="text-center">
         <p class="text-sm text-red-500">No se encontró información del director autenticado.</p>
       </div>
       
@@ -192,38 +192,38 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
-          <!-- Asignatura -->
+          <!-- Subject -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Asignatura</label>
-            <input formControlName="asignatura" type="text" placeholder="LOGISTICAS Y TRANSPORTE"
+            <input formControlName="subject" type="text" placeholder="LOGISTICAS Y TRANSPORTE"
               class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
-          <!-- Docente -->
+          <!-- teacher -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Docente</label>
-            <input formControlName="docente" type="text" placeholder="LENIN VICUÑA"
+            <input formControlName="nameTeacher" type="text" placeholder="LENIN VICUÑA"
               class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
-          <!-- Correo del docente -->
+          <!-- Correo del teacher -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Correo de docente</label>
-            <input formControlName="correo" type="email" placeholder="lmvicuna2@utpl.edu.ec"
+            <input formControlName="emailTeacher" type="emailTeacher" placeholder="lmvicuna2@utpl.edu.ec"
               class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
           <!-- Paralelo -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Paralelo</label>
-            <input formControlName="paralelo" type="text" placeholder="A"
+            <input formControlName="parallel" type="text" placeholder="A"
               class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
           <!-- Malla Curricular -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Malla Curricular</label>
-            <select formControlName="malla" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+            <select formControlName="curriculum" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
               <option value="" disabled selected>Selecciona una opción</option>
               <option value="Malla1">Malla1</option>
               <option value="Malla2">Malla2</option>
@@ -234,7 +234,7 @@
           <!-- Ciclo requerido -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Ciclo requerido</label>
-            <select formControlName="ciclo" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+            <select formControlName="academicCycle" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
               <option value="" disabled selected>Selecciona una opción</option>
               <option value="Ciclo1">Ciclo1</option>
               <option value="Ciclo2">Ciclo2</option>

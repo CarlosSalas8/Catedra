@@ -18,7 +18,7 @@
               <div class="flex space-x-4 ml-4">
                 <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page">AYUDANTE DE CÁTEDRA</a>
-                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
+                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.name || 'PERÍODO' }}</span>
               </div>
 
               <div class="absolute inset-y-0 right-0 flex items-center">
@@ -103,10 +103,46 @@
   </div>
 </aside>
 
-  <div class="p-4 sm:ml-20"> 
-    <div class="p-4 mt-14">
+<div class="p-4 sm:ml-20">
+  <div class="p-4 mt-14">
+    <div class="container mx-auto p-6 bg-white overflow-hidden flex flex-col justify-center max-h-full">
+      <h2 class="text-xl font-semibold text-black mb-4 text-center" style="font-size: 22px;">Seguimiento de actividades</h2>
+      
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div class="flex items-center">
+          <span class="bg-gray-300 px-10 p-3 border border-gray-300 border-r-0 rounded-l-lg font-semibold">Buscar</span>
+          <input type="text" class="p-3 border border-gray-300 rounded-r-lg w-full" placeholder="Nombre del tutor">
+        </div>
+        <table class="w-full text-sm text-left text-gray-500 mt-8">
+          <thead class="text-xs text-black uppercase bg-gray-50  ">
+            <tr>
+              <th scope="col" class="px-6 py-3">DOCENTE</th>
+              <th scope="col" class="px-6 py-3">ASIGNATURA</th>
+              <th scope="col" class="px-6 py-3">MALLA CURRICULAR</th>
+              <th scope="col" class="px-6 py-3">CICLO ACADEMICO</th>
+              <th scope="col" class="px-6 py-3">PARALELO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let plaza of plazas$ | async" class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100 ">
+              <td class="px-6 py-4">{{ plaza.nameTeacher }}</td>
+              <td class="px-6 py-4">{{ plaza.subject }}</td>
+              <td class="px-6 py-4">{{ plaza.curriculum }}</td>
+              <td class="px-6 py-4">{{ plaza.academicCycle }}</td>
+              <td class="px-6 py-4">{{ plaza.parallel }}</td>           
+              <td class="px-6 py-4"><a href="#" class="text-customBlueHover hover:underline">VER</a></td>
+              <td class="px-6 py-4">
+                <a [routerLink]="['/actividades-docentes', plaza.id]"  class="text-customBlueHover hover:underline">Ver planificación</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
+</div>
+
+  
 
   
 </body>

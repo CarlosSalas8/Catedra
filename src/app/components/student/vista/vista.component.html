@@ -18,7 +18,7 @@
               <div class="flex space-x-4 ml-4">
                 <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page">AYUDANTE DE CÁTEDRA</a>
-                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
+                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.name || 'PERÍODO' }}</span>
               </div>
 
               <div class="absolute inset-y-0 right-0 flex items-center">
@@ -121,15 +121,15 @@
   <div class="mt-20 p-4 sm:ml-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 rounded-lg">
     <!-- Primer Bimestre -->
     <div *ngIf="actividadesPrimerBimestre | async as actividadesPrimer" class="mb-8">
-      <div *ngFor="let actividad of actividadesPrimer">
+      <div *ngFor="let activity of actividadesPrimer">
         <div class="bg-white shadow-lg text-black p-5 mb-10 h-64 flex flex-col justify-between rounded-lg">
           <div class="space-y-4">
-            <p class="text-center"><strong>Primer Bimestre - Actividad: <br></strong>{{ actividad.actividad }}</p>
-            <p class="text-center"><strong>Fecha de inicio: <br></strong>{{ actividad.fechaInicio }}</p>
-            <p class="text-center"><strong>Fecha de fin: <br></strong>{{ actividad.fechaFin }}</p>
+            <p class="text-center"><strong>Primer Bimestre - Actividad: <br></strong>{{ activity.activity }}</p>
+            <p class="text-center"><strong>Fecha de inicio: <br></strong>{{ activity.startdate }}</p>
+            <p class="text-center"><strong>Fecha de fin: <br></strong>{{ activity.enddate }}</p>
           </div>
           <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)"
+            <button (click)="revisarActividad(activity.id)"
               class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
           </div>
         </div>
@@ -138,15 +138,15 @@
 
     <!-- Segundo Bimestre -->
     <div *ngIf="actividadesSegundoBimestre | async as actividadesSegundo" class="mb-4">
-      <div *ngFor="let actividad of actividadesSegundo">
+      <div *ngFor="let activity of actividadesSegundo">
         <div class="bg-white shadow-lg text-black p-5 mb-10 h-64 flex flex-col justify-between rounded-lg">
           <div class="space-y-4">
-            <p class="text-center"><strong>Segundo Bimestre - Actividad: <br></strong>{{ actividad.actividad }}</p>
-            <p class="text-center"><strong>Fecha de inicio: <br></strong>{{ actividad.fechaInicio }}</p>
-            <p class="text-center"><strong>Fecha de fin: <br></strong>{{ actividad.fechaFin }}</p>
+            <p class="text-center"><strong>Segundo Bimestre - Actividad: <br></strong>{{ activity.activity }}</p>
+            <p class="text-center"><strong>Fecha de inicio: <br></strong>{{ activity.startdate }}</p>
+            <p class="text-center"><strong>Fecha de fin: <br></strong>{{ activity.enddate }}</p>
           </div>
           <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)"
+            <button (click)="revisarActividad(activity.id)"
               class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
           </div>
         </div>
@@ -155,16 +155,16 @@
 
     <!-- Recuperación -->
     <div *ngIf="actividadesRecuperacion | async as actividadesRecuperacion" class="mb-4">
-      <div *ngFor="let actividad of actividadesRecuperacion">
+      <div *ngFor="let activity of actividadesRecuperacion">
         <div class="bg-white shadow-lg text-black p-5 mb-10 h-64 flex flex-col justify-between rounded-lg">
           <div class="space-y-4">
-            <p class="text-center"><strong>Actividad de Recuperación - Actividad:</strong><br>{{ actividad.actividad }}
+            <p class="text-center"><strong>Actividad de Recuperación - Actividad:</strong><br>{{ activity.activity }}
             </p>
-            <p class="text-center"><strong>Fecha de inicio:</strong><br>{{ actividad.fechaInicio }}</p>
-            <p class="text-center"><strong>Fecha de fin:</strong><br>{{ actividad.fechaFin }}</p>
+            <p class="text-center"><strong>Fecha de inicio:</strong><br>{{ activity.startdate }}</p>
+            <p class="text-center"><strong>Fecha de fin:</strong><br>{{ activity.enddate }}</p>
           </div>
           <div class="flex justify-center mt-2">
-            <button (click)="revisarActividad(actividad.id)"
+            <button (click)="revisarActividad(activity.id)"
               class="bg-customBlue text-white py-2 px-4 rounded w-full hover:bg-customBlue2">Revisar</button>
           </div>
         </div>

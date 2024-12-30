@@ -20,7 +20,7 @@
                 <a href="#"
                   class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page" [routerLink]="'/vista'">AYUDANTE DE CÁTEDRA</a>
-                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
+                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.name || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#"
@@ -136,35 +136,35 @@
         </div>
       </div>
   
-      <div *ngIf="actividad" class="mt-10">
+      <div *ngIf="activity" class="mt-10">
         <h2 class="text-2xl mb-2">Detalles de la Actividad</h2><br>
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
           <table class="min-w-full divide-y divide-gray-200">
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Actividad:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.actividad }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activity.activity }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Fecha de inicio:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.fechaInicio }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activity.startdate }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Fecha de fin:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.fechaFin }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activity.enddate }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Medio de Verificación:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.medioVerificacion }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activity.verificationmethod }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Tipo:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.tipo }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activity.type }}</td>
             </tr>
           </table>
         </div>
       </div>
 
-      <div *ngIf="actividad" class="mt-10">
+      <div *ngIf="activity" class="mt-10">
         <h2 class="text-2xl mb-2">Subir Archivos</h2>
         <div class="bg-gray-200  shadow-md rounded-lg overflow-hidden">
           <div class="p-6">

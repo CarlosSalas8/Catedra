@@ -20,7 +20,7 @@
                 <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page">AYUDANTE DE CÁTEDRA</a>
                 <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{
-                  activePeriod?.nombre || 'PERÍODO' }}</span>
+                  activePeriod?.name || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#"
@@ -113,35 +113,35 @@
           </div>
         </div>
       </div>
-      <div *ngIf="actividad" class="mt-10">
+      <div *ngIf="activity" class="mt-10">
         <h2 class="text-2xl mb-2">Detalles del Docente</h2><br>
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
           <table class="min-w-full divide-y divide-gray-200">
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Nombre y apellido del docente tutor:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.nombre }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activity.name }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Nombre y apellido del estudiante tutor:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.nombre }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activity.assistant }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Facultad</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.facultad }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activity.faculty }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Carrera</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.carrera }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activity.career }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Asignatura</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ actividad.asignatura }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activity.subject }}</td>
             </tr>
-          </table>
+          </table>    
         </div>
       </div>
 
-      <div *ngIf="actividades.length > 0" class="mt-10">
+      <div *ngIf="activitys.length > 0" class="mt-10">
         <h2 class="text-2xl mb-2">Actividades</h2><br>
         <div
           class="container mx-auto p-3 bg-white overflow-hidden flex flex-col justify-center max-h-full shadow-md sm:rounded-lg">
@@ -158,19 +158,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let actividad of actividades" class="bg-white border-b hover:bg-gray-50">
-                  <td class="px-6 py-4 truncate">{{ actividad.actividad }}</td>
-                  <td class="px-6 py-4">{{ actividad.fechaInicio }}</td>
-                  <td class="px-6 py-4">{{ actividad.fechaFin }}</td>
-                  <td class="px-6 py-4">{{ actividad.medioVerificacion }}</td>
+                <tr *ngFor="let activity of activitys" class="bg-white border-b hover:bg-gray-50">
+                  <td class="px-6 py-4 truncate">{{ activity.activity }}</td>
+                  <td class="px-6 py-4">{{ activity.startdate }}</td>
+                  <td class="px-6 py-4">{{ activity.enddate }}</td>
+                  <td class="px-6 py-4">{{ activity.verificationmethod }}</td>
                   <td class="px-6 py-4">
                     <span
-                      [ngClass]="{'text-red-500': actividad.estado === 'Faltante', 'text-green-500': actividad.estado === 'Completado'}">
-                      {{ actividad.estado }}
+                      [ngClass]="{'text-red-500': activity.estado === 'Faltante', 'text-green-500': activity.estado === 'Completado'}">
+                      {{ activity.estado }}
                     </span>
                   </td>
                   <td class="px-6 py-4">
-                    <a [routerLink]="['/actividades-docentes', directorId, 'validar', actividad.id]"
+                    <a [routerLink]="['/actividades-docentes', directorId, 'validar', activity.id]"
                       class="text-customBlueHover hover:underline">Ingresar</a>
                   </td>
                 </tr>
@@ -180,7 +180,7 @@
         </div>
       </div>
 
-      <div *ngIf="actividades.length === 0" class="mt-10">
+      <div *ngIf="activitys.length === 0" class="mt-10">
         <h2 class="text-2xl mb-2">No hay actividades para este docente</h2>
       </div>
 

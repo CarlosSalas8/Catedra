@@ -19,7 +19,7 @@
               <div class="flex space-x-4 ml-4">
                 <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page">AYUDANTE DE CÁTEDRA</a>
-                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
+                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.name || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#"
@@ -120,11 +120,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let director of directores$ | async" class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100 ">
-                <td class="px-6 py-4">{{ director.nombre }}</td>
-                <td class="px-6 py-4">{{ director.facultad }}</td>
-                <td class="px-6 py-4">{{ director.carrera }}</td>
-                <td class="px-6 py-4">{{ director.asignatura }}</td>
+              <tr *ngFor="let director of directors$ | async" class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100 ">
+                <td class="px-6 py-4">{{ director.name }}</td>
+                <td class="px-6 py-4">{{ director.faculty }}</td>
+                <td class="px-6 py-4">{{ director.career }}</td>
+                <td class="px-6 py-4">{{ director.subject }}</td>
                 <td class="px-6 py-4"><a href="#" class="text-customBlueHover hover:underline">VER</a></td>
                 <td class="px-6 py-4">
                   <a [routerLink]="['/actividades-docentes', director.id]"  class="text-customBlueHover hover:underline">Ver planificación</a>

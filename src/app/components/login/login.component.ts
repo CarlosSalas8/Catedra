@@ -29,8 +29,8 @@ export class LoginComponent implements OnInit {
 
     });
 
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
 
   }
@@ -82,32 +82,32 @@ export class LoginComponent implements OnInit {
   
         try {
           // Obtener el documento del usuario desde Firestore
-          const userDoc = await this.firestore.collection('usuarios').doc(user.uid).get().toPromise();
+          const userDoc = await this.firestore.collection('users').doc(user.uid).get().toPromise();
   
           if (userDoc?.exists) {
             const userData = userDoc.data() as Usuario;
-            const rol = userData?.rol;
-            const asignatura = userData?.asignatura;
+            const role = userData?.role;
+            const subject = userData?.subject;
   
             // Asegurarse de que el rol sea válido y redirigir
-            if (rol) {
-              if (rol === 'admin') {
-                console.log('Usuario con rol admin, redirigiendo a home-admin...');
+            if (role) {
+              if (role === 'admin') {
+                console.log('Usuario con role admin, redirigiendo a home-admin...');
                 this.router.navigate(['/home-admin']);
-              } else if (rol === 'docente' || rol === 'director') {
-                const homeRoute = rol === 'docente' ? '/home-docente' : '/home-director';
+              } else if (role === 'teacher' || role === 'director') {
+                const homeRoute = role === 'teacher' ? '/home-docente' : '/home-director';
                 console.log(`Redirigiendo al ${homeRoute}`);
                 this.router.navigate([homeRoute]);
-              } else if (rol === 'student') {
-                if (asignatura) {
-                  console.log('El usuario ya tiene una asignatura asignada, redirigiendo al home-ayudante...');
-                  this.router.navigate(['/home-ayudante'], { queryParams: { carrera: asignatura } });
+              } else if (role === 'student') {
+                if (subject) {
+                  console.log('El usuario ya tiene una subject asignada, redirigiendo al home-ayudante...');
+                  this.router.navigate(['/home-ayudante'], { queryParams: { career: subject } });
                 } else {
-                  console.log('El usuario no tiene asignatura asignada, redirigiendo a selección de carrera...');
+                  console.log('El usuario no tiene subject asignada, redirigiendo a selección de career...');
                   this.router.navigate(['/carrera']);
                 }
               } else {
-                console.error('Rol desconocido:', rol);
+                console.error('Rol desconocido:', role);
                 alert('Rol no válido. Contacte al administrador.');
               }
             } else {
@@ -116,7 +116,7 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['/carrera']);
             }
           } else {
-            console.error('Usuario no encontrado en la colección "usuarios".');
+            console.error('Usuario no encontrado en la colección "users".');
             this.router.navigate(['/carrera']);
           }
         } catch (error) {

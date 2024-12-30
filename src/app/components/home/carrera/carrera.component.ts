@@ -11,43 +11,43 @@ import { Usuario } from '../../models/usuario.model';
 })
 export class CarreraComponent {
 
-  carreraSeleccionada: string = '';
+  careerSeleccionada: string = '';
 
   constructor(private router: Router,private authService: AuthService,
     private firestore: AngularFirestore) {}
 
-    validarCarrera() {
-      if (!this.carreraSeleccionada) {
-        alert('Por favor, selecciona una carrera.');
+    validarcareer() {
+      if (!this.careerSeleccionada) {
+        alert('Por favor, selecciona una career.');
         return;
       }
     
-      this.authService.getCurrentUser2().subscribe(async (user) => {
+      this.authService.getCurrentUser().subscribe(async (user) => {
         if (!user) {
           console.error('No hay usuario autenticado.');
           return;
         }
     
         try {
-          const userDoc = await this.firestore.collection('usuarios').doc(user.uid).get().toPromise();
+          const userDoc = await this.firestore.collection('users').doc(user.uid).get().toPromise();
           
           if (!userDoc || !userDoc.exists) {
-            console.error('No se encontró el usuario en la colección "usuarios".');
+            console.error('No se encontró el usuario en la colección "users".');
             return;
           }
     
           const userData = userDoc.data() as Usuario;
-          const rol = userData?.rol;
+          const role = userData?.role;
     
-          switch (rol) {
+          switch (role) {
             
             case 'admin':
               console.log('El usuario es administrador, redirigiendo...');
               this.router.navigate(['/home-admin']);
               break;
 
-            case 'docente':
-              console.log('El usuario es docente, redirigiendo...');
+            case 'teacher':
+              console.log('El usuario es teacher, redirigiendo...');
               this.router.navigate(['/home-docente']);
               break;
             
@@ -57,20 +57,20 @@ export class CarreraComponent {
               break;
     
             case 'student':
-              if (!userData.asignatura) {
-                console.log('El usuario no tenía asignatura. Asignando...');
-                await this.firestore.collection('usuarios').doc(user.uid).set(
-                  { asignatura: this.carreraSeleccionada, rol: 'student' },
+              if (!userData.subject) {
+                console.log('El usuario no tenía subject. Asignando...');
+                await this.firestore.collection('users').doc(user.uid).set(
+                  { subject: this.careerSeleccionada, role: 'student' },
                   { merge: true }
                 );
               } else {
-                console.log('El usuario ya tiene una asignatura asignada.');
+                console.log('El usuario ya tiene una subject asignada.');
               }
-              this.router.navigate(['/home-ayudante'], { queryParams: { carrera: this.carreraSeleccionada } });
+              this.router.navigate(['/home-ayudante'], { queryParams: { career: this.careerSeleccionada } });
               break;
     
             default:
-              console.error('Rol desconocido:', rol);
+              console.error('Rol desconocido:', role);
               alert('Rol no válido. Contacte al administrador.');
               break;
           }

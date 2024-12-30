@@ -13,8 +13,8 @@ export class HomeComponent implements OnInit{
   
   ngOnInit(): void {
     this.setupMobileMenuToggle();
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
   }
 

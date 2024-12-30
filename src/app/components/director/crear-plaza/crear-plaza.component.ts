@@ -19,7 +19,7 @@ export class CrearPlazaComponent implements OnInit {
   isModalOpen: boolean = false;
   selectedPlaza: any | null = null;
   plazas$: Observable<any[]> | undefined;
-  director: any = null;
+  directors: any = null;
 
   constructor(
     public periodoService: PeriodoService,
@@ -30,12 +30,12 @@ export class CrearPlazaComponent implements OnInit {
     private auth: AngularFireAuth
   ) {
     this.form = this.fb.group({
-      asignatura: ['', Validators.required],
-      docente: ['', Validators.required],
-      correo: ['', Validators.required],
-      paralelo: ['', Validators.required],
-      malla: ['', Validators.required],
-      ciclo: ['', Validators.required],
+      subject: ['', Validators.required],
+      nameTeacher: ['', Validators.required],
+      emailTeacher: ['', Validators.required],
+      parallel: ['', Validators.required],
+      curriculum: ['', Validators.required],
+      academicCycle: ['', Validators.required],
     });
   }
 
@@ -48,9 +48,9 @@ export class CrearPlazaComponent implements OnInit {
       }
     });
 
-    // Suscribirse al período activo
-    this.periodoService.activePeriod$.subscribe((periodo) => {
-      this.activePeriod = periodo;
+    // Suscribirse al período status 
+    this.periodoService.activePeriod$.subscribe((period) => {
+      this.activePeriod = period;
     });
 
     this.setupMobileMenuToggle();
@@ -77,12 +77,12 @@ export class CrearPlazaComponent implements OnInit {
 
   getDirectorAutenticado(email: string): void {
     this.firestore
-      .collection('directores', (ref) => ref.where('email', '==', email))
+      .collection('directors', (ref) => ref.where('email', '==', email))
       .valueChanges()
       .subscribe((data: any[]) => {
         if (data.length > 0) {
-          this.director = data[0]; // Guardar el director autenticado
-          console.log('Director autenticado:', this.director);
+          this.directors = data[0]; // Guardar el director autenticado
+          console.log('Director autenticado:', this.directors);
         } else {
           console.warn('No se encontró director para el email:', email);
         }
@@ -91,14 +91,14 @@ export class CrearPlazaComponent implements OnInit {
 
   cargarPlazas(email: string): void {
     this.firestore
-      .collection('directores', (ref) => ref.where('email', '==', email))
+      .collection('directors', (ref) => ref.where('email', '==', email))
       .get()
       .subscribe((directorSnapshot) => {
         if (!directorSnapshot.empty) {
-          const director = directorSnapshot.docs[0].data() as { id: string };
+          const directors = directorSnapshot.docs[0].data() as { id: string };
           this.plazas$ = this.firestore
             .collection('plazas', (ref) =>
-              ref.where('directorId', '==', director.id)
+              ref.where('directorsId', '==', directors.id)
             )
             .snapshotChanges()
             .pipe(
@@ -109,8 +109,8 @@ export class CrearPlazaComponent implements OnInit {
                   return {
                     ...data,
                     id,
-                    totalPostulantes: data.postulantes
-                      ? data.postulantes.length
+                    totalPostulantes: data.postulant
+                      ? data.postulant.length
                       : 0, // Calcular el total de postulantes
                   };
                 })
@@ -148,36 +148,37 @@ export class CrearPlazaComponent implements OnInit {
   guardarDatos(): void {
     if (this.form.valid) {
       const formData = this.form.value;
-      const asignatura = formData.asignatura;
-      const paralelo = formData.paralelo;
-      const periodoId = this.activePeriod ? this.activePeriod.id : null;
+      const subject = formData.subject;
+      const parallel = formData.parallel;
+      const periodID = this.activePeriod ? this.activePeriod.id : null;
 
       // Verificar duplicados antes de guardar
       this.firestore
         .collection('plazas', (ref) =>
           ref
-            .where('asignatura', '==', asignatura)
-            .where('paralelo', '==', paralelo)
-            .where('periodoId', '==', periodoId)
+            .where('subject', '==', subject)
+            .where('parallel', '==', parallel)
+            .where('periodID', '==', periodID)
         )
         .get()
         .subscribe((snapshot) => {
           if (!snapshot.empty) {
             console.error(
-              'Ya existe una plaza con la misma asignatura, paralelo y periodo.'
+              'Ya existe una plaza con la misma subject, parallel y period.'
             );
           } else {
             // Crear plaza
-            const plazaId = this.firestore.createId();
+            const plazaID = this.firestore.createId();
             this.firestore
               .collection('plazas')
-              .doc(plazaId)
+              .doc(plazaID)
               .set({
-                id: plazaId,
+                id: plazaID,
                 ...formData,
-                periodoId: periodoId,
-                directorId: this.director?.id || null,
-                postulantes: [], // Inicializar como un arreglo vacío
+                periodID: periodID,
+                directorsId: this.directors?.id || null,
+                directorsName: this.directors?.name || null,
+                postulant: [], // Inicializar como un arreglo vacío
               })
               .then(() => {
                 console.log('Plaza creada exitosamente.');
@@ -199,7 +200,7 @@ export class CrearPlazaComponent implements OnInit {
       .doc(this.selectedPlaza.id)
       .update({
         ...formData,
-        postulantes: this.selectedPlaza.postulantes || [], // Mantener postulantes existentes
+        postulant: this.selectedPlaza.postulant || [], // Mantener postulantes existentes
       })
       .then(() => {
         console.log('Plaza actualizada exitosamente en Firebase.');

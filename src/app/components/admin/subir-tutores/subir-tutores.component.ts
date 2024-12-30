@@ -18,8 +18,8 @@ export class SubirTutoresComponent implements OnInit {
   constructor(public periodoService: PeriodoService, private afAuth: AngularFireAuth, private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
     this.setupMobileMenuToggle();
   }
@@ -75,7 +75,7 @@ export class SubirTutoresComponent implements OnInit {
   }
 
   validateFormat(data: any[]): boolean {
-    const requiredHeaders = ['email', 'nombre', 'carrera','rol', 'facultad', 'modalidad', 'asignatura'];
+    const requiredHeaders = ['email', 'name', 'career','role', 'faculty', 'modality', 'subject'];
 
     // Verificar que todas las filas tengan las columnas requeridas
     for (const row of data) {
@@ -96,12 +96,12 @@ export class SubirTutoresComponent implements OnInit {
     try {
       // Usamos Promise.all para asegurar que todas las operaciones de guardado se completen antes de mostrar un mensaje
       await Promise.all(
-        data.map(async (directores: any) => {
-          const docRef = this.firestore.collection('directores').doc();
+        data.map(async (directors: any) => {
+          const docRef = this.firestore.collection('directors').doc();
           const id = docRef.ref.id;
-          directores.id = id; // Añadir el ID al documento
-          directores.periodoId = this.activePeriod.id;
-          await docRef.set(directores); // Crear el documento con el ID y los datos
+          directors.id = id; // Añadir el ID al documento
+          directors.periodID = this.activePeriod.id;
+          await docRef.set(directors); // Crear el documento con el ID y los datos
         })
       );
       this.successMessage = 'Archivo CSV subido correctamente.';

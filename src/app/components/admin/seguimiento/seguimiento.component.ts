@@ -12,15 +12,16 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 export class SeguimientoComponent implements OnInit{
   activePeriod: any | null = null;
   
-  directores$: Observable<any[]> | undefined;
+  directors$: Observable<any[]> | undefined;
   
-  constructor(public periodoService: PeriodoService,private firestore: AngularFirestore,private router: Router) {}
+  constructor(public periodoService: PeriodoService,private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
-    this.directores$ = this.firestore.collection('directores').valueChanges();
+    
+    this.directors$ = this.firestore.collection('directors').valueChanges();
 
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
 
     this.setupMobileMenuToggle();

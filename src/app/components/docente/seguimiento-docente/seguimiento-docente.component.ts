@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { PeriodoService } from 'src/app/services/periodo.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-seguimiento-docente',
@@ -7,13 +9,19 @@ import { PeriodoService } from 'src/app/services/periodo.service';
   styleUrls: ['./seguimiento-docente.component.css']
 })
 export class SeguimientoDocenteComponent implements OnInit {
-  activePeriod: any | null = null;
 
-  constructor(public periodoService: PeriodoService) {}
+  activePeriod: any | null = null;
+  
+  plazas$: Observable<any[]> | undefined;
+
+  constructor(public periodoService: PeriodoService, private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+
+    this.plazas$ = this.firestore.collection('plazas').valueChanges();
+
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
     this.setupMobileMenuToggle();
   }

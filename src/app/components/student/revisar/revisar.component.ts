@@ -12,7 +12,7 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 })
 export class RevisarComponent implements OnInit {
   activePeriod: any | null = null;
-  actividad: any;
+  activity: any;
   selectedFile: any;
   fileUrl: string | undefined;
   previewUrl: string | undefined;
@@ -24,12 +24,12 @@ export class RevisarComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.firestore.collection('items').doc(id).valueChanges().subscribe(data => {
-        this.actividad = data;
+      this.firestore.collection('activities').doc(id).valueChanges().subscribe(data => {
+        this.activity = data;
       });
     }
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
     this.setupMobileMenuToggle();
   }
@@ -41,7 +41,7 @@ export class RevisarComponent implements OnInit {
   uploadFile() {
     if (this.selectedFile) {
       this.isLoading = true; // Establecer el estado de carga a true
-      const filePath = `actividades/${this.actividad.id}/${this.selectedFile.name}`;
+      const filePath = `actividades/${this.activity.id}/${this.selectedFile.name}`;
       const fileRef = this.storage.ref(filePath);
       this.storage.upload(filePath, this.selectedFile).snapshotChanges().pipe(
         finalize(() => {

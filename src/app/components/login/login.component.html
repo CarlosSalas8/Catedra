@@ -9,7 +9,7 @@
         <div class="relative top-20">
           <h2 class="text-xl mb-4 text-center font-bold">Inicia sesión para continuar al Sistema de Gestión del Proyecto
             Ayudante de Cátedra</h2>
-          <p class="text-gray-600 mb-6 font-semibold text-center md:text-left">PERIODO {{ activePeriod?.nombre || 'PERÍODO' }}</p>
+          <p class="text-gray-600 mb-6 font-semibold text-center md:text-left">PERIODO {{ activePeriod?.name || 'PERÍODO' }}</p>
 
 
           <!-- Indicador de carga -->
@@ -21,12 +21,12 @@
 
           <form [formGroup]="loginForm" class="flex flex-col items-center">
             <div class="mb-4 w-full flex justify-center">
-              <button class="w-full bg-customBlue text-white py-3 rounded-lg" (click)="loginWithGoogle()" [disabled]="loading">
+              <button class="w-full bg-customBlue hover:bg-customBlueHover text-white py-3 rounded-lg" (click)="loginWithGoogle()" [disabled]="loading">
                 Iniciar Sesión con Google
               </button>
             </div>
             <div class="mb-4 w-full flex justify-center">
-              <button class="w-full bg-customBlue text-white py-3 rounded-lg" (click)="loginWithMicrosoft()" [disabled]="loading">
+              <button class="w-full bg-customBlue hover:bg-customBlueHover text-white py-3 rounded-lg" (click)="loginWithMicrosoft()" [disabled]="loading">
                 Iniciar Sesión con Microsoft
               </button>
             </div>

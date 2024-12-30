@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="h-screen overflow-hidden">
+<body>
   <nav class="fixed top-0 z-50 w-full bg-customOrange">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
@@ -20,7 +20,7 @@
                 <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
                   aria-current="page">AYUDANTE DE CÁTEDRA</a>
                 <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{
-                  activePeriod?.nombre || 'PERÍODO' }}</span>
+                  activePeriod?.name || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#"
@@ -116,48 +116,44 @@
   <div class="p-6 sm:ml-24">
     <div class="p-6 mt-16">
       <div class="flex flex-col items-center justify-center h-full w-full">
-        <div class="container mx-auto bg-white flex flex-col justify-center">
-          <h1 class="text-black text-center font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl">
+        <div class="container mx-auto bg-white shadow-lg rounded-lg flex flex-col justify-center p-8">
+          <h1 class="text-gray-800 text-center font-bold text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl">
             PLAZAS <br> Ayudante de Cátedra
           </h1>
-          <div
-            class="mt-24 p-6 sm:ml-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-12 auto-rows-fr">
+          <div class="mt-16 p-6 sm:ml-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
             <div *ngFor="let plaza of plazas$ | async; let i = index" class="mb-10 w-full">
               <div
-                class="bg-customOrange shadow-lg text-black p-5 mb-8 h-80 flex flex-col justify-between w-full rounded-3xl border border-gray-300 transition-transform transform hover:scale-105">
-                <h2 class="text-center font-bold text-xl mb-4">PLAZA {{ i + 1 }}</h2>
-                <div class="text-lg leading-relaxed rounded">
-                  <p class="flex"><strong class="text-black mr-2">DIRECTOR:</strong> <span class="text-black">{{
-                      plaza.directorNombre }}</span></p>
-                  <p class="flex"><strong class="text-black mr-2">ASIGNATURA:</strong> <span class="text-black">{{
-                      plaza.asignatura }}</span></p>
-                  <p class="flex"><strong class="text-black mr-2">PARALELO:</strong> <span class="text-black">{{
-                      plaza.paralelo }}</span></p>
-                  <p class="flex"><strong class="text-black mr-2">MALLA CURRICULAR:</strong> <span class="text-black">{{
-                      plaza.malla }}</span></p>
-                  <p class="flex"><strong class="text-black mr-2">CICLO REQUERIDO:</strong> <span class="text-black">{{
-                      plaza.ciclo }}</span></p>
-                  <p class="flex"><strong class="text-black mr-2">DOCENTE:</strong> <span class="text-black">{{
-                      plaza.docente }}</span></p>
-                  <div class="flex justify-center p-1">
-                    <button (click)="toggleModal(plaza) "
-                      class="bg-customBlue text-white py-2 px-5 rounded-lg hover:bg-customBlueHover font-bold text-base">Postular</button>
-                  </div>
+                class="bg-gray-100 shadow-md text-gray-700 p-6 h-80 flex flex-col justify-between w-full rounded-2xl transition-transform transform hover:scale-105">
+                <h2 class="text-center font-bold text-2xl mb-4 text-gray-800">PLAZA {{ i + 1 }}</h2>
+                <div class="text-sm leading-relaxed">
+                  <p class="flex"><strong class="text-gray-800 mr-2">DIRECTOR:</strong> <span>{{ plaza.directorsName }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">ASIGNATURA:</strong> <span>{{ plaza.subject }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">PARALELO:</strong> <span>{{ plaza.parallel }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">MALLA CURRICULAR:</strong> <span>{{ plaza.curriculum }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">CICLO REQUERIDO:</strong> <span>{{ plaza.academicCycle }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">DOCENTE:</strong> <span>{{ plaza.nameTeacher }}</span></p>
+                </div>
+                <div class="flex justify-center p-1">
+                  <button (click)="toggleModal(plaza)"
+                    class="bg-customBlue text-white py-2 px-6 rounded-md hover:bg-customBlueHover font-medium text-base">
+                    Postular
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-          <br>
         </div>
       </div>
     </div>
   </div>
+  
+
 
   <div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white p-8 rounded-3xl shadow-lg max-w-md mx-auto">
       <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">¿Estás seguro de postular?</h2>
       <p class="text-center text-sm text-gray-700 mb-6">
-        <span class="font-bold">ESTUDIANTE:</span> CARLOS SALAS
+        <span class="font-bold">ESTUDIANTE:</span> {{ userName }}
       </p>
       <form [formGroup]="form" (ngSubmit)="onSubmit(selectedPlaza?.id)">
         <div class="mb-4">
@@ -166,9 +162,9 @@
             class="w-full p-3 border rounded-lg text-gray-700 focus:outline-none" />
         </div>
         <div class="mb-6">
-          <label for="ciclo" class="block text-sm text-center text-gray-700 font-medium mb-2">¡Selecciona el
+          <label for="academicCycle" class="block text-sm text-center text-gray-700 font-medium mb-2">¡Selecciona el
             ciclo!</label>
-          <select formControlName="ciclo" class="w-full p-3 border rounded-lg text-gray-700 focus:outline-none">
+          <select formControlName="academicCycle" class="w-full p-3 border rounded-lg text-gray-700 focus:outline-none">
             <option value="" disabled selected>Selecciona una opción</option>
             <option value="Ciclo1">Ciclo 1</option>
             <option value="Ciclo2">Ciclo 2</option>
@@ -179,9 +175,23 @@
             class="bg-gray-300 text-customBlue py-3 px-8 rounded-lg">Cancelar</button>
           <button type="submit" class="bg-customBlue text-white py-3 px-11 rounded-lg">Enviar</button>
         </div>
+
       </form>
     </div>
   </div>
+
+  <div *ngIf="showAlert" class="fixed top-20 right-4 z-50 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-lg">
+    <strong class="font-bold">Éxito:</strong>
+    <span class="block sm:inline"> La postulación se guardó correctamente.</span>
+  </div>
+
+  <div *ngIf="showError" class="fixed top-20 right-4 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg">
+    <strong class="font-bold">Error:</strong>
+    <span class="block sm:inline"> Hubo un problema al guardar la postulación. Inténtalo nuevamente.</span>
+</div>
+
+  
+
 
 
 

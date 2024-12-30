@@ -21,25 +21,34 @@ export class PlazasComponent implements OnInit {
   isModalOpen: boolean = false;
   selectedPlaza: any | null = null;
   usuarioLogueado: any | null = null;
+  userName: string = '';
+  showAlert: boolean = false;
+  showError: boolean = false;
 
 
 
   constructor(public periodoService: PeriodoService, private firestore: AngularFirestore, private authService: AuthService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    // Obtener la asignatura seleccionada por el usuario desde la colección 'usuarios'
-    this.authService.getCurrentUser2().subscribe(user => {
+    // Obtener la subject seleccionada por el usuario desde la colección 'users'
+    this.authService.getCurrentUser().subscribe(user => {
       if (user) {
-        this.firestore.collection('usuarios').doc(user.uid).get().subscribe(doc => {
-          this.carreraUsuario = doc.get('asignatura');
+        this.firestore.collection('users').doc(user.uid).get().subscribe(doc => {
+          this.carreraUsuario = doc.get('subject');
           this.filtrarPlazas();
         });
       }
     });
 
+    this.authService.getCurrentUser().subscribe(user => {
+      if (user) {
+        this.userName = user.displayName || 'Nombre no disponible'; // Asumiendo que el nombre está en displayName
+      }
+    });
+
     // Suscribirse al período activo
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
 
     this.authService.getCurrentUser4().subscribe((usuario) => {
@@ -48,18 +57,26 @@ export class PlazasComponent implements OnInit {
 
     this.form = this.fb.group({
       phone: ['', Validators.required],
-      ciclo: ['', Validators.required],
+      academicCycle: ['', Validators.required],
     });
 
     this.setupMobileMenuToggle();
+
+    
   }
 
   filtrarPlazas() {
-    // Filtrar las plazas según la carrera seleccionada por el usuario
-    this.plazas$ = this.firestore.collection('plazas', ref =>
-      ref.where('asignatura', '==', this.carreraUsuario)
-    ).valueChanges();
+    if (this.activePeriod) {
+      // Filtrar las plazas que coincidan con el período activo
+      this.plazas$ = this.firestore.collection('plazas', ref =>
+        ref.where('periodID', '==', this.activePeriod.id)
+          .where('subject', '==', this.carreraUsuario) // Filtra también por la carrera del usuario, si es necesario
+      ).valueChanges();
+    }
   }
+  
+  
+  
 
   toggleModal(plaza?: any): void {
     this.isModalOpen = !this.isModalOpen;
@@ -70,16 +87,16 @@ export class PlazasComponent implements OnInit {
   }
 
 
-  onSubmit(plazaId: string): void {
+  onSubmit(plazaID: string): void {
     if (this.form.valid) {
-      this.guardarDatos(plazaId);
+      this.guardarDatos(plazaID);
       this.toggleModal(); // Cierra el modal tras guardar
     } else {
       console.log('Formulario no válido');
     }
   }
 
-  guardarDatos(plazaId: string): void {
+  guardarDatos(plazaID: string): void {
     if (this.form.valid) {
       const formData = this.form.value;
   
@@ -90,14 +107,14 @@ export class PlazasComponent implements OnInit {
       const postulacion = {
         id: postId,
         ...formData,
-        periodoId: this.activePeriod ? this.activePeriod.id : null,
-        plazaId: plazaId,
+        periodID: this.activePeriod ? this.activePeriod.id : null,
+        plazaID: plazaID,
       };
   
       // Recuperar información completa del usuario
       this.firestore
-        .collection('usuarios')
-        .doc(this.usuarioLogueado?.usuarioId)
+        .collection('users')
+        .doc(this.usuarioLogueado?.userID)
         .get()
         .subscribe((userDoc) => {
           const usuarioInfo = userDoc.data();
@@ -108,20 +125,24 @@ export class PlazasComponent implements OnInit {
               usuario: usuarioInfo, // Adjuntar información completa del usuario
             };
   
-            // Guardar la postulación en la colección 'postulantes'
+            // Guardar la postulación en la colección 'postulant'
             this.firestore
-              .collection('postulantes')
+              .collection('postulant')
               .doc(postId)
               .set(postulanteData)
               .then(() => {
                 console.log('Postulación guardada exitosamente:', postulanteData);
   
-                // Actualizar el array de postulantes en la plaza
-                this.actualizarPostulantesPlaza(plazaId, postulanteData);
+                // Actualizar el array de postulant en la plaza
+                this.actualizarPostulantesPlaza(plazaID, postulanteData);
+                
                 this.form.reset(); // Limpia el formulario
+                this.mostrarAlerta('success');
+                
               })
               .catch((error) => {
                 console.error('Error al guardar la postulación:', error);
+                this.mostrarAlerta('error');
               });
           } else {
             console.error('Error: Información del usuario no encontrada');
@@ -131,20 +152,36 @@ export class PlazasComponent implements OnInit {
   }
   
 
-  actualizarPostulantesPlaza(plazaId: string, postulanteData: any): void {
-    const plazaRef = this.firestore.collection('plazas').doc(plazaId);
+  actualizarPostulantesPlaza(plazaID: string, postulanteData: any): void {
+    const plazaRef = this.firestore.collection('plazas').doc(plazaID);
 
     plazaRef
       .update({
-        postulantes: arrayUnion(postulanteData), // Añadir el objeto completo
+        postulant: arrayUnion(postulanteData), // Añadir el objeto completo
       })
       .then(() => {
-        console.log(`Información de postulación añadida a la plaza ${plazaId}`);
+        console.log(`Información de postulación añadida a la plaza ${plazaID}`);
       })
       .catch((error) => {
         console.error('Error al actualizar la plaza:', error);
       });
   }
+
+  mostrarAlerta(tipo: 'success' | 'error'): void {
+    if (tipo === 'success') {
+      this.showAlert = true;
+      this.showError = false;
+    } else if (tipo === 'error') {
+      this.showError = true;
+      this.showAlert = false;
+    }
+  
+    setTimeout(() => {
+      this.showAlert = false;
+      this.showError = false; // Oculta ambas alertas después de 4 segundos
+    }, 4000);
+  }
+  
 
 
   setupMobileMenuToggle(): void {

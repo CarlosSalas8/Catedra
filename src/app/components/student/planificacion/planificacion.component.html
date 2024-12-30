@@ -17,7 +17,7 @@
             <div class="hidden sm:ml-6 sm:block">
               <div class="flex space-x-4 ml-4">
                 <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold" aria-current="page">AYUDANTE DE CÁTEDRA</a>
-                <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.nombre || 'PERÍODO' }}</span>
+                <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.name || 'PERÍODO' }}</span>
               </div>
               <div class="absolute inset-y-0 right-0 flex items-center">
                 <a href="#" class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold" aria-current="page" [routerLink]="'/logout'">CERRAR SESIÓN</a>
@@ -138,7 +138,7 @@
             <label for="small-input2" class="text-sm font-bold text-gray-900 dark:text-gray-900 ">Nombres y apellido
               del
               docente</label>
-            <input type="text" formControlName="docente" id="docente"
+            <input type="text" formControlName="nameTeacher" id="nameTeacher"
               class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
           </div>
 
@@ -146,27 +146,27 @@
             <label for="small-input2" class="text-sm font-bold text-gray-900 dark:text-gray-900">Nombres y apellido
               del
               ayudante de cátedra</label>
-            <input type="text" formControlName="ayudante" id="ayudante"
+            <input type="text" formControlName="assistant" id="assistant"
               class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
           </div>
           <div class="mb-4 flex justify-between items-center">
             <label for="small-input3" class="text-sm font-bold text-gray-900 dark:text-gray-900">Facultad</label>
-            <input type="text" formControlName="facultad" id="facultad"
+            <input type="text" formControlName="faculty" id="faculty"
               class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
           </div>
           <div class="mb-4 flex justify-between items-center">
             <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Carrera</label>
-            <input type="text" formControlName="carrera" id="carrera"
+            <input type="text" formControlName="career" id="career"
               class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
           </div>
           <div class="mb-4 flex justify-between items-center">
             <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Asignatura</label>
-            <input type="text" formControlName="asignatura" id="asignatura"
+            <input type="text" formControlName="subject" id="subject"
               class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
           </div>
           <div class="mb-4 flex justify-between items-center">
             <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Modalidad</label>
-            <input type="text" formControlName="modalidad" id="modalidad"
+            <input type="text" formControlName="modality" id="modality"
               class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
           </div>
         </div>
@@ -174,30 +174,30 @@
 
         <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
           <p class="mb-5 font-bold">Act. Primer Bimestre </p>
-          <div formArrayName="items">
-            <div *ngFor="let item of items.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
+          <div formArrayName="activities">
+            <div *ngFor="let item of activities.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
               <div class="items-center justify-center h-24 rounded">
-                <label for="actividad{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a
+                <label for="activity{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a
                   realizar</label>
-                <input type="text" [formControl]="getActividadControl(i)" [id]="'actividad' + i"
+                <input type="text" [formControl]="getactivityControl(i)" [id]="'activity' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="fechainicio{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
+                <label for="startdate{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
                   inicio</label><br>
-                <input type="text" [formControl]="getFechaInicioControl(i)" [id]="'fechainicio' + i"
+                <input type="text" [formControl]="getstartdateControl(i)" [id]="'startdate' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="fechaFin{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
+                <label for="enddate{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
                   fin</label><br>
-                <input type="text" [formControl]="getFechaFinControl(i)" [id]="'fechaFin' + i"
+                <input type="text" [formControl]="getenddateControl(i)" [id]="'enddate' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="medioVerificacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio
+                <label for="verificationmethod{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio
                   de verificación</label>
-                <input type="text" [formControl]="getMedioVerificacionControl(i)" [id]="'medioVerificacion' + i"
+                <input type="text" [formControl]="getverificationmethodControl(i)" [id]="'verificationmethod' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
             </div>
@@ -212,7 +212,7 @@
               (click)="addItems()">Agregar actividad</button>
             <button type="button"
               class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2"
-              *ngIf="items.length > 0" (click)="removeItems(items.length - 1)">Eliminar última
+              *ngIf="activities.length > 0" (click)="removeItems(activities.length - 1)">Eliminar última
               actividad</button>
           </div>
         </div>
@@ -224,30 +224,30 @@
         <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
           <p class="mb-5 font-bold">Act. Segundo Bimestre </p>
           <div formArrayName="itemsSegundo">
-            <div *ngFor="let item of itemsSegundo.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
+            <div *ngFor="let item of activitiesSegundo.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
               <div class="items-center justify-center h-24 rounded ">
-                <label for="actividadSegundo{{i}}"
+                <label for="activitySegundo{{i}}"
                   class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a realizar</label>
-                <input type="text" [formControl]="getActividadSegundoControl(i)" [id]="'actividadSegundo' + i"
+                <input type="text" [formControl]="getactivitySegundoControl(i)" [id]="'activitySegundo' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="fechainicioSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
+                <label for="startdateSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
                   de inicio</label><br>
-                <input type="text" [formControl]="getFechaInicioSegundoControl(i)" [id]="'fechainicioSegundo' + i"
+                <input type="text" [formControl]="getstartdateSegundoControl(i)" [id]="'startdateSegundo' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="fechafinSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
+                <label for="enddateSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
                   fin</label><br>
-                <input type="text" [formControl]="getFechaFinSegundoControl(i)" [id]="'fechafinSegundo' + i"
+                <input type="text" [formControl]="getenddateSegundoControl(i)" [id]="'enddateSegundo' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="medioVerificacionSegundo{{i}}"
+                <label for="verificationmethodSegundo{{i}}"
                   class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio de verificación</label>
-                <input type="text" [formControl]="getMedioVerificacionSegundoControl(i)"
-                  [id]="'medioVerificacionSegundo' + i"
+                <input type="text" [formControl]="getverificationmethodSegundoControl(i)"
+                  [id]="'verificationmethodSegundo' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
             </div>
@@ -258,7 +258,7 @@
               (click)="addItemsSegundo()">Agregar actividad</button>
             <button type="button"
               class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2"
-              *ngIf="itemsSegundo.length > 0" (click)="removeItemsSegundo(itemsSegundo.length - 1)">Eliminar última
+              *ngIf="activitiesSegundo.length > 0" (click)="removeItemsSegundo(activitiesSegundo.length - 1)">Eliminar última
               actividad</button>
           </div>
         </div>
@@ -266,33 +266,33 @@
         <div class="p-4 border-2 mt-5 mb-6 rounded-lg">
           <p class="mb-5 font-bold">Act. Periodo de Recuperación </p>
           <div formArrayName="itemsRecuperacion">
-            <div *ngFor="let item of itemsRecuperacion.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
+            <div *ngFor="let item of activitiesRecuperacion.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
               <div class="items-center justify-center h-24 rounded ">
-                <label for="actividadRecuperacion{{i}}"
+                <label for="activityRecuperacion{{i}}"
                   class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a realizar</label>
-                <input type="text" [formControl]="getActividadRecuperacionControl(i)" [id]="'actividadRecuperacion' + i"
+                <input type="text" [formControl]="getactivityRecuperacionControl(i)" [id]="'activityRecuperacion' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="fechainicioRecuperacion{{i}}"
+                <label for="startdateRecuperacion{{i}}"
                   class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
                   de inicio</label><br>
-                <input type="text" [formControl]="getFechaInicioRecuperacionControl(i)"
-                  [id]="'fechainicioRecuperacion' + i"
+                <input type="text" [formControl]="getstartdateRecuperacionControl(i)"
+                  [id]="'startdateRecuperacion' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="fechafinRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
+                <label for="enddateRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
                   de
                   fin</label><br>
-                <input type="text" [formControl]="getFechaFinRecuperacionControl(i)" [id]="'fechafinRecuperacion' + i"
+                <input type="text" [formControl]="getenddateRecuperacionControl(i)" [id]="'enddateRecuperacion' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="medioVerificacionRecuperacion{{i}}"
+                <label for="verificationmethodRecuperacion{{i}}"
                   class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio de verificación</label>
-                <input type="text" [formControl]="getMedioVerificacionRecuperacionControl(i)"
-                  [id]="'medioVerificacionRecuperacion' + i"
+                <input type="text" [formControl]="getverificationmethodRecuperacionControl(i)"
+                  [id]="'verificationmethodRecuperacion' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
             </div>
@@ -303,8 +303,8 @@
               (click)="addItemsRecuperacion()">Agregar actividad</button>
             <button type="button"
               class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2"
-              *ngIf="itemsRecuperacion.length > 0"
-              (click)="removeItemsRecuperacion(itemsRecuperacion.length - 1)">Eliminar última
+              *ngIf="activitiesRecuperacion.length > 0"
+              (click)="removeItemsRecuperacion(activitiesRecuperacion.length - 1)">Eliminar última
               actividad</button>
           </div>
         </div>

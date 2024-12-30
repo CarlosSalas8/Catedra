@@ -23,8 +23,8 @@ export class VistaComponent implements OnInit{
     this.actividadesPrimerBimestre = this.periodoService.getActivitiesByActivePeriod('primer_bimestre');
     this.actividadesSegundoBimestre = this.periodoService.getActivitiesByActivePeriod('segundo_bimestre');
     this.actividadesRecuperacion = this.periodoService.getActivitiesByActivePeriod('recuperacion');
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
     this.setupMobileMenuToggle();
   }

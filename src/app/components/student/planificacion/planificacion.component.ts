@@ -22,23 +22,23 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, private firestore: AngularFirestore, private router: Router, public periodoService: PeriodoService) {
     this.form = this.fb.group({
-      docente: ['', Validators.required],
-      ayudante: ['', Validators.required],
-      facultad: ['', Validators.required],
-      carrera: ['', Validators.required],
-      asignatura: ['', Validators.required],
-      modalidad: ['', Validators.required],
-      items: this.fb.array([]), // Primer bimestre
-      itemsSegundo: this.fb.array([]), // Segundo bimestre
-      itemsRecuperacion: this.fb.array([]),  // Recuperación
+      nameTeacher: ['', Validators.required],
+      assistant: ['', Validators.required],
+      faculty: ['', Validators.required],
+      career: ['', Validators.required],
+      subject: ['', Validators.required],
+      modality: ['', Validators.required],
+      activities: this.fb.array([]), // Primer bimestre
+      activitiesSegundo: this.fb.array([]), // Segundo bimestre
+      activitiesRecuperacion: this.fb.array([]),  // Recuperación
       
     });
     console.log('Formulario inicializado:', this.form); // Para validar que el formulario está correctamente creado
   }
 
   ngOnInit(): void {
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
       console.log('Periodo activo recibido:', this.activePeriod);
     });
     this.setupMobileMenuToggle();
@@ -69,48 +69,48 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
     }
   }
 
-  get items(): FormArray {
-    return this.form.get('items') as FormArray;
+  get activities(): FormArray {
+    return this.form.get('activities') as FormArray;
   }
 
-  get itemsSegundo(): FormArray {
-    return this.form.get('itemsSegundo') as FormArray;
+  get activitiesSegundo(): FormArray {
+    return this.form.get('activitiesSegundo') as FormArray;
   }
 
-  get itemsRecuperacion(): FormArray {
-    return this.form.get('itemsRecuperacion') as FormArray;
+  get activitiesRecuperacion(): FormArray {
+    return this.form.get('activitiesRecuperacion') as FormArray;
   }
 
   removeItems(index: number): void {
-    this.items.removeAt(index);
+    this.activities.removeAt(index);
   }
 
   removeItemsSegundo(index: number): void {
-    this.itemsSegundo.removeAt(index);
+    this.activitiesSegundo.removeAt(index);
   }
 
   removeItemsRecuperacion(index: number): void {
-    this.itemsRecuperacion.removeAt(index);
+    this.activitiesRecuperacion.removeAt(index);
   }
 
   addItems(): void {
-    this.items.push(this.createItem());
+    this.activities.push(this.createItem());
   }
 
   addItemsSegundo(): void {
-    this.itemsSegundo.push(this.createItem());
+    this.activitiesSegundo.push(this.createItem());
   }
 
   addItemsRecuperacion(): void {
-    this.itemsRecuperacion.push(this.createItem());
+    this.activitiesRecuperacion.push(this.createItem());
   }
 
   createItem(): FormGroup {
     return this.fb.group({
-      actividad: ['', Validators.required],
-      fechaInicio: ['', Validators.required],
-      fechaFin: ['', Validators.required],
-      medioVerificacion: ['', Validators.required]
+      activity: ['', Validators.required],
+      startdate: ['', Validators.required],
+      enddate: ['', Validators.required],
+      verificationmethod: ['', Validators.required]
     });
   }
 
@@ -127,12 +127,12 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       const formData = this.form.value;
 
       const generalData = {
-        docente: formData.docente,
-        ayudante: formData.ayudante,
-        facultad: formData.facultad,
-        carrera: formData.carrera,
-        asignatura: formData.asignatura,
-        modalidad: formData.modalidad
+        nameTeacher: formData.nameTeacher,
+        assistant: formData.assistant,
+        faculty: formData.faculty,
+        career: formData.career,
+        subject: formData.subject,
+        modality: formData.modality
       };
 
       console.log('Datos generales a guardar:', generalData);
@@ -141,9 +141,9 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
 
       // Guardar actividades en Firebase
       try {
-        this.periodoService.saveActivities(batch, generalData, formData.items, 'primer_bimestre', this.activePeriod.id);
-        this.periodoService.saveActivities(batch, generalData, formData.itemsSegundo, 'segundo_bimestre', this.activePeriod.id);
-        this.periodoService.saveActivities(batch, generalData, formData.itemsRecuperacion, 'recuperacion', this.activePeriod.id);
+        this.periodoService.saveActivities(batch, generalData, formData.activities, 'primer_bimestre', this.activePeriod.id);
+        this.periodoService.saveActivities(batch, generalData, formData.activitiesSegundo, 'segundo_bimestre', this.activePeriod.id);
+        this.periodoService.saveActivities(batch, generalData, formData.activitiesRecuperacion, 'recuperacion', this.activePeriod.id);
 
         batch.commit()
           .then(() => {
@@ -160,60 +160,60 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
         console.error('Error inesperado durante el guardado:', e);
       }
     } else {
-      console.warn('Formulario inválido o no hay periodo activo');
+      console.warn('Formulario inválido o no hay period activo');
       alert('Por favor, completa todos los campos del formulario y asegúrate de que hay un periodo activo.');
     }
   }
 
 
   // Métodos para obtener los controles específicos del Primer Bimestre
-  getActividadControl(index: number): FormControl {
-    return this.items.at(index).get('actividad') as FormControl;
+  getactivityControl(index: number): FormControl {
+    return this.activities.at(index).get('activity') as FormControl;
   }
 
-  getFechaInicioControl(index: number): FormControl {
-    return this.items.at(index).get('fechaInicio') as FormControl;
+  getstartdateControl(index: number): FormControl {
+    return this.activities.at(index).get('startdate') as FormControl;
   }
 
-  getFechaFinControl(index: number): FormControl {
-    return this.items.at(index).get('fechaFin') as FormControl;
+  getenddateControl(index: number): FormControl {
+    return this.activities.at(index).get('enddate') as FormControl;
   }
 
-  getMedioVerificacionControl(index: number): FormControl {
-    return this.items.at(index).get('medioVerificacion') as FormControl;
+  getverificationmethodControl(index: number): FormControl {
+    return this.activities.at(index).get('verificationmethod') as FormControl;
   }
 
   // Métodos para obtener los controles específicos del Segundo Bimestre
-  getActividadSegundoControl(index: number): FormControl {
-    return this.itemsSegundo.at(index).get('actividad') as FormControl;
+  getactivitySegundoControl(index: number): FormControl {
+    return this.activitiesSegundo.at(index).get('activity') as FormControl;
   }
 
-  getFechaInicioSegundoControl(index: number): FormControl {
-    return this.itemsSegundo.at(index).get('fechaInicio') as FormControl;
+  getstartdateSegundoControl(index: number): FormControl {
+    return this.activitiesSegundo.at(index).get('startdate') as FormControl;
   }
 
-  getFechaFinSegundoControl(index: number): FormControl {
-    return this.itemsSegundo.at(index).get('fechaFin') as FormControl;
+  getenddateSegundoControl(index: number): FormControl {
+    return this.activitiesSegundo.at(index).get('enddate') as FormControl;
   }
 
-  getMedioVerificacionSegundoControl(index: number): FormControl {
-    return this.itemsSegundo.at(index).get('medioVerificacion') as FormControl;
+  getverificationmethodSegundoControl(index: number): FormControl {
+    return this.activitiesSegundo.at(index).get('verificationmethod') as FormControl;
   }
 
   // Métodos para obtener los controles específicos de la Recuperación
-  getActividadRecuperacionControl(index: number): FormControl {
-    return this.itemsRecuperacion.at(index).get('actividad') as FormControl;
+  getactivityRecuperacionControl(index: number): FormControl {
+    return this.activitiesRecuperacion.at(index).get('activity') as FormControl;
   }
 
-  getFechaInicioRecuperacionControl(index: number): FormControl {
-    return this.itemsRecuperacion.at(index).get('fechaInicio') as FormControl;
+  getstartdateRecuperacionControl(index: number): FormControl {
+    return this.activitiesRecuperacion.at(index).get('startdate') as FormControl;
   }
 
-  getFechaFinRecuperacionControl(index: number): FormControl {
-    return this.itemsRecuperacion.at(index).get('fechaFin') as FormControl;
+  getenddateRecuperacionControl(index: number): FormControl {
+    return this.activitiesRecuperacion.at(index).get('enddate') as FormControl;
   }
 
-  getMedioVerificacionRecuperacionControl(index: number): FormControl {
-    return this.itemsRecuperacion.at(index).get('medioVerificacion') as FormControl;
+  getverificationmethodRecuperacionControl(index: number): FormControl {
+    return this.activitiesRecuperacion.at(index).get('verificationmethod') as FormControl;
   }
 }

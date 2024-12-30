@@ -10,33 +10,33 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 })
 export class ActividadesDocentesComponent {
   activePeriod: any | null = null;
-  actividad: any;
-  actividades: any[] = [];
+  activity: any;
+  activitys: any[] = [];
   directorId: string | null = null;
 
   constructor(public periodoService: PeriodoService,private firestore: AngularFirestore,private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.directorId = params.get('id'); // Obtener el id del docente de los parámetros de la ruta
+      this.directorId = params.get('id'); // Obtener el id del teacher de los parámetros de la ruta
       if (this.directorId) {
-        this.firestore.collection('directores').doc(this.directorId).valueChanges().subscribe(docenteData => {
-          this.actividad = docenteData;
-          if (this.actividad) {
-            this.cargarActividades(this.actividad.nombre);
+        this.firestore.collection('directors').doc(this.directorId).valueChanges().subscribe(teacherData => {
+          this.activity = teacherData;
+          if (this.activity) {
+            this.cargarActividades(this.activity.name);
           }
         });
       }
     });
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
     this.setupMobileMenuToggle();
   }
 
-  cargarActividades(docenteNombre: string): void {
-    this.firestore.collection('items', ref => ref.where('docente', '==', docenteNombre)).valueChanges().subscribe(data => {
-      this.actividades = data;
+  cargarActividades(teacherName: string): void {
+    this.firestore.collection('activities', ref => ref.where('nameTeacher', '==', teacherName)).valueChanges().subscribe(data => {
+      this.activitys = data;
     });
   }
 

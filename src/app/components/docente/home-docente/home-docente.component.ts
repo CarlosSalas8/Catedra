@@ -17,8 +17,8 @@ export class HomeDocenteComponent implements OnInit {
   constructor(public periodoService: PeriodoService) {}
   
   ngOnInit(): void {
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
     this.setupMobileMenuToggle();
   }

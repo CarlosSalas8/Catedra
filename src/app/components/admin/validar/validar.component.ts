@@ -10,10 +10,10 @@ import { PeriodoService } from 'src/app/services/periodo.service';
   styleUrls: ['./validar.component.css']
 })
 export class ValidarComponent implements OnInit {
-  actividad: any;
+  activity: any;
   activePeriod: any | null = null;
-  docente: any;
-  docenteId: string | null = null;
+  teacher: any;
+  teacherId: string | null = null;
 
   constructor(public periodoService: PeriodoService,private firestore: AngularFirestore, private route: ActivatedRoute) {}
 
@@ -21,22 +21,22 @@ export class ValidarComponent implements OnInit {
     
     const actividadId = this.route.snapshot.paramMap.get('actividadId');
     if (actividadId) {
-      this.firestore.collection('items').doc(actividadId).valueChanges().subscribe(actividadData => {
-        this.actividad = actividadData;
+      this.firestore.collection('activities').doc(actividadId).valueChanges().subscribe(actividadData => {
+        this.activity = actividadData;
       });
     }
 
     this.route.paramMap.subscribe(params => {
-      this.docenteId = params.get('id'); // Obtener el id del docente de los parámetros de la ruta
-      if (this.docenteId) {
-        this.firestore.collection('directores').doc(this.docenteId).valueChanges().subscribe(docenteData => {
-          this.docente = docenteData;
+      this.teacherId = params.get('id'); // Obtener el id del teacher de los parámetros de la ruta
+      if (this.teacherId) {
+        this.firestore.collection('directors').doc(this.teacherId).valueChanges().subscribe(teacherData => {
+          this.teacher = teacherData;
         });
       }
     });
 
-    this.periodoService.activePeriod$.subscribe(periodo => {
-      this.activePeriod = periodo;
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
     });
 
     this.setupMobileMenuToggle();

@@ -14,9 +14,9 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 export class PostulantesComponent implements OnInit {
 
   activePeriod: any | null = null;
-  postulantes: any[] = [];
+  postulant: any[] = [];
   plaza: any | null = null;
-  plazaId: string | null = null; // ID de la plaza seleccionada
+  plazaID: string | null = null; // ID de la plaza seleccionada
 
   constructor(
     private firestore: AngularFirestore,
@@ -28,19 +28,19 @@ export class PostulantesComponent implements OnInit {
   ngOnInit(): void {
 
     // Capturar el ID de la plaza desde la ruta
-    this.plazaId = this.route.snapshot.paramMap.get('id');
+    this.plazaID = this.route.snapshot.paramMap.get('id');
 
-    if (this.plazaId) {
+    if (this.plazaID) {
       // Obtener los datos de las plazas y filtrar por el ID de la plaza
       this.authService.getPlazas().subscribe((plazas) => {
-        this.plaza = plazas.find((plaza: any) => plaza.id === this.plazaId);
-        this.postulantes = this.plaza ? this.plaza.postulantes : [];
+        this.plaza = plazas.find((plaza: any) => plaza.id === this.plazaID);
+        this.postulant = this.plaza ? this.plaza.postulant : [];
       });
     }
 
-    // Suscribirse al período activo
-    this.periodoService.activePeriod$.subscribe((periodo) => {
-      this.activePeriod = periodo;
+    // Suscribirse al período status 
+    this.periodoService.activePeriod$.subscribe((period) => {
+      this.activePeriod = period;
     });
   }
 
