@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { PeriodoService } from 'src/app/services/periodo.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
@@ -11,20 +11,48 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 export class SeguimientoDocenteComponent implements OnInit {
 
   activePeriod: any | null = null;
-  
+
   plazas$: Observable<any[]> | undefined;
 
+  
   constructor(public periodoService: PeriodoService, private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
 
-    this.plazas$ = this.firestore.collection('plazas').valueChanges();
+    // Obtiene plazas y asocia el ID de teacher por nombre
+    this.plazas$ = this.firestore.collection('plazas').valueChanges().pipe(
+      map((plazas: any[]) =>
+        plazas.map(plaza => ({
+          ...plaza,
+          teacherId$: this.firestore.collection('teachers', ref =>
+            ref.where('name', '==', plaza.nameTeacher)
+          ).valueChanges().pipe(
+            map((teachers: any[]) => teachers.length ? teachers[0].id : null) // Toma el ID del docente
+          )
+        }))
+      )
+    );
+  
+
+
+
+
+
+
 
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
     });
     this.setupMobileMenuToggle();
   }
+
+
+
+
+
+
+
+  
 
   setupMobileMenuToggle(): void {
     const menuButton = document.getElementById('mobile-menu-button');

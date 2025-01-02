@@ -12,15 +12,15 @@ export class ActividadesDocentesComponent {
   activePeriod: any | null = null;
   activity: any;
   activitys: any[] = [];
-  directorId: string | null = null;
+  teacherId: string | null = null;
 
   constructor(public periodoService: PeriodoService,private firestore: AngularFirestore,private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.directorId = params.get('id'); // Obtener el id del teacher de los parámetros de la ruta
-      if (this.directorId) {
-        this.firestore.collection('directors').doc(this.directorId).valueChanges().subscribe(teacherData => {
+      this.teacherId = params.get('id'); // Obtener el id del teacher de los parámetros de la ruta
+      if (this.teacherId) {
+        this.firestore.collection('teachers').doc(this.teacherId).valueChanges().subscribe(teacherData => {
           this.activity = teacherData;
           if (this.activity) {
             this.cargarActividades(this.activity.name);

@@ -124,7 +124,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let plaza of plazas$ | async" class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100 ">
+            <tr *ngFor="let plaza of plazas$ | async" class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100">
               <td class="px-6 py-4">{{ plaza.nameTeacher }}</td>
               <td class="px-6 py-4">{{ plaza.subject }}</td>
               <td class="px-6 py-4">{{ plaza.curriculum }}</td>
@@ -132,10 +132,14 @@
               <td class="px-6 py-4">{{ plaza.parallel }}</td>           
               <td class="px-6 py-4"><a href="#" class="text-customBlueHover hover:underline">VER</a></td>
               <td class="px-6 py-4">
-                <a [routerLink]="['/actividades-docentes', plaza.id]"  class="text-customBlueHover hover:underline">Ver planificación</a>
+                <ng-container *ngIf="(plaza.teacherId$ | async) as teacherId">
+                  <a [routerLink]="['/actividades-docentes', teacherId]" class="text-customBlueHover hover:underline">Ver planificación</a>
+                </ng-container>
+                <span *ngIf="!(plaza.teacherId$ | async)" class="text-gray-500">Docente no encontrado</span>
               </td>
             </tr>
           </tbody>
+          
         </table>
       </div>
     </div>
