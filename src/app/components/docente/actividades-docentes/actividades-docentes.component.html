@@ -74,7 +74,7 @@
     <div class="h-full px-2 pb-4 overflow-y-auto bg-customBlue dark:bg-customBlue">
       <ul class="space-y-2 font-medium">
         <li>
-          <a [routerLink]="'/home-admin'"
+          <a [routerLink]="'/home-docente'"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
             <img src="/assets/Vector2.png" alt="Home" class="w-8 h-8">
             <span class="sr-only">Home Admin</span>
@@ -83,14 +83,14 @@
         <a [routerLink]="'/actividades-docentes'" routerLinkActive="bg-customBlue4 text-white"
           [routerLinkActiveOptions]="{ exact: false }"
           class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-          <img src="/assets/Vector5.png" alt="Activities" class="w-8 h-8">
+          <img src="/assets/Vector.png" alt="Activities" class="w-8 h-8">
           <span class="sr-only">Actividades Docente</span>
         </a>
 
         <li>
-          <a [routerLink]="'/subir-tutores'"
+          <a [routerLink]="'/presentacion-docente'"
             class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/Vector6.png" alt="Activities" class="w-8 h-8">
+            <img src="/assets/Vector3.png" alt="Activities" class="w-8 h-8">
             <span class="sr-only">Subir Tutores</span>
           </a>
         </li>
@@ -113,31 +113,31 @@
           </div>
         </div>
       </div>
-      <div *ngIf="activity" class="mt-10">
+      <div class="mt-10">
         <h2 class="text-2xl mb-2">Detalles del Docente</h2><br>
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden" *ngIf="activitys.length > 0">
           <table class="min-w-full divide-y divide-gray-200">
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Nombre y apellido del docente tutor:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ activity.name }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activitys[0].nameTeacher }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Nombre y apellido del estudiante tutor:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ activity.assistant }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activitys[0].assistant }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Facultad</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ activity.faculty }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activitys[0].faculty }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Carrera</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ activity.career }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activitys[0].career }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Asignatura</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ activity.subject }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activitys[0].subject }}</td>
             </tr>
-          </table>    
+          </table>
         </div>
       </div>
 

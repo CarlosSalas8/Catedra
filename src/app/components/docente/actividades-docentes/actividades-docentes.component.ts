@@ -17,6 +17,8 @@ export class ActividadesDocentesComponent {
   constructor(public periodoService: PeriodoService,private firestore: AngularFirestore,private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+
+    
     this.route.paramMap.subscribe(params => {
       this.teacherId = params.get('id'); // Obtener el id del teacher de los parámetros de la ruta
       if (this.teacherId) {
@@ -33,6 +35,8 @@ export class ActividadesDocentesComponent {
     });
     this.setupMobileMenuToggle();
   }
+
+
 
   cargarActividades(teacherName: string): void {
     this.firestore.collection('activities', ref => ref.where('nameTeacher', '==', teacherName)).valueChanges().subscribe(data => {

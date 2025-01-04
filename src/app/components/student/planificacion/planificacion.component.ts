@@ -31,7 +31,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       activities: this.fb.array([]), // Primer bimestre
       activitiesSegundo: this.fb.array([]), // Segundo bimestre
       activitiesRecuperacion: this.fb.array([]),  // Recuperación
-      
+
     });
     console.log('Formulario inicializado:', this.form); // Para validar que el formulario está correctamente creado
   }
@@ -114,10 +114,9 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
     });
   }
 
-  
+
 
   guardarDatos(): void {
-    // Verifica si el formulario es válido
     console.log('Formulario válido. Datos a guardar:', this.form.valid);
     console.log('Periodo activo recibido:', this.activePeriod);
 
@@ -125,10 +124,12 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       console.log('Formulario válido. Datos a guardar:', this.form.value);
 
       const formData = this.form.value;
+      const nameTeacher = formData.nameTeacher; // Nombre del docente
+      const assistant = formData.assistant; // Nombre del asistente
 
       const generalData = {
-        nameTeacher: formData.nameTeacher,
-        assistant: formData.assistant,
+        nameTeacher: nameTeacher,
+        assistant: assistant,
         faculty: formData.faculty,
         career: formData.career,
         subject: formData.subject,
@@ -139,31 +140,43 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
 
       const batch = this.firestore.firestore.batch();
 
-      // Guardar actividades en Firebase
-      try {
-        this.periodoService.saveActivities(batch, generalData, formData.activities, 'primer_bimestre', this.activePeriod.id);
-        this.periodoService.saveActivities(batch, generalData, formData.activitiesSegundo, 'segundo_bimestre', this.activePeriod.id);
-        this.periodoService.saveActivities(batch, generalData, formData.activitiesRecuperacion, 'recuperacion', this.activePeriod.id);
+      // Verificar si el docente ya existe en la colección "teacher"
+      this.firestore.collection('teachers', ref => ref.where('name', '==', nameTeacher)).get().subscribe(snapshot => {
+        if (snapshot.empty) {
+          console.warn('El docente no existe en la base de datos.');
+          alert('El docente no está registrado. No se pueden guardar las actividades.');
+        } else {
+          const teacherDocId = snapshot.docs[0].id; // ID del docente existente
 
-        batch.commit()
-          .then(() => {
-            console.log('Datos guardados correctamente en Firebase');
-            this.form.reset();
-            alert('¡Datos guardados correctamente!');
-            this.router.navigateByUrl('/vista');
-          })
-          .catch(error => {
-            console.error('Error al guardar los datos en Firebase:', error);
-            alert('Error al guardar los datos. Por favor, inténtalo de nuevo.');
-          });
-      } catch (e) {
-        console.error('Error inesperado durante el guardado:', e);
-      }
+          // Mantener la lógica existente para guardar en la colección de actividades
+          this.periodoService.saveActivities(batch, generalData, formData.activities, 'primer_bimestre', this.activePeriod.id);
+          this.periodoService.saveActivities(batch, generalData, formData.activitiesSegundo, 'segundo_bimestre', this.activePeriod.id);
+          this.periodoService.saveActivities(batch, generalData, formData.activitiesRecuperacion, 'recuperacion', this.activePeriod.id);
+
+          // Realizar el commit del batch para guardar todo
+          batch.commit()
+            .then(() => {
+              console.log('Datos guardados correctamente en Firebase');
+              this.form.reset();
+              alert('¡Datos guardados correctamente!');
+              this.router.navigateByUrl('/vista');
+            })
+            .catch(error => {
+              console.error('Error al guardar los datos en Firebase:', error);
+              alert('Error al guardar los datos. Por favor, inténtalo de nuevo.');
+            });
+        }
+      });
     } else {
-      console.warn('Formulario inválido o no hay period activo');
+      console.warn('Formulario inválido o no hay periodo activo');
       alert('Por favor, completa todos los campos del formulario y asegúrate de que hay un periodo activo.');
     }
   }
+
+
+
+
+
 
 
   // Métodos para obtener los controles específicos del Primer Bimestre
