@@ -32,6 +32,11 @@ const routes: Routes = [
   { path: 'crear-plaza', loadChildren: () => import('./components/director/crear-plaza/crear-plaza.module').then(x => x.CrearPlazaModule)},
   { path: 'postulantes/:id', loadChildren: () => import('./components/director/postulantes/postulantes.module').then(x => x.PostulantesModule)},
 
+
+
+  { path: 'informe', loadChildren: () => import('./components/student/informe/informe.module').then(x => x.InformeModule)},
+  { path: 'ver-informe', loadChildren: () => import('./components/student/ver-informe/ver-informe.module').then(x => x.VerInformeModule)},
+
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 

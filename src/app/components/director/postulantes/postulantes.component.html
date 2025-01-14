@@ -106,6 +106,8 @@
   </aside>
 
 
+
+
   <div class="p-4 sm:ml-20">
     <div class="p-4 mt-14">
       <div class="flex flex-col items-center justify-center h-full w-full">
@@ -115,6 +117,14 @@
           </h1>
           <br>
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+            <!-- Indicador de estado -->
+            <div *ngIf="saveMessage" class="mt-2 text-center">
+              <p [class.text-green-500]="!isSaving && saveMessage.includes('exitosamente')"
+                [class.text-red-500]="!isSaving && saveMessage.includes('Error')" [class.text-gray-500]="isSaving">
+                {{ saveMessage }}
+              </p>
+            </div>
             <table class="w-full text-sm text-left text-gray-500 mt-8">
               <thead class="text-xs text-black uppercase bg-gray-50">
                 <tr>
@@ -123,6 +133,11 @@
                   <th class="px-2 sm:px-4 md:px-6 py-3">Carrera</th>
                   <th class="px-2 sm:px-4 md:px-6 py-3">Ciclo Académico</th>
                   <th class="px-2 sm:px-4 md:px-6 py-3">Número de teléfono</th>
+                  <th class="px-2 sm:px-4 md:px-6 py-3">Calificación Ciclo</th>
+                  <th class="px-2 sm:px-4 md:px-6 py-3">Calificación Espejo</th>
+                  <th class="px-2 sm:px-4 md:px-6 py-3">Guardar Calificaciones</th>
+                  <th class="px-2 sm:px-4 md:px-6 py-3">Solicitar Entrevista</th>
+                  <th class="px-2 sm:px-4 md:px-6 py-3">Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -134,23 +149,60 @@
                   <!-- Información del postulante -->
                   <td class="px-6 py-4">{{ postulante.academicCycle }}</td>
                   <td class="px-6 py-4">{{ postulante.phone }}</td>
-                  <td class="px-6 py-4">{{ postulante.usuario?.email }}</td>
+                  <td class="px-6 py-4">
+                    <input type="number" [(ngModel)]="postulante.qualificationCycle" placeholder="Calif. Ciclo"
+                      class="border p-1 rounded-lg">
+                  </td>
+                  <td class="px-6 py-4">
+                    <input type="number" [(ngModel)]="postulante.qualificationMirror" placeholder="Calif. Espejo"
+                      class="border p-1 rounded-lg">
+                  </td>
+
+                  <!-- Botón para guardar cambios -->
+                  <div class="text-right mt-4 flex items-center justify-end">
+                    <button (click)="guardarCambios(postulante)" [disabled]="isSaving[postulante.id]"
+                      class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">
+                      <span *ngIf="!isSaving[postulante.id]">Guardar Cambios</span>
+                      <span *ngIf="isSaving[postulante.id]">Guardando...</span>
+                    </button>
+                    <!-- Spinner de Carga -->
+                    <div *ngIf="isSaving[postulante.id]"
+                      class="ml-4 w-6 h-6 border-4 border-t-customBlue border-gray-300 rounded-full animate-spin"></div>
+                  </div>
+
+                  <td class="px-6 py-4">
+                    <button (click)="solicitarEntrevista(postulante)"
+                      class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">
+                      Solicitar
+                    </button>
+                  </td>
+
+                  <td class="px-6 py-4">
+                    <button (click)="aceptarPostulante(postulante)"
+                      class="text-customBlueHover hover:underline mr-4">Aceptar</button>
+                    <button (click)="rechazarPostulante(postulante)"
+                      class="text-red-600 hover:underline">Rechazar</button>
+                  </td>
+
+
                 </tr>
               </tbody>
             </table>
           </div>
+
         </div>
       </div>
     </div>
   </div>
-  
-  
-  
-  
-  
-  
 
-  
+
+
+
+
+
+
+
+
 
 
 

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PostulantesRoutingModule } from './postulantes-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { PostulantesComponent } from './postulantes.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { PostulantesComponent } from './postulantes.component';
   imports: [
     CommonModule,
     PostulantesRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule 
   ]
 })
 export class PostulantesModule { }

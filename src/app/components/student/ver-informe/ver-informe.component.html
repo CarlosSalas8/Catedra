@@ -1,0 +1,227 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="fixed top-0 z-50 w-full bg-customOrange">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start pl-0 ml-0">
+                    <div class="flex flex-shrink-0 items-center">
+                        <img class="h-14 w-36" src="/assets/logoutpl.png" alt="Your Company" />
+
+                        <div class="hidden sm:ml-6 sm:block">
+                            <div class="flex space-x-4 ml-4">
+                                <a class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
+                                    aria-current="page">AYUDANTE DE CÁTEDRA</a>
+                                <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold"
+                                    aria-current="page">{{ activePeriod?.name || 'PERÍODO' }}</span>
+                            </div>
+                            <div class="absolute inset-y-0 right-0 flex items-center">
+                                <a href="#"
+                                    class="text-gray-950 hover:bg-customPeach hover:text-black rounded-md px-3 py-2 text-sm font-bold"
+                                    aria-current="page" [routerLink]="'/logout'">CERRAR SESIÓN</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center sm:hidden">
+                    <!-- Mobile menu button-->
+                    <button type="button" id="mobile-menu-button"
+                        class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-950 hover:bg-customPeach hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="absolute -inset-0.5"></span>
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Icon when menu is closed. -->
+                        <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                        <!-- Icon when menu is open. -->
+                        <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+                    <div class="relative ml-3">
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hidden sm:hidden" id="mobile-menu">
+            <div class="space-y-1 px-2 pb-3 pt-2">
+                <a class="text-gray-950 hover:bg-customPeach hover:text-black block rounded-md px-3 py-2 text-base font-bold"
+                    aria-current="page" [routerLink]="'/home-ayudante'">Home</a>
+                <a
+                    class="text-gray-950 hover:bg-customPeach hover:text-black block rounded-md px-3 py-2 text-base font-bold">User</a>
+                <a
+                    class="text-gray-950 hover:bg-customPeach hover:text-black block rounded-md px-3 py-2 text-base font-bold">Activities</a>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <aside id="logo-sidebar"
+        class="fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform -translate-x-full bg-customBlue border-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
+        aria-label="Sidebar">
+        <div class="h-full px-2 pb-4 overflow-y-auto bg-customBlue dark:bg-customBlue">
+            <ul class="space-y-2 font-medium">
+            </ul>
+        </div>
+    </aside>
+
+
+
+    <div class="p-4 sm:ml-20">
+        <div class="p-4 mt-14">
+            <div class="flex items-center justify-center h-48 rounded relative">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="flex flex-col items-center justify-center px-4">
+                        <img src="/assets/images0.png" alt="Imagen"
+                            class="inset-0 m-auto object-cover rounded max-w-11/12" />
+                        <p class="text-xl text-gray-950 text-center mt-4 font-bold leading-relaxed">
+                            UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA<br>
+                            PRESENTACIÓN DE PLANIFICACIÓN AYUDANTE DE CÁTEDRA<br>
+                            PERIODO ABRIL - AGOSTO 2024
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-2  mt-5 rounded-lg">
+                <p class="mb-5 font-bold">DATOS</p>
+                <div class="mb-4 flex justify-between items-center">
+                    <label for="small-input2" class="text-sm font-bold text-gray-900 dark:text-gray-900 ">Nombres y
+                        apellido
+                        del
+                        docente</label>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.nameTeacher }}</span>
+                </div>
+
+                <div class="mb-4 flex justify-between items-center">
+                    <label for="small-input2" class="text-sm font-bold text-gray-900 dark:text-gray-900">Nombres y
+                        apellido
+                        del
+                        ayudante de cátedra</label>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+
+                </div>
+                <div class="mb-4 flex justify-between items-center">
+                    <label for="small-input3"
+                        class="text-sm font-bold text-gray-900 dark:text-gray-900">Facultad</label>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+
+                </div>
+                <div class="mb-4 flex justify-between items-center">
+                    <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Carrera</label>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+
+                </div>
+                <div class="mb-4 flex justify-between items-center">
+                    <label for="small-input4"
+                        class="text-sm font-bold text-gray-900 dark:text-gray-900">Asignatura</label>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+
+                </div>
+                <div class="mb-4 flex justify-between items-center">
+                    <label for="small-input4"
+                        class="text-sm font-bold text-gray-900 dark:text-gray-900">Modalidad</label>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="mb-4 flex justify-between items-center">
+                    <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Promedio de
+                        la asignatura Primer Bimestre</label>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="mb-4 flex justify-between items-center">
+                    <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Promedio de
+                        la asignatura Segundo Bimestre</label>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="mb-4 flex justify-between items-center">
+                    <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Número de
+                        estudiantes en la asignatura que impartió la ayudantía</label>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center h-20 mb-4 rounded">
+                <button type="submit"
+                    class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2">
+                    VALIDAR
+                </button>
+            </div>
+
+
+            <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                <p class="mb-5 font-bold">INFORMACIÓN </p>
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">INTRODUCCIÓN </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">OBJETIVO GENERAL </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">OBJETIVO ESPECÍFICO 1 </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">OBJETIVO ESPECÍFICO 2 </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">OBJETIVO ESPECÍFICO 3 </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">RESUMEN </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">MATERIALES Y METODOLOGÍA UTILIZADOS </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">HERRAMIENTAS UTILIZADAS PARA COMUNICACIÓN CON LOS ESTUDIANTES </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">ANÁLISIS DE RESULTADOS </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">CONCLUSIONES </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+                <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+                    <p class="mb-5 font-bold">BIBLIOGRAFÍA </p>
+                    <span class="w-2/3 p-2 text-gray-900">{{ reportData?.career }}</span>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
