@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { SubirTutoresRoutingModule } from './subir-tutores-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { SubirTutoresComponent } from './subir-tutores.component';
+import { AsideAdminModule } from '../../asides/aside-admin/aside-admin.module';
+import { NavbarAdminModule } from '../../navbars/navbar-admin/navbar-admin.module';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { SubirTutoresComponent } from './subir-tutores.component';
   imports: [
     CommonModule,
     SubirTutoresRoutingModule,
-    SharedModule
+    SharedModule,
+    AsideAdminModule,
+    NavbarAdminModule
   ]
 })
 export class SubirTutoresModule { }

@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { PresentacionRoutingModule } from './presentacion-routing.module';
 import { PresentacionComponent } from './presentacion.component';
 import { SharedModule } from '../../shared/shared.module';
+import { AsideStudentModule } from '../../asides/aside-student/aside-student.module';
+import { NavbarStudentModule } from '../../navbars/navbar-student/navbar-student.module';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     CommonModule,
     PresentacionRoutingModule,
-    SharedModule
+    SharedModule,
+    AsideStudentModule,
+    NavbarStudentModule
   ]
 })
 export class PresentacionModule { }

@@ -11,7 +11,6 @@ import { PeriodoService } from 'src/app/services/periodo.service';
   styleUrls: ['./revisar.component.css']
 })
 export class RevisarComponent implements OnInit {
-  activePeriod: any | null = null;
   activity: any;
   selectedFile: any;
   fileUrl: string | undefined;
@@ -19,7 +18,7 @@ export class RevisarComponent implements OnInit {
   isLoading: boolean = false;
   showSuccessMessage: boolean = false;
 
-  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, private storage: AngularFireStorage,public periodoService: PeriodoService) { }
+  constructor(private route: ActivatedRoute, private firestore: AngularFirestore, private storage: AngularFireStorage) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -28,10 +27,7 @@ export class RevisarComponent implements OnInit {
         this.activity = data;
       });
     }
-    this.periodoService.activePeriod$.subscribe(period => {
-      this.activePeriod = period;
-    });
-    this.setupMobileMenuToggle();
+
   }
 
   onFileSelected(event: any) {
@@ -57,23 +53,6 @@ export class RevisarComponent implements OnInit {
   }
 
 
-  setupMobileMenuToggle(): void {
-    const menuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIconClosed = menuButton?.children[2] as HTMLElement;
-    const menuIconOpened = menuButton?.children[3] as HTMLElement;
 
-    if (menuButton) {
-      menuButton.addEventListener('click', () => {
-        if (mobileMenu) {
-          mobileMenu.classList.toggle('hidden');
-        }
-        if (menuIconClosed && menuIconOpened) {
-          menuIconClosed.classList.toggle('hidden');
-          menuIconOpened.classList.toggle('hidden');
-        }
-      });
-    }
-  }
 
 }

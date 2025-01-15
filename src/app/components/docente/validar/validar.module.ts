@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ValidarRoutingModule } from './validar-routing.module';
 import { ValidarComponent } from './validar.component';
 import { SharedModule } from '../../shared/shared.module';
+import { AsideTeachersModule } from '../../asides/aside-teachers/aside-teachers.module';
+import { NavbarTeacherModule } from '../../navbars/navbar-teacher/navbar-teacher.module';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     CommonModule,
     ValidarRoutingModule,
-    SharedModule
+    SharedModule,
+    AsideTeachersModule,
+    NavbarTeacherModule
   ]
 })
 export class ValidarModule { }

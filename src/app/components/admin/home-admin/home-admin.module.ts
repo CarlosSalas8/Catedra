@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { HomeAdminRoutingModule } from './home-admin-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { HomeAdminComponent } from './home-admin.component';
+import { AsideAdminModule } from '../../asides/aside-admin/aside-admin.module';
+import { NavbarAdminModule } from '../../navbars/navbar-admin/navbar-admin.module';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { HomeAdminComponent } from './home-admin.component';
   imports: [
     CommonModule,
     HomeAdminRoutingModule,
-    SharedModule
+    SharedModule,
+    AsideAdminModule,
+    NavbarAdminModule
   ]
 })
 export class HomeAdminModule { }

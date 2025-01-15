@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { VistaRoutingModule } from './vista-routing.module';
 import { VistaComponent } from './vista.component';
 import { SharedModule } from '../../shared/shared.module';
+import { AsideStudentModule } from '../../asides/aside-student/aside-student.module';
+import { NavbarStudentModule } from '../../navbars/navbar-student/navbar-student.module';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     CommonModule,
     VistaRoutingModule,
-    SharedModule
+    SharedModule,
+    AsideStudentModule,
+    NavbarStudentModule
   ]
 })
 export class VistaModule { }

@@ -31,6 +31,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     SharedModule
   ],
+  
   providers: [
     AuthService,
     AuthGuard,

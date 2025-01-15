@@ -13,7 +13,7 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 })
 export class PostulantesComponent implements OnInit {
 
-  activePeriod: any | null = null;
+  
   postulant: any[] = [];
   plaza: any | null = null;
   plazaID: string | null = null; // ID de la plaza seleccionada
@@ -23,7 +23,6 @@ export class PostulantesComponent implements OnInit {
 
   constructor(
     private firestore: AngularFirestore,
-    public periodoService: PeriodoService,
     private authService: AuthService,
     private route: ActivatedRoute,
   ) { }
@@ -41,10 +40,7 @@ export class PostulantesComponent implements OnInit {
       });
     }
 
-    // Suscribirse al período status 
-    this.periodoService.activePeriod$.subscribe((period) => {
-      this.activePeriod = period;
-    });
+    
   }
 
   solicitarEntrevista(postulante: any): void {

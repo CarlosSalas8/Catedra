@@ -15,18 +15,18 @@ export class SubirTutoresComponent implements OnInit {
   successMessage: string = '';
   isLoading: boolean = false;
 
-  constructor(public periodoService: PeriodoService, private afAuth: AngularFireAuth, private firestore: AngularFirestore) {}
+  constructor(public periodoService: PeriodoService, private afAuth: AngularFireAuth, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
     });
-    this.setupMobileMenuToggle();
+
   }
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    
+
     if (file) {
       Papa.parse(file, {
         header: true,
@@ -38,11 +38,6 @@ export class SubirTutoresComponent implements OnInit {
         }
       });
     }
-
-    
-
-
-    
   }
 
   uploadData() {
@@ -75,7 +70,7 @@ export class SubirTutoresComponent implements OnInit {
   }
 
   validateFormat(data: any[]): boolean {
-    const requiredHeaders = ['email', 'name', 'career','role', 'faculty', 'modality', 'subject'];
+    const requiredHeaders = ['email', 'name', 'career', 'role', 'faculty', 'modality', 'subject'];
 
     // Verificar que todas las filas tengan las columnas requeridas
     for (const row of data) {
@@ -113,22 +108,5 @@ export class SubirTutoresComponent implements OnInit {
     }
   }
 
-  setupMobileMenuToggle(): void {
-    const menuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIconClosed = menuButton?.children[2] as HTMLElement;
-    const menuIconOpened = menuButton?.children[3] as HTMLElement;
 
-    if (menuButton) {
-      menuButton.addEventListener('click', () => {
-        if (mobileMenu) {
-          mobileMenu.classList.toggle('hidden');
-        }
-        if (menuIconClosed && menuIconOpened) {
-          menuIconClosed.classList.toggle('hidden');
-          menuIconOpened.classList.toggle('hidden');
-        }
-      });
-    }
-  }
 }
