@@ -13,7 +13,7 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 })
 export class PostulantesComponent implements OnInit {
 
-  
+
   postulant: any[] = [];
   plaza: any | null = null;
   plazaID: string | null = null; // ID de la plaza seleccionada
@@ -40,8 +40,51 @@ export class PostulantesComponent implements OnInit {
       });
     }
 
-    
+
   }
+
+  // Método para validar o no validar a un postulante y actualizar en 'users'
+  validatePostulant(isValid: boolean, postulanteId: string): void {
+    if (postulanteId) {
+      // Obtener la referencia de la colección 'postulant' y consultar el documento
+      this.firestore.collection('postulant').doc(postulanteId).get().toPromise().then((postulantDoc) => {
+        if (postulantDoc && postulantDoc.exists) {
+          // Extraer el userID del documento del postulante
+          const postulantData = postulantDoc.data() as { usuario?: { userID?: string } };
+          const userId = postulantData.usuario?.userID;
+
+          // Actualizar el campo 'validated' en la colección 'postulant'
+          this.firestore.collection('postulant').doc(postulanteId).update({
+            validated: isValid
+          }).then(() => {
+            console.log(`Postulante ${isValid ? 'aceptado' : 'rechazado'}`);
+          }).catch(error => {
+            console.error('Error al actualizar la validación del postulante:', error);
+          });
+
+          // Actualizar el campo 'validated' en la colección 'users' si userID existe
+          if (userId) {
+            this.firestore.collection('users').doc(userId).update({
+              validated: isValid
+            }).then(() => {
+              console.log(`Usuario ${isValid ? 'validado' : 'no validado'} en la colección 'users'`);
+            }).catch(error => {
+              console.error('Error al actualizar la validación del usuario:', error);
+            });
+          } else {
+            console.warn('El ID del usuario no se encontró en el documento del postulante.');
+          }
+        } else {
+          console.error('El documento del postulante no existe.');
+        }
+      }).catch(error => {
+        console.error('Error al obtener el documento del postulante:', error);
+      });
+    }
+  }
+
+
+
 
   solicitarEntrevista(postulante: any): void {
     // Lógica para solicitar entrevista (ejemplo: mostrar mensaje o guardar en la base de datos)

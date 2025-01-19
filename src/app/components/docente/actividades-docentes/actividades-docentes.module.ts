@@ -5,6 +5,7 @@ import { ActividadesDocentesRoutingModule } from './actividades-docentes-routing
 import { ActividadesDocentesComponent } from './actividades-docentes.component';
 import { SharedModule } from '../../shared/shared.module';
 import { AsideTeachersModule } from '../../asides/aside-teachers/aside-teachers.module';
+import { NavbarTeacherModule } from '../../navbars/navbar-teacher/navbar-teacher.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { AsideTeachersModule } from '../../asides/aside-teachers/aside-teachers.
     CommonModule,
     ActividadesDocentesRoutingModule,
     SharedModule,
-    AsideTeachersModule
+    AsideTeachersModule,
+    NavbarTeacherModule
   ]
 })
 export class ActividadesDocentesModule { }

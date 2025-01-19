@@ -25,7 +25,6 @@
           </h1>
           <br>
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-
             <!-- Indicador de estado -->
             <div *ngIf="saveMessage" class="mt-2 text-center">
               <p [class.text-green-500]="!isSaving && saveMessage.includes('exitosamente')"
@@ -45,7 +44,7 @@
                   <th class="px-2 sm:px-4 md:px-6 py-3">Calificación Espejo</th>
                   <th class="px-2 sm:px-4 md:px-6 py-3">Guardar Calificaciones</th>
                   <th class="px-2 sm:px-4 md:px-6 py-3">Solicitar Entrevista</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3">Acción</th>
+                  <th class="px-2 sm:px-4 md:px-6 py-3">SELECCIÓN DE POSTULANTES</th> <!-- Cambiado -->
                 </tr>
               </thead>
               <tbody>
@@ -65,7 +64,7 @@
                     <input type="number" [(ngModel)]="postulante.qualificationMirror" placeholder="Calif. Espejo"
                       class="border p-1 rounded-lg">
                   </td>
-
+  
                   <!-- Botón para guardar cambios -->
                   <div class="text-right mt-4 flex items-center justify-end">
                     <button (click)="guardarCambios(postulante)" [disabled]="isSaving[postulante.id]"
@@ -77,31 +76,28 @@
                     <div *ngIf="isSaving[postulante.id]"
                       class="ml-4 w-6 h-6 border-4 border-t-customBlue border-gray-300 rounded-full animate-spin"></div>
                   </div>
-
+  
                   <td class="px-6 py-4">
                     <button (click)="solicitarEntrevista(postulante)"
                       class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">
                       Solicitar
                     </button>
                   </td>
-
-                  <td class="px-6 py-4">
-                    <button (click)="aceptarPostulante(postulante)"
-                      class="text-customBlueHover hover:underline mr-4">Aceptar</button>
-                    <button (click)="rechazarPostulante(postulante)"
-                      class="text-red-600 hover:underline">Rechazar</button>
+  
+                  <!-- Botones de Acción (Aceptar/Rechazar) en una sola celda -->
+                  <td class="px-6 py-4 flex space-x-2">
+                    <button (click)="validatePostulant(true, postulante.id)" class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">Aceptar</button>  
+                    <button (click)="validatePostulant(false, postulante.id)" class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">Rechazar</button>
                   </td>
-
-
                 </tr>
               </tbody>
             </table>
           </div>
-
         </div>
       </div>
     </div>
   </div>
+  
 
 
 

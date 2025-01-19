@@ -30,7 +30,7 @@ export class CrearPlazaComponent implements OnInit {
     private auth: AngularFireAuth
   ) {
     this.form = this.fb.group({
-      subject: ['', Validators.required],
+      subject: ['hola', Validators.required],
       nameTeacher: ['', Validators.required],
       emailTeacher: ['', Validators.required],
       parallel: ['', Validators.required],
@@ -159,6 +159,8 @@ export class CrearPlazaComponent implements OnInit {
                 periodID: periodID,
                 directorsId: this.directors?.id || null,
                 directorsName: this.directors?.name || null,
+                directorsCareer: this.directors?.career || null,
+                directorsSubject: this.directors?.career || null,
                 postulant: [], // Inicializar como un arreglo vacío
               })
               .then(() => {

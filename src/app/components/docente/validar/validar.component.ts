@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PeriodoService } from 'src/app/services/periodo.service';
 
@@ -13,6 +13,7 @@ export class ValidarComponent implements OnInit {
   activity: any;
   teacher: any;
   teacherId: string | null = null;
+  validationMessage: string = '';
 
   constructor(private firestore: AngularFirestore, private route: ActivatedRoute) { }
 
@@ -34,7 +35,18 @@ export class ValidarComponent implements OnInit {
       }
     });
 
+  }
 
+
+  validateActivity(isValid: boolean): void {
+    if (this.activity) {
+      const activityId = this.route.snapshot.paramMap.get('actividadId');
+      if (activityId) {
+        this.firestore.collection('activities').doc(activityId).update({
+          validated: isValid
+        });
+      }
+    }
   }
 
 

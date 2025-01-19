@@ -9,7 +9,7 @@ import { PeriodoService } from 'src/app/services/periodo.service';
   styleUrls: ['./actividades-docentes.component.css']
 })
 export class ActividadesDocentesComponent {
-  activePeriod: any | null = null;
+  
   activity: any;
   activitys: any[] = [];
   teacherId: string | null = null;
@@ -30,13 +30,8 @@ export class ActividadesDocentesComponent {
         });
       }
     });
-    this.periodoService.activePeriod$.subscribe(period => {
-      this.activePeriod = period;
-    });
-    this.setupMobileMenuToggle();
+    
   }
-
-
 
   cargarActividades(teacherName: string): void {
     this.firestore.collection('activities', ref => ref.where('nameTeacher', '==', teacherName)).valueChanges().subscribe(data => {
@@ -44,25 +39,5 @@ export class ActividadesDocentesComponent {
     });
   }
 
-
-
-  setupMobileMenuToggle(): void {
-    const menuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIconClosed = menuButton?.children[2] as HTMLElement;
-    const menuIconOpened = menuButton?.children[3] as HTMLElement;
-
-    if (menuButton) {
-      menuButton.addEventListener('click', () => {
-        if (mobileMenu) {
-          mobileMenu.classList.toggle('hidden');
-        }
-        if (menuIconClosed && menuIconOpened) {
-          menuIconClosed.classList.toggle('hidden');
-          menuIconOpened.classList.toggle('hidden');
-        }
-      });
-    }
-  }
 
 }
