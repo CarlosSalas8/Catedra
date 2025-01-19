@@ -25,6 +25,7 @@ export class AuthService {
   loginWithEmail(email: string, password: string) {
     return this.afAuth.signInWithEmailAndPassword(email, password);
   }
+  
 
   loginWithGoogle() {
     return this.afAuth.signInWithPopup(new GoogleAuthProvider()).then(async (userCredential) => {

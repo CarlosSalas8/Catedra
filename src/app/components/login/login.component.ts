@@ -88,6 +88,7 @@ export class LoginComponent implements OnInit {
             const userData = userDoc.data() as Usuario;
             const role = userData?.role;
             const subject = userData?.subject;
+            const validated = userData?.validated;
   
             // Asegurarse de que el rol sea válido y redirigir
             if (role) {
@@ -101,10 +102,10 @@ export class LoginComponent implements OnInit {
               } else if (role === 'student') {
                 if (subject) {
                   console.log('El usuario ya tiene una subject asignada, redirigiendo al home-ayudante...');
-                  this.router.navigate(['/home-ayudante'], { queryParams: { career: subject } });
+                  this.router.navigate(['/home-ayudante'], { queryParams: { career: subject, validated } });
                 } else {
                   console.log('El usuario no tiene subject asignada, redirigiendo a selección de career...');
-                  this.router.navigate(['/carrera']);
+                  this.router.navigate(['/carrera'], { queryParams: { validated } });
                 }
               } else {
                 console.error('Rol desconocido:', role);

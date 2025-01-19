@@ -8,9 +8,9 @@
 </head>
 
 <body class="h-screen overflow-auto">
-  
+
   <app-navbar-directors> </app-navbar-directors>
-  
+
   <app-aside-directors> </app-aside-directors>
 
 
@@ -44,7 +44,8 @@
                   <th class="px-2 sm:px-4 md:px-6 py-3">Calificación Espejo</th>
                   <th class="px-2 sm:px-4 md:px-6 py-3">Guardar Calificaciones</th>
                   <th class="px-2 sm:px-4 md:px-6 py-3">Solicitar Entrevista</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3">SELECCIÓN DE POSTULANTES</th> <!-- Cambiado -->
+                  <th class="px-2 sm:px-4 md:px-6 py-3">SELECCIÓN DE POSTULANTES</th>
+                  <th class="px-2 sm:px-4 md:px-6 py-3">ESTADO DEL POSTULANTES</th>
                 </tr>
               </thead>
               <tbody>
@@ -64,7 +65,7 @@
                     <input type="number" [(ngModel)]="postulante.qualificationMirror" placeholder="Calif. Espejo"
                       class="border p-1 rounded-lg">
                   </td>
-  
+
                   <!-- Botón para guardar cambios -->
                   <div class="text-right mt-4 flex items-center justify-end">
                     <button (click)="guardarCambios(postulante)" [disabled]="isSaving[postulante.id]"
@@ -76,18 +77,29 @@
                     <div *ngIf="isSaving[postulante.id]"
                       class="ml-4 w-6 h-6 border-4 border-t-customBlue border-gray-300 rounded-full animate-spin"></div>
                   </div>
-  
+
                   <td class="px-6 py-4">
                     <button (click)="solicitarEntrevista(postulante)"
                       class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">
                       Solicitar
                     </button>
                   </td>
-  
+
                   <!-- Botones de Acción (Aceptar/Rechazar) en una sola celda -->
                   <td class="px-6 py-4 flex space-x-2">
-                    <button (click)="validatePostulant(true, postulante.id)" class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">Aceptar</button>  
-                    <button (click)="validatePostulant(false, postulante.id)" class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">Rechazar</button>
+                    <button (click)="validatePostulant(true, postulante.id)"
+                      class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">Aceptar</button>
+                    <button (click)="validatePostulant(false, postulante.id)"
+                      class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">Rechazar</button>
+                  </td>
+
+                  <td *ngFor="let postulante of postulant$ | async" class="text-center">
+                    <span [ngClass]="{
+                          'text-green-500 font-semibold': postulante.validated === true,
+                          'text-red-500 font-semibold': postulante.validated === false
+                        }">
+                      {{ postulante.validated ? 'ACEPTADO' : 'RECHAZADO' }}
+                    </span>
                   </td>
                 </tr>
               </tbody>
@@ -97,7 +109,7 @@
       </div>
     </div>
   </div>
-  
+
 
 
 

@@ -13,7 +13,7 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 })
 export class PostulantesComponent implements OnInit {
 
-
+  postulant$: Observable<any[]>; // Declara una variable para los datos
   postulant: any[] = [];
   plaza: any | null = null;
   plazaID: string | null = null; // ID de la plaza seleccionada
@@ -25,7 +25,10 @@ export class PostulantesComponent implements OnInit {
     private firestore: AngularFirestore,
     private authService: AuthService,
     private route: ActivatedRoute,
-  ) { }
+  ) { 
+     // Suscríbete a los cambios en la colección
+  this.postulant$ = this.firestore.collection('postulant').valueChanges({ idField: 'id' });
+  }
 
   ngOnInit(): void {
 
