@@ -129,7 +129,7 @@ export class CrearPlazaComponent implements OnInit {
   guardarDatos(): void {
     if (this.form.valid) {
       const formData = this.form.value;
-      const subject = formData.subject;
+      const career = formData.career;
       const parallel = formData.parallel;
       const periodID = this.activePeriod ? this.activePeriod.id : null;
 
@@ -137,7 +137,7 @@ export class CrearPlazaComponent implements OnInit {
       this.firestore
         .collection('plazas', (ref) =>
           ref
-            .where('subject', '==', subject)
+            .where('career', '==', career)
             .where('parallel', '==', parallel)
             .where('periodID', '==', periodID)
         )
@@ -160,7 +160,7 @@ export class CrearPlazaComponent implements OnInit {
                 directorsId: this.directors?.id || null,
                 directorsName: this.directors?.name || null,
                 directorsCareer: this.directors?.career || null,
-                directorsSubject: this.directors?.career || null,
+                directorsSubject: this.directors?.subject || null,
                 postulant: [], // Inicializar como un arreglo vacío
               })
               .then(() => {

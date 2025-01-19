@@ -57,14 +57,14 @@ export class CarreraComponent {
               break;
     
             case 'student':
-              if (!userData.subject) {
-                console.log('El usuario no tenía subject. Asignando...');
+              if (!userData.career) {
+                console.log('El usuario no tenía career. Asignando...');
                 await this.firestore.collection('users').doc(user.uid).set(
-                  { subject: this.careerSeleccionada, role: 'student' },
+                  { career: this.careerSeleccionada, role: 'student' },
                   { merge: true }
                 );
               } else {
-                console.log('El usuario ya tiene una subject asignada.');
+                console.log('El usuario ya tiene una Carrer asignada.');
               }
               this.router.navigate(['/home-ayudante'], { queryParams: { career: this.careerSeleccionada } });
               break;

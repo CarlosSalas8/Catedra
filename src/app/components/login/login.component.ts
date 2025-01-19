@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
           if (userDoc?.exists) {
             const userData = userDoc.data() as Usuario;
             const role = userData?.role;
-            const subject = userData?.subject;
+            const career = userData?.career;
             const validated = userData?.validated;
   
             // Asegurarse de que el rol sea válido y redirigir
@@ -100,11 +100,11 @@ export class LoginComponent implements OnInit {
                 console.log(`Redirigiendo al ${homeRoute}`);
                 this.router.navigate([homeRoute]);
               } else if (role === 'student') {
-                if (subject) {
-                  console.log('El usuario ya tiene una subject asignada, redirigiendo al home-ayudante...');
-                  this.router.navigate(['/home-ayudante'], { queryParams: { career: subject, validated } });
+                if (career) {
+                  console.log('El usuario ya tiene una carrer asignada, redirigiendo al home-ayudante...');
+                  this.router.navigate(['/home-ayudante'], { queryParams: { career: career, validated } });
                 } else {
-                  console.log('El usuario no tiene subject asignada, redirigiendo a selección de career...');
+                  console.log('El usuario no tiene career asignada, redirigiendo a selección de career...');
                   this.router.navigate(['/carrera'], { queryParams: { validated } });
                 }
               } else {
