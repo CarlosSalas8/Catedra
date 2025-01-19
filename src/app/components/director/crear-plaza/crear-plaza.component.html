@@ -40,6 +40,7 @@
               <thead class="text-xs text-black uppercase bg-gray-50">
                 <tr>
                   <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Docente</th>
+                  <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Carrera</th>
                   <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Asignatura</th>
                   <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Malla curricular</th>
                   <th scope="col" class="px-2 sm:px-4 md:px-6 py-3">Ciclo requerido</th>
@@ -53,7 +54,8 @@
                 <tr *ngFor="let plazas of plazas$ | async"
                   class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100 ">
                   <td class="px-6 py-4">{{ plazas.nameTeacher }}</td>
-                  <td class="px-6 py-4">{{ plazas.subject }}</td>
+                  <td class="px-6 py-4">{{ plazas.career }}</td>
+                  <td class="px-6 py-4">{{ plazas.directorsSubject }}</td>
                   <td class="px-6 py-4">{{ plazas.curriculum }}</td>
                   <td class="px-6 py-4">{{ plazas.academicCycle }}</td>
                   <td class="px-6 py-4">{{ plazas.parallel }}</td>
@@ -103,8 +105,12 @@
           <!-- Subject -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Carrera</label>
-            <input formControlName="career" type="text" placeholder="LOGISTICAS Y TRANSPORTE"
-              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+            <select formControlName="career" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+              <option value="" disabled selected>Selecciona una opción</option>
+              <option value="COMPUTACION">COMPUTACION</option>
+              <option value="MEDICINA">MEDICINA</option>
+              <!-- Agrega más opciones según corresponda -->
+            </select>
           </div>
 
           <!-- teacher -->

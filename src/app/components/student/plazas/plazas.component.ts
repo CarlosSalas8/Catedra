@@ -30,11 +30,11 @@ export class PlazasComponent implements OnInit {
   constructor(public periodoService: PeriodoService, private firestore: AngularFirestore, private authService: AuthService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    // Obtener la subject seleccionada por el usuario desde la colección 'users'
+    // Obtener la career seleccionada por el usuario desde la colección 'users'
     this.authService.getCurrentUser().subscribe(user => {
       if (user) {
         this.firestore.collection('users').doc(user.uid).get().subscribe(doc => {
-          this.carreraUsuario = doc.get('subject');
+          this.carreraUsuario = doc.get('career');
           this.filtrarPlazas();
         });
       }
@@ -67,7 +67,7 @@ export class PlazasComponent implements OnInit {
       // Filtrar las plazas que coincidan con el período activo
       this.plazas$ = this.firestore.collection('plazas', ref =>
         ref.where('periodID', '==', this.activePeriod.id)
-          .where('subject', '==', this.carreraUsuario) // Filtra también por la carrera del usuario, si es necesario
+          .where('career', '==', this.carreraUsuario) // Filtra también por la carrera del usuario, si es necesario
       ).valueChanges();
     }
   }

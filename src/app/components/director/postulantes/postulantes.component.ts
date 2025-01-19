@@ -13,7 +13,7 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 })
 export class PostulantesComponent implements OnInit {
 
-  postulant$: Observable<any[]>; // Declara una variable para los datos
+  postulant$: Observable<any>; // Declara una variable para los datos
   postulant: any[] = [];
   plaza: any | null = null;
   plazaID: string | null = null; // ID de la plaza seleccionada

@@ -30,7 +30,7 @@ export class CrearPlazaComponent implements OnInit {
     private auth: AngularFireAuth
   ) {
     this.form = this.fb.group({
-      subject: ['hola', Validators.required],
+      career: ['', Validators.required],
       nameTeacher: ['', Validators.required],
       emailTeacher: ['', Validators.required],
       parallel: ['', Validators.required],
@@ -145,7 +145,7 @@ export class CrearPlazaComponent implements OnInit {
         .subscribe((snapshot) => {
           if (!snapshot.empty) {
             console.error(
-              'Ya existe una plaza con la misma subject, parallel y period.'
+              'Ya existe una plaza con la misma career, parallel y period.'
             );
           } else {
             // Crear plaza

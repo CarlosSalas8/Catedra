@@ -53,7 +53,7 @@
                   <!-- Información de la plaza -->
                   <td class="px-6 py-4">{{ postulante.usuario?.name }}</td>
                   <td class="px-6 py-4">{{ postulante.usuario?.email }}</td>
-                  <td class="px-6 py-4">{{ plaza?.subject }}</td>
+                  <td class="px-6 py-4">{{ plaza?.career }}</td>
                   <!-- Información del postulante -->
                   <td class="px-6 py-4">{{ postulante.academicCycle }}</td>
                   <td class="px-6 py-4">{{ postulante.phone }}</td>
@@ -98,7 +98,7 @@
                           'text-green-500 font-semibold': postulante.validated === true,
                           'text-red-500 font-semibold': postulante.validated === false
                         }">
-                      {{ postulante.validated ? 'ACEPTADO' : 'RECHAZADO' }}
+                      {{ postulante.validated === true ? 'ACEPTADO' : (postulante.validated === false ? 'RECHAZADO' : 'PENDIENTE') }}
                     </span>
                   </td>
                 </tr>
