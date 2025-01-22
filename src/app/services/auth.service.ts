@@ -118,6 +118,10 @@ export class AuthService {
     return this.firestore.collection('plazas').valueChanges({ idField: 'id' });
   }
 
+  getPostulant(): Observable<any[]> {
+    return this.firestore.collection('postulant').valueChanges({ idField: 'id' });
+  }
+
   loginWithMicrosoft() {
     const provider = new OAuthProvider('microsoft.com');
     provider.setCustomParameters({

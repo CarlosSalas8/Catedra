@@ -45,7 +45,9 @@
                   <th class="px-2 sm:px-4 md:px-6 py-3">Guardar Calificaciones</th>
                   <th class="px-2 sm:px-4 md:px-6 py-3">Solicitar Entrevista</th>
                   <th class="px-2 sm:px-4 md:px-6 py-3">SELECCIÓN DE POSTULANTES</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3">ESTADO DEL POSTULANTES</th>
+                  <th class="px-2 sm:px-4 md:px-6 py-3 text-center">Estado</th>
+
+                  
                 </tr>
               </thead>
               <tbody>
@@ -93,14 +95,20 @@
                       class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">Rechazar</button>
                   </td>
 
-                  <td *ngFor="let postulante of postulant$ | async" class="text-center">
-                    <span [ngClass]="{
-                          'text-green-500 font-semibold': postulante.validated === true,
-                          'text-red-500 font-semibold': postulante.validated === false
-                        }">
-                      {{ postulante.validated === true ? 'ACEPTADO' : (postulante.validated === false ? 'RECHAZADO' : 'PENDIENTE') }}
+                  <td class="px-6 py-4 text-center">
+                    <span 
+                      [ngClass]="{
+                        'bg-green-200 text-green-800': postulante.validated === true,
+                        'bg-red-200 text-red-800': postulante.validated === false
+                      }"
+                      class="px-4 py-2 rounded-lg font-semibold"
+                    >
+                      {{ postulante.validated === true ? 'Aceptado' : (postulante.validated === false ? 'Rechazado' : 'PENDIENTE') }}
                     </span>
                   </td>
+                  
+
+                  
                 </tr>
               </tbody>
             </table>

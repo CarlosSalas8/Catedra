@@ -13,7 +13,6 @@ import { PeriodoService } from 'src/app/services/periodo.service';
 })
 export class PostulantesComponent implements OnInit {
 
-  postulant$: Observable<any>; // Declara una variable para los datos
   postulant: any[] = [];
   plaza: any | null = null;
   plazaID: string | null = null; // ID de la plaza seleccionada
@@ -25,9 +24,8 @@ export class PostulantesComponent implements OnInit {
     private firestore: AngularFirestore,
     private authService: AuthService,
     private route: ActivatedRoute,
-  ) { 
-     // Suscríbete a los cambios en la colección
-  this.postulant$ = this.firestore.collection('postulant').valueChanges({ idField: 'id' });
+  ) {
+
   }
 
   ngOnInit(): void {
@@ -41,6 +39,13 @@ export class PostulantesComponent implements OnInit {
         this.plaza = plazas.find((plaza: any) => plaza.id === this.plazaID);
         this.postulant = this.plaza ? this.plaza.postulant : [];
       });
+
+      // Suscribirse a los cambios en la colección 'postulant'
+      this.authService.getPostulant().subscribe((postulantes) => {
+        this.postulant = postulantes.filter(postulante => postulante.plazaID === this.plazaID);
+        console.log('Lista de postulantes actualizada:', this.postulant);
+      });
+
     }
 
 
