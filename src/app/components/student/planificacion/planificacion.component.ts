@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
 
 @Component({
@@ -19,8 +20,9 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
   periodoGuardado: boolean = false;
   periodos: Observable<any[]> | undefined;
   private periodSubscription: Subscription | undefined;
+  userEmail: string | null = null;
 
-  constructor(private fb: FormBuilder, private firestore: AngularFirestore, private router: Router, public periodoService: PeriodoService) {
+  constructor(private fb: FormBuilder, private firestore: AngularFirestore, private router: Router, public periodoService: PeriodoService, private authService: AuthService) {
     this.form = this.fb.group({
       nameTeacher: ['', Validators.required],
       assistant: ['', Validators.required],
@@ -31,6 +33,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       activities: this.fb.array([]), // Primer bimestre
       activitiesSegundo: this.fb.array([]), // Segundo bimestre
       activitiesRecuperacion: this.fb.array([]),  // Recuperación
+      
 
     });
     console.log('Formulario inicializado:', this.form); // Para validar que el formulario está correctamente creado
@@ -40,6 +43,16 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
       console.log('Periodo activo recibido:', this.activePeriod);
+    });
+
+    // Obtener el usuario logueado
+    this.authService.getCurrentUser().subscribe(user => {
+      if (user) {
+        this.userEmail = user.email;
+        console.log('Usuario logueado:', this.userEmail);
+      } else {
+        console.error('No hay un usuario autenticado.');
+      }
     });
 
   }
@@ -116,7 +129,8 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
         faculty: formData.faculty,
         career: formData.career,
         subject: formData.subject,
-        modality: formData.modality
+        modality: formData.modality,
+        emailAssistant: this.userEmail  // Agregar el email del usuario logueado
       };
 
       console.log('Datos generales a guardar:', generalData);

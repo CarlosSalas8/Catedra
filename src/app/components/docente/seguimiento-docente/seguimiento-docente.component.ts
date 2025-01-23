@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { PeriodoService } from 'src/app/services/periodo.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-seguimiento-docente',
@@ -12,25 +12,35 @@ export class SeguimientoDocenteComponent implements OnInit {
 
   plazas$: Observable<any[]> | undefined;
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore, private authService: AuthService) { }
 
   ngOnInit(): void {
-
-    // Obtiene plazas y asocia el ID de teacher por nombre
-    this.plazas$ = this.firestore.collection('plazas').valueChanges().pipe(
-      map((plazas: any[]) =>
-        plazas.map(plaza => ({
-          ...plaza,
-          teacherId$: this.firestore.collection('teachers', ref =>
-            ref.where('name', '==', plaza.nameTeacher)
-          ).valueChanges().pipe(
-            map((teachers: any[]) => teachers.length ? teachers[0].id : null) // Toma el ID del docente
-          )
-        }))
-      )
-    );
-
-
+    // Obtiene el usuario autenticado
+    this.authService.getCurrentUser().subscribe(currentUser => {
+      if (currentUser?.email) {
+        this.plazas$ = this.firestore.collection('plazas', ref =>
+          ref.where('emailTeacher', '==', currentUser.email)
+        ).valueChanges().pipe(
+          map(plazas => plazas.map(plaza => {
+            if (typeof plaza === 'object' && plaza !== null) {
+              return {
+                ...plaza,
+                teacherId$: this.firestore.collection('teachers', ref =>
+                  ref.where('email', '==', currentUser.email)
+                ).valueChanges().pipe(
+                  map((teachers: any[]) => teachers.length ? teachers[0].id : null)
+                )
+              };
+            } else {
+              console.error('Plaza is not an object:', plaza);
+              return plaza;
+            }
+          }))
+        );
+      } else {
+        console.error('No hay un usuario autenticado.');
+      }
+    });
   }
 
 }

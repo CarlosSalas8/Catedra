@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable, map, of, switchMap, tap } from 'rxjs';
 
@@ -14,7 +15,7 @@ export class PeriodoService {
   private activePeriodSubject: BehaviorSubject<any | null> = new BehaviorSubject<any | null>(null);
   public activePeriod$: Observable<any | null> = this.activePeriodSubject.asObservable();
 
-  constructor(private firestore: AngularFirestore) {
+  constructor(private firestore: AngularFirestore, private afAuth: AngularFireAuth) {
     this.loadActivePeriod();
   }
 
@@ -50,10 +51,21 @@ export class PeriodoService {
   }
 
   getActivitiesByActivePeriod(type: string): Observable<any[]> {
-    return this.getActivePeriod().pipe(
-      switchMap(period => {
-        if (period) {
-          return this.firestore.collection('activities', ref => ref.where('periodID', '==', period.id).where('type', '==', type)).valueChanges();
+    return this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return this.getActivePeriod().pipe(
+            switchMap(period => {
+              if (period) {
+                return this.firestore.collection('activities', ref =>
+                  ref.where('periodID', '==', period.id)
+                     .where('type', '==', type)
+                     .where('emailAssistant', '==', user.email) // Filtrar por email del usuario logueado
+                ).valueChanges();
+              }
+              return of([]);
+            })
+          );
         }
         return of([]);
       })
