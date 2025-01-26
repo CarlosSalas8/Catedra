@@ -8,9 +8,9 @@
 </head>
 
 <body>
-  
+
   <app-navbar-student> </app-navbar-student>
-  
+
   <app-aside-student></app-aside-student>
 
 
@@ -27,13 +27,20 @@
                 class="bg-gray-100 shadow-md text-gray-700 p-6 h-80 flex flex-col justify-between w-full rounded-2xl transition-transform transform hover:scale-105">
                 <h2 class="text-center font-bold text-2xl mb-4 text-gray-800">PLAZA {{ i + 1 }}</h2>
                 <div class="text-sm leading-relaxed">
-                  <p class="flex"><strong class="text-gray-800 mr-2">DIRECTOR:</strong> <span>{{ plaza.directorsName }}</span></p>
-                  <p class="flex"><strong class="text-gray-800 mr-2">CARRERA:</strong> <span>{{ plaza.career }}</span></p>
-                  <p class="flex"><strong class="text-gray-800 mr-2">ASIGNATURA:</strong> <span>{{ plaza.directorsSubject }}</span></p>
-                  <p class="flex"><strong class="text-gray-800 mr-2">PARALELO:</strong> <span>{{ plaza.parallel }}</span></p>
-                  <p class="flex"><strong class="text-gray-800 mr-2">MALLA CURRICULAR:</strong> <span>{{ plaza.curriculum }}</span></p>
-                  <p class="flex"><strong class="text-gray-800 mr-2">CICLO REQUERIDO:</strong> <span>{{ plaza.academicCycle }}</span></p>
-                  <p class="flex"><strong class="text-gray-800 mr-2">DOCENTE:</strong> <span>{{ plaza.nameTeacher }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">DIRECTOR:</strong> <span>{{ plaza.directorsName
+                      }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">CARRERA:</strong> <span>{{ plaza.career }}</span>
+                  </p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">ASIGNATURA:</strong> <span>{{
+                      plaza.directorsSubject }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">PARALELO:</strong> <span>{{ plaza.parallel
+                      }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">MALLA CURRICULAR:</strong> <span>{{
+                      plaza.curriculum }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">CICLO REQUERIDO:</strong> <span>{{
+                      plaza.academicCycle }}</span></p>
+                  <p class="flex"><strong class="text-gray-800 mr-2">DOCENTE:</strong> <span>{{ plaza.nameTeacher
+                      }}</span></p>
                 </div>
                 <div class="flex justify-center p-1">
                   <button (click)="toggleModal(plaza)"
@@ -48,7 +55,7 @@
       </div>
     </div>
   </div>
-  
+
 
 
   <div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -82,35 +89,33 @@
     </div>
   </div>
 
-  <div *ngIf="showAlert" class="fixed top-20 right-4 z-50 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-lg">
-    <strong class="font-bold">Éxito:</strong>
-    <span class="block sm:inline"> La postulación se guardó correctamente.</span>
+  <div *ngIf="showAlert" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div
+      class="bg-green-100 border border-green-300 p-6 rounded-3xl shadow-xl max-w-md mx-auto flex items-center space-x-4">
+      <svg class="w-8 h-8 text-green-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+      <div>
+        <strong class="font-semibold text-green-700 text-lg">¡Éxito!</strong>
+        <p class="text-black">La postulación se guardó correctamente.</p>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="showError" class="fixed top-20 right-4 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg">
-    <strong class="font-bold">Error:</strong>
-    <span class="block sm:inline"> Hubo un problema al guardar la postulación. Inténtalo nuevamente.</span>
-</div>
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <div *ngIf="showError" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div
+      class="bg-red-100 border border-red-300 p-6 rounded-3xl shadow-xl max-w-md mx-auto flex items-center space-x-4">
+      <svg class="w-8 h-8 text-red-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+      <div>
+        <strong class="font-semibold text-red-700 text-lg">Error:</strong>
+        <p class="text-black">{{ errorMessage }}</p>
+      </div>
+    </div>
+  </div>
 
 
 </body>

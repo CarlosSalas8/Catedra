@@ -24,8 +24,7 @@ export class PlazasComponent implements OnInit {
   userName: string = '';
   showAlert: boolean = false;
   showError: boolean = false;
-
-
+  errorMessage: string = '';
 
   constructor(public periodoService: PeriodoService, private firestore: AngularFirestore, private authService: AuthService, private fb: FormBuilder) { }
 
@@ -59,7 +58,6 @@ export class PlazasComponent implements OnInit {
       phone: ['', Validators.required],
       academicCycle: ['', Validators.required],
     });
-    
   }
 
   filtrarPlazas() {
@@ -71,9 +69,6 @@ export class PlazasComponent implements OnInit {
       ).valueChanges();
     }
   }
-  
-  
-  
 
   toggleModal(plaza?: any): void {
     this.isModalOpen = !this.isModalOpen;
@@ -82,7 +77,6 @@ export class PlazasComponent implements OnInit {
       this.form.reset(); // Reinicia el formulario al cerrar el modal
     }
   }
-
 
   onSubmit(plazaID: string): void {
     if (this.form.valid) {
@@ -96,58 +90,69 @@ export class PlazasComponent implements OnInit {
   guardarDatos(plazaID: string): void {
     if (this.form.valid) {
       const formData = this.form.value;
-  
-      // Generar un nuevo ID para la postulación
-      const postId = this.firestore.createId();
-  
-      // Crear el objeto base de la postulación
-      const postulacion = {
-        id: postId,
-        ...formData,
-        periodID: this.activePeriod ? this.activePeriod.id : null,
-        plazaID: plazaID,
-      };
-  
-      // Recuperar información completa del usuario
-      this.firestore
-        .collection('users')
-        .doc(this.usuarioLogueado?.userID)
-        .get()
-        .subscribe((userDoc) => {
-          const usuarioInfo = userDoc.data();
-  
-          if (usuarioInfo) {
-            const postulanteData = {
-              ...postulacion,
-              usuario: usuarioInfo, // Adjuntar información completa del usuario
-            };
-  
-            // Guardar la postulación en la colección 'postulant'
-            this.firestore
-              .collection('postulant')
-              .doc(postId)
-              .set(postulanteData)
-              .then(() => {
-                console.log('Postulación guardada exitosamente:', postulanteData);
-  
-                // Actualizar el array de postulant en la plaza
-                this.actualizarPostulantesPlaza(plazaID, postulanteData);
-                
-                this.form.reset(); // Limpia el formulario
-                this.mostrarAlerta('success');
-                
-              })
-              .catch((error) => {
-                console.error('Error al guardar la postulación:', error);
-                this.mostrarAlerta('error');
-              });
-          } else {
-            console.error('Error: Información del usuario no encontrada');
-          }
-        });
+
+      // Verificar si el usuario ya ha postulado a esta plaza
+      this.firestore.collection('postulant', ref =>
+        ref.where('plazaID', '==', plazaID)
+          .where('usuario.userID', '==', this.usuarioLogueado?.userID)
+      ).get().subscribe(querySnapshot => {
+        if (querySnapshot.empty) {
+          // Generar un nuevo ID para la postulación
+          const postId = this.firestore.createId();
+
+          // Crear el objeto base de la postulación
+          const postulacion = {
+            id: postId,
+            ...formData,
+            periodID: this.activePeriod ? this.activePeriod.id : null,
+            plazaID: plazaID,
+          };
+
+          // Recuperar información completa del usuario
+          this.firestore
+            .collection('users')
+            .doc(this.usuarioLogueado?.userID)
+            .get()
+            .subscribe((userDoc) => {
+              const usuarioInfo = userDoc.data();
+
+              if (usuarioInfo) {
+                const postulanteData = {
+                  ...postulacion,
+                  usuario: usuarioInfo, // Adjuntar información completa del usuario
+                };
+
+                // Guardar la postulación en la colección 'postulant'
+                this.firestore
+                  .collection('postulant')
+                  .doc(postId)
+                  .set(postulanteData)
+                  .then(() => {
+                    console.log('Postulación guardada exitosamente:', postulanteData);
+
+                    // Actualizar el array de postulant en la plaza
+                    this.actualizarPostulantesPlaza(plazaID, postulanteData);
+
+                    this.form.reset(); // Limpia el formulario
+                    this.mostrarAlerta('success');
+
+                  })
+                  .catch((error) => {
+                    console.error('Error al guardar la postulación:', error);
+                    this.mostrarAlerta('error');
+                  });
+              } else {
+                console.error('Error: Información del usuario no encontrada');
+              }
+            });
+        } else {
+          // El usuario ya ha postulado a esta plaza
+          this.errorMessage = 'No está permitido enviar otra postulación a la misma plaza.';
+          this.mostrarAlerta('error');
+        }
+      });
     }
   }
-  
 
   actualizarPostulantesPlaza(plazaID: string, postulanteData: any): void {
     const plazaRef = this.firestore.collection('plazas').doc(plazaID);
@@ -172,14 +177,10 @@ export class PlazasComponent implements OnInit {
       this.showError = true;
       this.showAlert = false;
     }
-  
+
     setTimeout(() => {
       this.showAlert = false;
       this.showError = false; // Oculta ambas alertas después de 4 segundos
     }, 4000);
   }
-  
-
-
- 
 }
