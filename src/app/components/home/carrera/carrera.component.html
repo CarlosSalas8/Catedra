@@ -8,33 +8,36 @@
 </head>
 
 <body class="bg-white flex flex-col min-h-screen text-center">
-  <main class="flex-1 mt-16 p-8">
-    <div class="max-w-xl mx-auto p-10 border rounded-lg shadow-lg bg-white">
-      <h1 class="text-2xl font-bold mb-4">Requisitos previos para continuar al Sistema de Gestión del Proyecto Ayudante de Cátedra</h1>
+  <main class="flex-1 mt-10 p-10">
+    <div class="max-w-2xl mx-auto p-10 border rounded-lg shadow-lg bg-white">
+      <h1 class="text-2xl font-bold mb-4">Requisitos previos para continuar al Sistema de Gestión del Proyecto Ayudante
+        de Cátedra</h1>
       <p class="mb-4 font-semibold text-lg">Valida tu carrera UTPL</p>
-      <p class="mb-6 text-gray-600">Con esta información nos permitimos mostrarte todas las plazas que te interesan de tu carrera</p>
-      
+      <p class="mb-6 text-gray-600">Con esta información nos permitimos mostrarte todas las plazas que te interesan de
+        tu carrera</p>
+
       <form (submit)="validarcareer()">
         <div class="flex items-center space-x-4 mb-4">
           <label for="career" class="block text-xl font-bold">Carreras</label>
-          <select id="career" class="flex-1 p-2 border border-gray-300 rounded" [(ngModel)]="careerSeleccionada" name="career">
+          <select id="career" class="flex-1 p-2 border border-gray-300 rounded" [(ngModel)]="careerSeleccionada"
+            name="career">
             <option value="">Selecciona tu carrera</option>
-            <option value="MEDICINA">MEDICINA</option>
-            <option value="COMPUTACION">COMPUTACION</option>
-            <!-- Agrega más opciones si es necesario -->
+            <option *ngFor="let carrera of carreras" [value]="carrera">{{ carrera }}</option>
           </select>
-          <button type="submit" class="bg-customBlue text-white p-2 w-32 rounded hover:bg-customBlueHover">Validar</button>
         </div>
+        <button type="submit"
+          class="bg-customBlue text-white p-2 w-32 rounded hover:bg-customBlueHover">Validar</button>
       </form>
-      
-      <p class="mt-4 text-sm text-gray-500">Nota: Si necesitas cambiar tu carrera para que puedas visualizar las plazas de tu interés escríbenos al siguiente correo:</p>
+
+      <p class="mt-4 text-sm text-gray-500">Nota: Si necesitas cambiar tu carrera para que puedas visualizar las plazas
+        de tu interés escríbenos al siguiente correo:</p>
       <p class="mt-2 text-customBlueHover">liid_utpl&commat;utpl.edu.ec</p>
     </div>
   </main>
-  
+
   <footer class="dark:bg-customBlue text-white text-center p-4">
     2024 Proyecto Ayudante de Cátedra
   </footer>
 </body>
 
-  </html>
+</html>

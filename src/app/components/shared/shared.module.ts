@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
+
 @NgModule({
   declarations: [],
   imports: [
@@ -12,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   exports:[
     CommonModule,
     ReactiveFormsModule
+    
   ]
 })
 export class SharedModule { }

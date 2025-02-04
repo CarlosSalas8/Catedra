@@ -21,16 +21,17 @@ export class CrearPlazaComponent implements OnInit {
   plazas$: Observable<any[]> | undefined;
   directors: any = null;
 
+  academicCycles: string[] = [];
+  curriculums: string[] = [];
+
   constructor(
     public periodoService: PeriodoService,
     private fb: FormBuilder,
     private firestore: AngularFirestore,
-    private router: Router,
-    private authService: AuthService,
     private auth: AngularFireAuth
   ) {
     this.form = this.fb.group({
-      career: ['', Validators.required],
+      subject: ['', Validators.required],
       nameTeacher: ['', Validators.required],
       emailTeacher: ['', Validators.required],
       parallel: ['', Validators.required],
@@ -53,6 +54,23 @@ export class CrearPlazaComponent implements OnInit {
       this.activePeriod = period;
     });
 
+    this.cargarCiclos();
+    this.cargarMallas();
+
+
+
+  }
+
+  cargarCiclos() {
+    this.firestore.collection('academicCycles').valueChanges().subscribe((data: any[]) => {
+      this.academicCycles = data.map(item => item.name);
+    });
+  }
+
+  cargarMallas() {
+    this.firestore.collection('curriculums').valueChanges().subscribe((data: any[]) => {
+      this.curriculums = data.map(item => item.name);
+    });
   }
 
 
@@ -129,7 +147,7 @@ export class CrearPlazaComponent implements OnInit {
   guardarDatos(): void {
     if (this.form.valid) {
       const formData = this.form.value;
-      const career = formData.career;
+      const subject = formData.subject;
       const parallel = formData.parallel;
       const periodID = this.activePeriod ? this.activePeriod.id : null;
 
@@ -137,7 +155,7 @@ export class CrearPlazaComponent implements OnInit {
       this.firestore
         .collection('plazas', (ref) =>
           ref
-            .where('career', '==', career)
+            .where('subject', '==', subject)
             .where('parallel', '==', parallel)
             .where('periodID', '==', periodID)
         )
@@ -159,8 +177,7 @@ export class CrearPlazaComponent implements OnInit {
                 periodID: periodID,
                 directorsId: this.directors?.id || null,
                 directorsName: this.directors?.name || null,
-                directorsCareer: this.directors?.career || null,
-                directorsSubject: this.directors?.subject || null,
+                career: this.directors?.career || null,
                 postulant: [], // Inicializar como un arreglo vacío
               })
               .then(() => {

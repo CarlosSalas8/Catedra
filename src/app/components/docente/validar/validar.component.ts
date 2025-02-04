@@ -14,10 +14,15 @@ export class ValidarComponent implements OnInit {
   teacher: any;
   teacherId: string | null = null;
   validationMessage: string = '';
+  activePeriod: any | null = null;
 
-  constructor(private firestore: AngularFirestore, private route: ActivatedRoute) { }
+  constructor(private firestore: AngularFirestore,public periodoService: PeriodoService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
+    });
 
     const actividadId = this.route.snapshot.paramMap.get('actividadId');
     if (actividadId) {

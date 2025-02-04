@@ -28,6 +28,7 @@ const routes: Routes = [
   { path: 'seguimiento', loadChildren: () => import('./components/admin/seguimiento/seguimiento.module').then(x => x.SeguimientoModule)},
   { path: 'subir-tutores', loadChildren: () => import('./components/admin/subir-tutores/subir-tutores.module').then(x => x.SubirTutoresModule)},
   { path: 'teachers', loadChildren: () => import('./components/admin/teachers/teachers.module').then(x => x.TeachersModule)},
+  { path: 'submit', loadChildren: () => import('./components/admin/submit/submit.module').then(x => x.SubmitModule)},
 
   { path: 'home-director', loadChildren: () => import('./components/director/home-director/home-director.module').then(x => x.HomeDirectorModule)},
   { path: 'crear-plaza', loadChildren: () => import('./components/director/crear-plaza/crear-plaza.module').then(x => x.CrearPlazaModule)},

@@ -10,7 +10,7 @@
 <body class="h-screen overflow-auto">
 
   <app-navbar-directors> </app-navbar-directors>
-  
+
   <app-aside-directors> </app-aside-directors>
 
 
@@ -55,17 +55,19 @@
                   class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100 ">
                   <td class="px-6 py-4">{{ plazas.nameTeacher }}</td>
                   <td class="px-6 py-4">{{ plazas.career }}</td>
-                  <td class="px-6 py-4">{{ plazas.directorsSubject }}</td>
+                  <td class="px-6 py-4">{{ plazas.subject }}</td>
                   <td class="px-6 py-4">{{ plazas.curriculum }}</td>
                   <td class="px-6 py-4">{{ plazas.academicCycle }}</td>
                   <td class="px-6 py-4">{{ plazas.parallel }}</td>
                   <td class="px-6 py-4">{{ plazas.totalPostulantes }}</td>
 
                   <td class="px-6 py-4">
-                    <a [routerLink]="['/postulantes', plazas.id]" class="text-customBlueHover hover:underline">Ver Postulantes</a>
+                    <a [routerLink]="['/postulantes', plazas.id]" class="text-customBlueHover hover:underline">Ver
+                      Postulantes</a>
                   </td>
                   <td class="px-6 py-4">
-                    <button (click)="toggleModal(plazas)" class="text-customBlueHover hover:underline mr-4">Editar</button>
+                    <button (click)="toggleModal(plazas)"
+                      class="text-customBlueHover hover:underline mr-4">Editar</button>
                     <button (click)="eliminarPlaza(plazas.id)" class="text-red-600 hover:underline">Eliminar</button>
                   </td>
                 </tr>
@@ -89,14 +91,14 @@
           <span class="font-semibold">DIRECTOR:</span> {{ directors.name }}
         </p>
         <p class="text-sm text-gray-700 text-center">
-          <span class="font-semibold">Asignatura:</span> {{ directors.subject }}
+          <span class="font-semibold">CARRERA:</span> {{ directors.career }}
         </p>
       </div>
       <div *ngIf="!directors" class="text-center">
         <p class="text-sm text-red-500">No se encontró información del director autenticado.</p>
       </div>
-      
-      
+
+
 
       <!-- Formulario de entrada -->
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -104,26 +106,22 @@
 
           <!-- Subject -->
           <div>
-            <label class="block text-gray-700 font-medium mb-2">Carrera</label>
-            <select formControlName="career" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
-              <option value="" disabled selected>Selecciona una opción</option>
-              <option value="COMPUTACION">COMPUTACION</option>
-              <option value="MEDICINA">MEDICINA</option>
-              <!-- Agrega más opciones según corresponda -->
-            </select>
+            <label class="block text-gray-700 font-medium mb-2">Asignatura</label>
+            <input formControlName="subject" type="text" placeholder="ARQUITECTURA DE SOFTWARE"
+              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
           <!-- teacher -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Docente</label>
-            <input formControlName="nameTeacher" type="text" placeholder="LENIN VICUÑA"
+            <input formControlName="nameTeacher" type="text" placeholder="Carlos Salas"
               class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
           <!-- Correo del teacher -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Correo de docente</label>
-            <input formControlName="emailTeacher" type="emailTeacher" placeholder="lmvicuna2@utpl.edu.ec"
+            <input formControlName="emailTeacher" type="emailTeacher" placeholder="casalas@utpl.edu.ec"
               class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
@@ -137,22 +135,20 @@
           <!-- Malla Curricular -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Malla Curricular</label>
-            <select formControlName="curriculum" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
-              <option value="" disabled selected>Selecciona una opción</option>
-              <option value="Malla1">Malla1</option>
-              <option value="Malla2">Malla2</option>
-              <!-- Agrega más opciones según corresponda -->
+            <select id="curriculum" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700"
+              formControlName="curriculum">
+              <option value="" disabled>Selecciona una opción</option>
+              <option *ngFor="let curriculum of curriculums" [value]="curriculum">{{ curriculum }}</option>
             </select>
           </div>
 
           <!-- Ciclo requerido -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Ciclo requerido</label>
-            <select formControlName="academicCycle" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
-              <option value="" disabled selected>Selecciona una opción</option>
-              <option value="Ciclo1">Ciclo1</option>
-              <option value="Ciclo2">Ciclo2</option>
-              <!-- Agrega más opciones según corresponda -->
+            <select id="academicCycle" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700"
+              formControlName="academicCycle">
+              <option value="" disabled>Selecciona una opción</option>
+              <option *ngFor="let academicCycle of academicCycles" [value]="academicCycle">{{ academicCycle }}</option>
             </select>
           </div>
         </div>

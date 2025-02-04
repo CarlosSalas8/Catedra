@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent
@@ -30,6 +31,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     SharedModule
+  
   ],
   
   providers: [

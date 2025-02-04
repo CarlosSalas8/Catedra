@@ -13,10 +13,15 @@ export class ActividadesDocentesComponent {
   activity: any;
   activitys: any[] = [];
   teacherId: string | null = null;
+  activePeriod: any | null = null;
 
   constructor(public periodoService: PeriodoService,private firestore: AngularFirestore,private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
+    });
 
     
     this.route.paramMap.subscribe(params => {
