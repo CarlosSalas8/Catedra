@@ -73,10 +73,10 @@
         <div class="mb-6">
           <label for="academicCycle" class="block text-sm text-center text-gray-700 font-medium mb-2">¡Selecciona el
             ciclo!</label>
-          <select formControlName="academicCycle" class="w-full p-3 border rounded-lg text-gray-700 focus:outline-none">
-            <option value="" disabled selected>Selecciona una opción</option>
-            <option value="Ciclo1">Ciclo 1</option>
-            <option value="Ciclo2">Ciclo 2</option>
+          <select id="academicCycle" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700"
+            formControlName="academicCycle">
+            <option value="" disabled>Selecciona una opción</option>
+            <option *ngFor="let academicCycle of academicCycles" [value]="academicCycle">{{ academicCycle }}</option>
           </select>
         </div>
         <div class="flex justify-center mt-6 space-x-4">

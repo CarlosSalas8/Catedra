@@ -25,6 +25,7 @@ export class PlazasComponent implements OnInit {
   showAlert: boolean = false;
   showError: boolean = false;
   errorMessage: string = '';
+  academicCycles: string[] = [];
 
   constructor(public periodoService: PeriodoService, private firestore: AngularFirestore, private authService: AuthService, private fb: FormBuilder) { }
 
@@ -45,6 +46,10 @@ export class PlazasComponent implements OnInit {
       }
     });
 
+    this.cargarCiclos();
+
+
+
     // Suscribirse al período activo
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
@@ -57,6 +62,12 @@ export class PlazasComponent implements OnInit {
     this.form = this.fb.group({
       phone: ['', Validators.required],
       academicCycle: ['', Validators.required],
+    });
+  }
+
+  cargarCiclos() {
+    this.firestore.collection('academicCycles').valueChanges().subscribe((data: any[]) => {
+      this.academicCycles = data.map(item => item.name);
     });
   }
 
