@@ -79,6 +79,12 @@ export class AuthService {
     });
   }
 
+  getActivities(): Observable<any[]> {
+    return this.firestore.collection('activities').valueChanges(); 
+  }
+
+
+
 
   private async createTeacherCollection(user: firebase.default.User) {
     const teacherDocRef = this.firestore.collection('teachers').doc(user.uid);

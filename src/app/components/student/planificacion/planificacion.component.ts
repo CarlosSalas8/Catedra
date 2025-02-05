@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
+import { Activity } from '../../models/activity.model';
 
 @Component({
   selector: 'app-planificacion',
@@ -21,6 +22,8 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
   periodos: Observable<any[]> | undefined;
   private periodSubscription: Subscription | undefined;
   userEmail: string | null = null;
+  plazasDelUsuario: any[] = [];
+  activitiesLoaded = false;
 
   constructor(private fb: FormBuilder, private firestore: AngularFirestore, private router: Router, public periodoService: PeriodoService, private authService: AuthService) {
     this.form = this.fb.group({
@@ -33,8 +36,6 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       activities: this.fb.array([]), // Primer bimestre
       activitiesSegundo: this.fb.array([]), // Segundo bimestre
       activitiesRecuperacion: this.fb.array([]),  // Recuperación
-      
-
     });
     console.log('Formulario inicializado:', this.form); // Para validar que el formulario está correctamente creado
   }
@@ -50,12 +51,76 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       if (user) {
         this.userEmail = user.email;
         console.log('Usuario logueado:', this.userEmail);
+        this.obtenerPlazasDelUsuario();
       } else {
         console.error('No hay un usuario autenticado.');
       }
     });
 
+    if (!this.activitiesLoaded) {
+      this.authService.getActivities().subscribe(activities => {
+        this.setActivities(activities);
+        this.activitiesLoaded = true;  // Evita cargar las actividades más de una vez
+      });
+    }
+
   }
+
+  setActivities(activities: any[]): void {
+    activities.forEach(activity => {
+      let activitiesArray: FormArray;
+  
+      // Determinar a qué array de actividades pertenece según el campo "type"
+      switch (activity.type) {
+        case 'segundo_bimestre':
+          activitiesArray = this.form.get('activitiesSegundo') as FormArray;
+          break;
+        case 'recuperacion':
+          activitiesArray = this.form.get('activitiesRecuperacion') as FormArray;
+          break;
+        default:
+          activitiesArray = this.form.get('activities') as FormArray; // Primer bimestre
+          break;
+      }
+  
+      // Evitar agregar actividades duplicadas
+      const existingActivity = activitiesArray.controls.find(ctrl =>
+        ctrl.get('activity')?.value === activity.activity &&
+        ctrl.get('startdate')?.value === activity.startdate &&
+        ctrl.get('enddate')?.value === activity.enddate
+      );
+  
+      if (!existingActivity) {
+        activitiesArray.push(this.fb.group({
+          activity: [activity.activity],
+          startdate: [activity.startdate],
+          enddate: [activity.enddate],
+          verificationmethod: [activity.verificationmethod]
+        }));
+      }
+    });
+  }
+
+  obtenerPlazasDelUsuario() {
+    this.firestore.collection('plazas').valueChanges().pipe(take(1)).subscribe((plazas: any[]) => {
+      this.plazasDelUsuario = plazas.filter((plaza: any) =>
+        plaza.postulant?.some((p: any) => p.usuario?.email === this.userEmail)
+      );
+
+      if (this.plazasDelUsuario.length > 0) {
+        const datos = this.plazasDelUsuario[0];  // Primer registro encontrado
+        this.form.patchValue({
+          nameTeacher: datos.nameTeacher || '',
+          assistant: datos.postulant?.[0]?.usuario?.name || '',
+          faculty: datos.faculty || '',
+          career: datos.career || '',
+          subject: datos.subject || '',
+          modality: datos.mode || ''
+        });
+      }
+    });
+  }
+
 
   ngOnDestroy(): void {
     if (this.periodSubscription) {
@@ -110,71 +175,129 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
     });
   }
 
+  async guardarDatos() {
+    if (!this.form.valid || !this.activePeriod) {
+      console.warn('Formulario inválido o no hay periodo activo');
+      alert('Por favor, completa todos los campos del formulario y asegúrate de que hay un periodo activo.');
+      return;
+    }
 
+    console.log('Formulario válido. Datos a guardar:', this.form.value);
 
-  guardarDatos(): void {
-    console.log('Formulario válido. Datos a guardar:', this.form.valid);
-    console.log('Periodo activo recibido:', this.activePeriod);
+    const formData = this.form.value;
+    const nameTeacher = formData.nameTeacher;
+    const assistant = formData.assistant;
 
-    if (this.form.valid && this.activePeriod) {
-      console.log('Formulario válido. Datos a guardar:', this.form.value);
+    const generalData = {
+      nameTeacher: nameTeacher,
+      assistant: assistant,
+      faculty: formData.faculty,
+      career: formData.career,
+      subject: formData.subject,
+      modality: formData.modality,
+      emailAssistant: this.userEmail
+    };
 
-      const formData = this.form.value;
-      const nameTeacher = formData.nameTeacher; // Nombre del docente
-      const assistant = formData.assistant; // Nombre del asistente
+    console.log('Datos generales a guardar:', generalData);
 
-      const generalData = {
-        nameTeacher: nameTeacher,
-        assistant: assistant,
-        faculty: formData.faculty,
-        career: formData.career,
-        subject: formData.subject,
-        modality: formData.modality,
-        emailAssistant: this.userEmail  // Agregar el email del usuario logueado
-      };
+    try {
+      // 🔹 Obtener si el docente existe usando firstValueFrom() en lugar de subscribe()
+      const snapshot = await firstValueFrom(
+        this.firestore.collection('teachers', ref => ref.where('name', '==', nameTeacher)).get()
+      );
 
-      console.log('Datos generales a guardar:', generalData);
+      if (snapshot.empty) {
+        console.warn('El docente no existe en la base de datos.');
+        alert('El docente no está registrado. No se pueden guardar las actividades.');
+        return;
+      }
+
+      // 🔹 Consultar las actividades existentes en Firebase para evitar duplicación
+      const activitiesSnapshot = await firstValueFrom(
+        this.firestore.collection('activities', ref => ref.where('periodID', '==', this.activePeriod.id)).get()
+      );
+
+      // Asegurarse de que existingActivities tiene el tipo adecuado
+      const existingActivities: Activity[] = activitiesSnapshot.docs.map(doc => doc.data() as Activity);
 
       const batch = this.firestore.firestore.batch();
 
-      // Verificar si el docente ya existe en la colección "teacher"
-      this.firestore.collection('teachers', ref => ref.where('name', '==', nameTeacher)).get().subscribe(snapshot => {
-        if (snapshot.empty) {
-          console.warn('El docente no existe en la base de datos.');
-          alert('El docente no está registrado. No se pueden guardar las actividades.');
-        } else {
-          const teacherDocId = snapshot.docs[0].id; // ID del docente existente
-
-          // Mantener la lógica existente para guardar en la colección de actividades
-          this.periodoService.saveActivities(batch, generalData, formData.activities, 'primer_bimestre', this.activePeriod.id);
-          this.periodoService.saveActivities(batch, generalData, formData.activitiesSegundo, 'segundo_bimestre', this.activePeriod.id);
-          this.periodoService.saveActivities(batch, generalData, formData.activitiesRecuperacion, 'recuperacion', this.activePeriod.id);
-
-          // Realizar el commit del batch para guardar todo
-          batch.commit()
-            .then(() => {
-              console.log('Datos guardados correctamente en Firebase');
-              this.form.reset();
-              alert('¡Datos guardados correctamente!');
-              this.router.navigateByUrl('/vista');
-            })
-            .catch(error => {
-              console.error('Error al guardar los datos en Firebase:', error);
-              alert('Error al guardar los datos. Por favor, inténtalo de nuevo.');
-            });
-        }
+      // 🔹 Filtrar las actividades que no están ya en Firebase
+      formData.activities = formData.activities.filter((activity: Activity) => {
+        return !existingActivities.some((existing: Activity) => {
+          const existingStartDate = existing.startdate instanceof Date 
+            ? existing.startdate 
+            : existing.startdate.toDate ? existing.startdate.toDate() 
+            : new Date(existing.startdate);
+          
+          const existingEndDate = existing.enddate instanceof Date 
+            ? existing.enddate 
+            : existing.enddate.toDate ? existing.enddate.toDate() 
+            : new Date(existing.enddate);
+      
+          return (
+            existing.activity === activity.activity &&
+            existingStartDate.getTime() === new Date(activity.startdate).getTime() &&
+            existingEndDate.getTime() === new Date(activity.enddate).getTime()
+          );
+        });
       });
-    } else {
-      console.warn('Formulario inválido o no hay periodo activo');
-      alert('Por favor, completa todos los campos del formulario y asegúrate de que hay un periodo activo.');
+
+      formData.activitiesSegundo = formData.activitiesSegundo.filter((activity: Activity) => {
+        return !existingActivities.some((existing: Activity) => {
+          const existingStartDate = existing.startdate instanceof Date 
+            ? existing.startdate 
+            : existing.startdate.toDate ? existing.startdate.toDate() 
+            : new Date(existing.startdate);
+          
+          const existingEndDate = existing.enddate instanceof Date 
+            ? existing.enddate 
+            : existing.enddate.toDate ? existing.enddate.toDate() 
+            : new Date(existing.enddate);
+      
+          return (
+            existing.activity === activity.activity &&
+            existingStartDate.getTime() === new Date(activity.startdate).getTime() &&
+            existingEndDate.getTime() === new Date(activity.enddate).getTime()
+          );
+        });
+      });
+      
+      formData.activitiesRecuperacion = formData.activitiesRecuperacion.filter((activity: Activity) => {
+        return !existingActivities.some((existing: Activity) => {
+          const existingStartDate = existing.startdate instanceof Date 
+            ? existing.startdate 
+            : existing.startdate.toDate ? existing.startdate.toDate() 
+            : new Date(existing.startdate);
+          
+          const existingEndDate = existing.enddate instanceof Date 
+            ? existing.enddate 
+            : existing.enddate.toDate ? existing.enddate.toDate() 
+            : new Date(existing.enddate);
+      
+          return (
+            existing.activity === activity.activity &&
+            existingStartDate.getTime() === new Date(activity.startdate).getTime() &&
+            existingEndDate.getTime() === new Date(activity.enddate).getTime()
+          );
+        });
+      });
+      // 🔹 Guardar solo las actividades no duplicadas
+      this.periodoService.saveActivities(batch, generalData, formData.activities, 'primer_bimestre', this.activePeriod.id);
+      this.periodoService.saveActivities(batch, generalData, formData.activitiesSegundo, 'segundo_bimestre', this.activePeriod.id);
+      this.periodoService.saveActivities(batch, generalData, formData.activitiesRecuperacion, 'recuperacion', this.activePeriod.id);
+
+      await batch.commit();
+
+      console.log('Datos guardados correctamente en Firebase');
+      this.form.reset();
+      alert('¡Datos guardados correctamente!');
+      this.router.navigateByUrl('/vista');
+    } catch (error) {
+      console.error('Error al guardar los datos en Firebase:', error);
+      alert('Error al guardar los datos. Por favor, inténtalo de nuevo.');
     }
   }
-
-
-
-
-
-
 
   // Métodos para obtener los controles específicos del Primer Bimestre
   getactivityControl(index: number): FormControl {

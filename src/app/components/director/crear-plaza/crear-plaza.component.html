@@ -82,7 +82,7 @@
   </div>
 
   <div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white p-8 rounded-3xl shadow-lg max-w-lg md:max-w-2xl lg:max-w-5xl mx-auto">
+    <div class="bg-white p-8 rounded-3xl shadow-lg max-w-lg md:max-w-2xl lg:max-w-7xl mx-auto">
       <!-- Título del formulario -->
       <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Crear Plaza</h2>
 
@@ -102,7 +102,7 @@
 
       <!-- Formulario de entrada -->
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 p-4">
 
           <!-- Subject -->
           <div>
@@ -142,6 +142,13 @@
             </select>
           </div>
 
+          <!-- Paralelo -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Modalidad</label>
+            <input formControlName="mode" type="text" placeholder="Presencial"
+              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+          </div>
+
           <!-- Ciclo requerido -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Ciclo requerido</label>
@@ -151,6 +158,18 @@
               <option *ngFor="let academicCycle of academicCycles" [value]="academicCycle">{{ academicCycle }}</option>
             </select>
           </div>
+
+          <!-- Facultad -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">Facultad</label>
+            <select id="faculty" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700" formControlName="faculty">
+              <option value="" disabled>Selecciona una opción</option>
+              <option *ngFor="let faculty of faculties" [value]="faculty">{{ faculty }}</option>
+            </select>
+          </div>
+
+
+
         </div>
 
         <!-- Botones -->

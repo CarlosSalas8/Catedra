@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  
+
   <app-navbar-student> </app-navbar-student>
 
 
@@ -16,7 +16,7 @@
 
   <form [formGroup]="form" (ngSubmit)="guardarDatos()">
 
-    <div class="p-4 sm:ml-20"> 
+    <div class="p-4 sm:ml-20">
       <div class="p-4 mt-14">
         <div class="flex items-center justify-center h-48 rounded relative">
           <div class="absolute inset-0 flex items-center justify-center">
@@ -81,18 +81,20 @@
                 <input type="text" [formControl]="getactivityControl(i)" [id]="'activity' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
-              <div class="items-center justify-center h-24 rounded ">
+              <div class="items-center justify-center h-24 rounded">
                 <label for="startdate{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
                   inicio</label><br>
-                <input type="text" [formControl]="getstartdateControl(i)" [id]="'startdate' + i"
+                <input type="date" [formControl]="getstartdateControl(i)" [id]="'startdate' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
-              <div class="items-center justify-center h-24 rounded ">
+
+              <div class="items-center justify-center h-24 rounded">
                 <label for="enddate{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
                   fin</label><br>
-                <input type="text" [formControl]="getenddateControl(i)" [id]="'enddate' + i"
+                <input type="date" [formControl]="getenddateControl(i)" [id]="'enddate' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
+
               <div class="items-center justify-center h-24 rounded ">
                 <label for="verificationmethod{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio
                   de verificación</label>
@@ -125,21 +127,21 @@
           <div formArrayName="itemsSegundo">
             <div *ngFor="let item of activitiesSegundo.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
               <div class="items-center justify-center h-24 rounded ">
-                <label for="activitySegundo{{i}}"
-                  class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a realizar</label>
+                <label for="activitySegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades
+                  a realizar</label>
                 <input type="text" [formControl]="getactivitySegundoControl(i)" [id]="'activitySegundo' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
                 <label for="startdateSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
                   de inicio</label><br>
-                <input type="text" [formControl]="getstartdateSegundoControl(i)" [id]="'startdateSegundo' + i"
+                <input type="date" [formControl]="getstartdateSegundoControl(i)" [id]="'startdateSegundo' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
                 <label for="enddateSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
                   fin</label><br>
-                <input type="text" [formControl]="getenddateSegundoControl(i)" [id]="'enddateSegundo' + i"
+                <input type="date" [formControl]="getenddateSegundoControl(i)" [id]="'enddateSegundo' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
@@ -157,7 +159,8 @@
               (click)="addItemsSegundo()">Agregar actividad</button>
             <button type="button"
               class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2"
-              *ngIf="activitiesSegundo.length > 0" (click)="removeItemsSegundo(activitiesSegundo.length - 1)">Eliminar última
+              *ngIf="activitiesSegundo.length > 0" (click)="removeItemsSegundo(activitiesSegundo.length - 1)">Eliminar
+              última
               actividad</button>
           </div>
         </div>
@@ -165,7 +168,8 @@
         <div class="p-4 border-2 mt-5 mb-6 rounded-lg">
           <p class="mb-5 font-bold">Act. Periodo de Recuperación </p>
           <div formArrayName="itemsRecuperacion">
-            <div *ngFor="let item of activitiesRecuperacion.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
+            <div *ngFor="let item of activitiesRecuperacion.controls; let i = index"
+              class="grid grid-cols-4 gap-24 mb-5">
               <div class="items-center justify-center h-24 rounded ">
                 <label for="activityRecuperacion{{i}}"
                   class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a realizar</label>
@@ -173,18 +177,16 @@
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="startdateRecuperacion{{i}}"
-                  class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
+                <label for="startdateRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
                   de inicio</label><br>
-                <input type="text" [formControl]="getstartdateRecuperacionControl(i)"
-                  [id]="'startdateRecuperacion' + i"
+                <input type="date" [formControl]="getstartdateRecuperacionControl(i)" [id]="'startdateRecuperacion' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
                 <label for="enddateRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
                   de
                   fin</label><br>
-                <input type="text" [formControl]="getenddateRecuperacionControl(i)" [id]="'enddateRecuperacion' + i"
+                <input type="date" [formControl]="getenddateRecuperacionControl(i)" [id]="'enddateRecuperacion' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">

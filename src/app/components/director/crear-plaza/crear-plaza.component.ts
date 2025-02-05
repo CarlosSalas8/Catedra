@@ -23,6 +23,7 @@ export class CrearPlazaComponent implements OnInit {
 
   academicCycles: string[] = [];
   curriculums: string[] = [];
+  faculties: string[] = [];
 
   constructor(
     public periodoService: PeriodoService,
@@ -35,8 +36,10 @@ export class CrearPlazaComponent implements OnInit {
       nameTeacher: ['', Validators.required],
       emailTeacher: ['', Validators.required],
       parallel: ['', Validators.required],
+      mode: ['', Validators.required],
       curriculum: ['', Validators.required],
       academicCycle: ['', Validators.required],
+      faculty: ['', Validators.required],
     });
   }
 
@@ -56,6 +59,7 @@ export class CrearPlazaComponent implements OnInit {
 
     this.cargarCiclos();
     this.cargarMallas();
+    this.cargarFacultades();
 
 
 
@@ -64,6 +68,11 @@ export class CrearPlazaComponent implements OnInit {
   cargarCiclos() {
     this.firestore.collection('academicCycles').valueChanges().subscribe((data: any[]) => {
       this.academicCycles = data.map(item => item.name);
+    });
+  }
+  cargarFacultades() {
+    this.firestore.collection('faculties').valueChanges().subscribe((data: any[]) => {
+      this.faculties = data.map(item => item.name);
     });
   }
 
