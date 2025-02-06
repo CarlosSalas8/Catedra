@@ -75,25 +75,58 @@ export class AuthService {
   
 
 
-
-
-
-
-
-
   async loginWithMicrosoft() {
-  try {
-    const provider = new OAuthProvider('microsoft.com');
-    provider.setCustomParameters({
-      tenant: '6eeb49aa-436d-43e6-becd-bbdf79e5077d' // Usa el Tenant ID aquí
-    });
-    const result = await this.afAuth.signInWithPopup(provider);
-    this.router.navigate(['/bienvenido']);
-  } catch (error) {
-    console.error("Hubo un error durante el inicio de sesión con Microsoft:", error);
-    alert("Hubo un error, vuelva a iniciar sesión o comuníquese con el administrador del sistema.");
+    try {
+      const provider = new OAuthProvider('microsoft.com');
+      provider.setCustomParameters({
+        tenant: '6eeb49aa-436d-43e6-becd-bbdf79e5077d' // Usa el Tenant ID aquí
+      });
+  
+      const userCredential = await this.afAuth.signInWithPopup(provider);
+      const user = userCredential.user;
+      if (!user) throw new Error('No se pudo autenticar el usuario');
+  
+      const userEmail = user.email;
+      if (!userEmail) throw new Error('No se encontró el email del usuario');
+  
+      const token = await user.getIdToken();
+      sessionStorage.setItem('userToken', token);
+  
+      const adminSnapshot = await this.firestore.collection('users').ref.where('role', '==', 'admin').where('email', '==', userEmail).get();
+      const directorSnapshot = await this.firestore.collection('directors').ref.where('email', '==', userEmail).get();
+      const teacherSnapshot = await this.firestore.collection('plazas').ref.where('emailTeacher', '==', userEmail).get();
+  
+      let role = 'student';
+      if (!adminSnapshot.empty) role = 'admin';
+      else if (!directorSnapshot.empty) role = 'director';
+      else if (!teacherSnapshot.empty) role = 'teacher';
+  
+      const userData = {
+        userID: user.uid,
+        email: userEmail,
+        name: user.displayName || '',
+        photoURL: user.photoURL || '',
+        role: role,
+        periodID: this.activePeriod?.id || null
+      };
+  
+      await this.firestore.collection('users').doc(user.uid).set(userData, { merge: true });
+  
+      if (role === 'teacher') {
+        await this.createTeacherCollection(user);
+      }
+  
+      // 🔹 Guardar usuario en cookies para mantener la sesión
+      this.cookieService.setCookie('user', JSON.stringify(userData), 7); // Se guarda por 7 días
+      
+      return user;
+    } catch (error) {
+      console.error("Hubo un error durante el inicio de sesión con Microsoft:", error);
+      alert("Hubo un error, vuelva a iniciar sesión o comuníquese con el administrador del sistema.");
+      throw error;
+    }
   }
-}
+  
 
 
 
