@@ -50,15 +50,38 @@
         </table>
       </div>
 
+      <div *ngIf="activity" class="bg-white shadow-md rounded-lg overflow-hidden p-6 mt-8">
+        <h2 class="text-2xl mb-4 font-bold">Archivos Subidos</h2>
+        <div class="min-w-full divide-y divide-gray-200">
+          <ul *ngIf="files.length > 0">
+            <li *ngFor="let file of files" class="flex items-center justify-between border-b py-2">
+              <div class="flex items-center">
+                <img src="/assets/pdf-icon.png" alt="PDF Icon" class="w-6 h-6 mr-2">
+                <span>{{ file.name }}</span>
+              </div>
+              <button class="bg-customBlue hover:bg-customBlueHover text-white px-3 py-1 rounded"
+                (click)="selectFile(file.url)">
+                Ver
+              </button>
+            </li>
+          </ul>
+          <p *ngIf="files.length === 0" class="text-gray-500">No hay archivos subidos aún.</p>
+        </div>
+      </div>
+
       <div class="mt-4 flex items-center justify-center h-20 mb-4 rounded">
-        <button class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2 active:scale-100" (click)="validateActivity(true)">
+        <button
+          class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2 active:scale-100"
+          (click)="validateActivity(true)">
           Validar
         </button>
-        <button class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2 active:scale-100" (click)="validateActivity(false)">
+        <button
+          class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2 active:scale-100"
+          (click)="validateActivity(false)">
           No Validar
         </button>
       </div>
-      
+
       <div *ngIf="activity" class="bg-white shadow-md rounded-lg overflow-hidden p-2">
         <h2 class="text-2xl mb-4 font-bold">Detalles del Docente</h2>
         <table class="min-w-full divide-y divide-gray-200">
@@ -81,14 +104,15 @@
           </tr>
         </table>
       </div>
-      
-      
 
 
 
+      <!-- Mostrar la vista previa del PDF -->
+      <div *ngIf="previewUrl" class="bg-white shadow-md rounded-lg overflow-hidden p-6 mt-8">
+        <h2 class="text-2xl mb-4 font-bold">Documento Seleccionado:</h2>
+        <iframe [src]="previewUrl" width="100%" height="500px"></iframe>
+      </div>
 
-      
-      
 
 
 

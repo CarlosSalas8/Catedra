@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PeriodoService } from 'src/app/services/periodo.service';
@@ -15,10 +17,20 @@ export class ValidarComponent implements OnInit {
   teacherId: string | null = null;
   validationMessage: string = '';
   activePeriod: any | null = null;
+  files: any[] = [];  // Lista de archivos subidos
+  previewUrl: SafeResourceUrl | null = null; // Para mostrar el PDF seleccionado
 
-  constructor(private firestore: AngularFirestore,public periodoService: PeriodoService, private route: ActivatedRoute) { }
+  constructor(private firestore: AngularFirestore, 
+    public periodoService: PeriodoService, 
+    private route: ActivatedRoute,
+    private storage: AngularFireStorage,
+    private sanitizer: DomSanitizer) { }
+
 
   ngOnInit(): void {
+
+    
+    
 
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
@@ -30,6 +42,14 @@ export class ValidarComponent implements OnInit {
         this.activity = actividadData;
       });
     }
+    if (actividadId) {
+      this.firestore.collection('activities').doc(actividadId).valueChanges().subscribe((data: any) => {
+        this.activity = data;
+        this.loadFiles(); // Cargar los archivos relacionados con la actividad
+      });
+    }
+
+    
 
     this.route.paramMap.subscribe(params => {
       this.teacherId = params.get('id'); // Obtener el id del teacher de los parámetros de la ruta
@@ -40,6 +60,29 @@ export class ValidarComponent implements OnInit {
       }
     });
 
+  }
+
+  loadFiles() {
+    if (!this.activity || !this.activity.id) return;
+    const filePath = `actividades/${this.activity.id}/`;
+  
+    this.files = []; 
+  
+    this.storage.ref(filePath).listAll().subscribe(result => {
+      result.items.forEach(item => {
+        item.getDownloadURL().then(url => {
+          // Verificar si el archivo ya está en la lista para evitar duplicados
+          if (!this.files.some(file => file.url === url)) {
+            this.files.push({ name: item.name, url: url });
+          }
+        });
+      });
+    });
+  }
+  
+
+  selectFile(url: string) {
+    this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
 

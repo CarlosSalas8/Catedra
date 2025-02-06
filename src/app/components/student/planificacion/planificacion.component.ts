@@ -2,11 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { firstValueFrom, Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, Observable, of, Subscription } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
 import { Activity } from '../../models/activity.model';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-planificacion',
@@ -25,7 +26,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
   plazasDelUsuario: any[] = [];
   activitiesLoaded = false;
 
-  constructor(private fb: FormBuilder, private firestore: AngularFirestore, private router: Router, public periodoService: PeriodoService, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private firestore: AngularFirestore, private router: Router, public periodoService: PeriodoService, private authService: AuthService, private afAuth: AngularFireAuth) {
     this.form = this.fb.group({
       nameTeacher: ['', Validators.required],
       assistant: ['', Validators.required],
@@ -67,39 +68,52 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
   }
 
   setActivities(activities: any[]): void {
-    activities.forEach(activity => {
-      let activitiesArray: FormArray;
+    this.afAuth.authState.pipe(
+      take(1), // Tomamos solo el primer estado de autenticación
+      switchMap(user => {
+        if (!user) return of([]); // Si no hay usuario, devolvemos un observable vacío
+        return this.firestore.collection('activities', ref =>
+          ref.where('emailAssistant', '==', user.email)
+        ).valueChanges();
+      })
+    ).subscribe(filteredActivities => {
+      filteredActivities.forEach((activity: any) => {
+        let activitiesArray: FormArray;
   
-      // Determinar a qué array de actividades pertenece según el campo "type"
-      switch (activity.type) {
-        case 'segundo_bimestre':
-          activitiesArray = this.form.get('activitiesSegundo') as FormArray;
-          break;
-        case 'recuperacion':
-          activitiesArray = this.form.get('activitiesRecuperacion') as FormArray;
-          break;
-        default:
-          activitiesArray = this.form.get('activities') as FormArray; // Primer bimestre
-          break;
-      }
+        // Determinar a qué array de actividades pertenece según el campo "type"
+        switch (activity.type) {
+          case 'segundo_bimestre':
+            activitiesArray = this.form.get('activitiesSegundo') as FormArray;
+            break;
+          case 'recuperacion':
+            activitiesArray = this.form.get('activitiesRecuperacion') as FormArray;
+            break;
+          default:
+            activitiesArray = this.form.get('activities') as FormArray; // Primer bimestre
+            break;
+        }
   
-      // Evitar agregar actividades duplicadas
-      const existingActivity = activitiesArray.controls.find(ctrl =>
-        ctrl.get('activity')?.value === activity.activity &&
-        ctrl.get('startdate')?.value === activity.startdate &&
-        ctrl.get('enddate')?.value === activity.enddate
-      );
+        // Evitar agregar actividades duplicadas
+        const existingActivity = activitiesArray.controls.find(ctrl =>
+          ctrl.get('activity')?.value === activity.activity &&
+          ctrl.get('startdate')?.value === activity.startdate &&
+          ctrl.get('enddate')?.value === activity.enddate
+        );
   
-      if (!existingActivity) {
-        activitiesArray.push(this.fb.group({
-          activity: [activity.activity],
-          startdate: [activity.startdate],
-          enddate: [activity.enddate],
-          verificationmethod: [activity.verificationmethod]
-        }));
-      }
+        if (!existingActivity) {
+          activitiesArray.push(this.fb.group({
+            activity: [activity.activity],
+            startdate: [activity.startdate],
+            enddate: [activity.enddate],
+            verificationmethod: [activity.verificationmethod]
+          }));
+        }
+      });
     });
   }
+  
+  
+
 
   obtenerPlazasDelUsuario() {
     this.firestore.collection('plazas').valueChanges().pipe(take(1)).subscribe((plazas: any[]) => {
