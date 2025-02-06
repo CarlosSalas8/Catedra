@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
 
 @Component({
@@ -10,13 +11,17 @@ export class NavbarAdminComponent implements OnInit {
 
   activePeriod: any | null = null;
 
-   constructor(public periodoService: PeriodoService) {}
+   constructor(public periodoService: PeriodoService, private authService: AuthService) {}
 
    ngOnInit(): void {
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
     });
     this.setupMobileMenuToggle();
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
   setupMobileMenuToggle(): void {

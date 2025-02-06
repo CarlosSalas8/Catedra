@@ -10,7 +10,6 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { SharedModule } from './components/shared/shared.module';
 import { AuthService } from './services/auth.service';
-import { AdminGuard, AlumnoGuard, AuthGuard, ProfesorGuard } from './services/auth.guard';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -35,11 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   
   providers: [
-    AuthService,
-    AuthGuard,
-    AdminGuard,
-    ProfesorGuard,
-    AlumnoGuard
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
