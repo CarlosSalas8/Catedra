@@ -137,14 +137,6 @@ export class LoginComponent implements OnInit {
   }
   
 
-
-
-
-  logout() {
-    this.authService.logout();
-  }
-
-
   setupMobileMenuToggle(): void {
     const menuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
