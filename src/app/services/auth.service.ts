@@ -5,6 +5,7 @@ import { Auth, getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, User
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { PeriodoService } from './periodo.service';
 import { CanActivate, Router } from '@angular/router';
+import { CustomCookieService } from './cookie.service';
 
 
 @Injectable({
@@ -15,7 +16,7 @@ export class AuthService {
 
   activePeriod: any | null = null;
 
-  constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore, public periodoService: PeriodoService, private router: Router) {
+  constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore, public periodoService: PeriodoService, private router: Router, private cookieService: CustomCookieService) {
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
     });
@@ -30,59 +31,55 @@ export class AuthService {
   loginWithGoogle() {
     return this.afAuth.signInWithPopup(new GoogleAuthProvider()).then(async (userCredential) => {
       const user = userCredential.user;
-
       if (!user) throw new Error('No se pudo autenticar el usuario');
-
-
+  
       const userEmail = user.email;
       if (!userEmail) throw new Error('No se encontró el email del usuario');
-
-      const token = await user.getIdToken();  // <-- Obtén el token de Firebase
-      console.log("Token generado:", token);
-      sessionStorage.setItem('userToken', token);  // <-- Guarda el token en sessionStorage
-
-      // Verificar si el usuario está en la colección de administradores
+  
+      const token = await user.getIdToken();
+      sessionStorage.setItem('userToken', token);
+  
       const adminSnapshot = await this.firestore.collection('users').ref.where('role', '==', 'admin').where('email', '==', userEmail).get();
-
-      // Verificar si el usuario está en la colección 'directors'
       const directorSnapshot = await this.firestore.collection('directors').ref.where('email', '==', userEmail).get();
-
-      // Verificar si el usuario está en la colección 'plazas', verificar teacher
       const teacherSnapshot = await this.firestore.collection('plazas').ref.where('emailTeacher', '==', userEmail).get();
-
-      // Determinar el role
-      let role = 'student'; // Por defecto el role es 'student'
-
-      if (!adminSnapshot.empty) {
-        role = 'admin'; // Si el usuario es un administrador
-      } else if (!directorSnapshot.empty) {
-        role = 'director'; // Si el usuario es un director
-      } else if (!teacherSnapshot.empty) {
-        role = 'teacher'; // Si el usuario es un teacher
-      }
-
-      // Crear o actualizar SOLO el usuario autenticado en la colección 'users' con el rol correspondiente
-      await this.firestore.collection('users').doc(user.uid).set({
+  
+      let role = 'student';
+      if (!adminSnapshot.empty) role = 'admin';
+      else if (!directorSnapshot.empty) role = 'director';
+      else if (!teacherSnapshot.empty) role = 'teacher';
+  
+      const userData = {
         userID: user.uid,
         email: userEmail,
         name: user.displayName,
         photoURL: user.photoURL,
-        lastLogin: new Date(),
         role: role,
-        periodID: this.activePeriod.id
-      }, { merge: true });
-
+        periodID: this.activePeriod?.id || null
+      };
+  
+      await this.firestore.collection('users').doc(user.uid).set(userData, { merge: true });
+  
       if (role === 'teacher') {
         await this.createTeacherCollection(user);
       }
-
-      // Retorna el usuario autenticado
+  
+      // 🔹 Guardar usuario en cookies para mantener la sesión
+      this.cookieService.setCookie('user', JSON.stringify(userData), 7); // Se guarda por 7 días
+  
       return user;
     }).catch(error => {
       console.error('Error en login con Google:', error);
       throw error;
     });
   }
+  
+
+
+
+
+
+
+
 
   async loginWithMicrosoft() {
   try {
@@ -145,6 +142,11 @@ export class AuthService {
   }
 
   async getCurrentUser5(): Promise<any> {
+    const userCookie = this.cookieService.getCookie('user');
+    if (userCookie) {
+      return JSON.parse(userCookie); // Si hay cookie, retornamos el usuario guardado
+    }
+  
     const user = await this.afAuth.currentUser;
     if (user) {
       const userDoc = await this.firestore.collection('users').doc(user.uid).get().toPromise();
@@ -152,6 +154,7 @@ export class AuthService {
     }
     return null;
   }
+  
 
   getPlazas(): Observable<any[]> {
     return this.firestore.collection('plazas').valueChanges({ idField: 'id' });
@@ -168,10 +171,12 @@ export class AuthService {
   logout() {
     this.afAuth.signOut().then(() => {
       sessionStorage.removeItem('userToken');
+      this.cookieService.deleteCookie('user'); // Eliminar la cookie de usuario
       console.log('Sesión cerrada');
       this.router.navigate(['/home']);
     });
   }
+  
 
 
 

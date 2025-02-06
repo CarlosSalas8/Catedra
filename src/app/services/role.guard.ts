@@ -10,32 +10,19 @@ export class RoleGuard implements CanActivate {
     constructor(private authService: AuthService, private router: Router) { }
 
     async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-        const expectedRoles = route.data['expectedRole']; // Puede ser string o array
+        const expectedRoles = route.data['expectedRole'];
+        const user = await this.authService.getCurrentUser5();
 
-        try {
-            const user = await this.authService.getCurrentUser5();
-
-            if (user) {
-                if (Array.isArray(expectedRoles)) {
-                    // Verificar si el rol del usuario está en el array de roles permitidos
-                    if (expectedRoles.includes(user.role)) {
-                        return true;
-                    }
-                } else {
-                    // Manejar caso de un solo rol como string
-                    if (user.role === expectedRoles) {
-                        return true;
-                    }
-                }
+        if (user) {
+            if (Array.isArray(expectedRoles) && expectedRoles.includes(user.role)) {
+                return true;
+            } else if (user.role === expectedRoles) {
+                return true;
             }
-
-            // Redirigir si no tiene permisos
-            this.router.navigate(['/home']);
-            return false;
-        } catch (error) {
-            console.error('Error al obtener el usuario:', error);
-            this.router.navigate(['/home']);
-            return false;
         }
+
+        this.router.navigate(['/home']);
+        return false;
     }
+
 }
