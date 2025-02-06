@@ -67,9 +67,16 @@ export class PlazasComponent implements OnInit {
 
   cargarCiclos() {
     this.firestore.collection('academicCycles').valueChanges().subscribe((data: any[]) => {
-      this.academicCycles = data.map(item => item.name);
+      this.academicCycles = data
+        .map(item => item.name)
+        .sort((a, b) => {
+          const numA = parseInt(a.replace(/\D/g, ''), 10);
+          const numB = parseInt(b.replace(/\D/g, ''), 10);
+          return numA - numB;
+        });
     });
   }
+  
 
   filtrarPlazas() {
     if (this.activePeriod) {

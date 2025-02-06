@@ -91,163 +91,175 @@
         </div>
       </div>
 
-      <!-- Tables to display the data -->
-      <div class="mt-10 space-y-12">
-        <!-- Carreras -->
-        <div>
-          <h2 class="text-2xl font-semibold text-gray-900 mb-4">Carreras</h2>
-          <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
-            <thead class="bg-gray-50">
-              <tr>
-                <th class="py-4 px-6 text-left text-gray-700 text-base font-medium">Carrera</th>
-                <th class="py-4 px-6 text-center text-gray-700 text-base font-medium">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let career of careers" class="border-t hover:bg-gray-50 transition-colors">
-                <td class="py-4 px-6 text-gray-800 text-base">{{ career.name }}</td>
-                <td class="py-4 px-6 text-center flex justify-center gap-4">
-                  <!-- Botón Editar -->
-                  <button (click)="editItem('career', career)" class="text-customBlue hover:text-customBlueHover">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 20h9" />
-                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                    </svg>
-                  </button>
-                  <!-- Botón Eliminar -->
-                  <button (click)="deleteItem('careers', career.id)" class="text-red-500 hover:text-red-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M3 6h18" />
-                      <path d="M8 6V4h8v2" />
-                      <path d="M10 11v6" />
-                      <path d="M14 11v6" />
-                      <path d="M5 6h14l-1 14H6L5 6z" />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        
 
 
 
-        <!-- Facultades -->
-        <div>
-          <h2 class="text-2xl font-semibold text-gray-900 mb-4">Facultades</h2>
-          <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
-            <thead class="bg-gray-50">
-              <tr>
-                <th class="py-4 px-6 text-left text-gray-700 text-base font-medium">Facultad</th>
-                <th class="py-4 px-6 text-center text-gray-700 text-base font-medium">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let faculty of faculties" class="border-t hover:bg-gray-50 transition-colors">
-                <td class="py-4 px-6 text-gray-800 text-base">{{ faculty.name }}</td>
-                <td class="py-4 px-6 text-center flex justify-center gap-4">
-                  <!-- Botón Editar -->
-                  <button (click)="editItem('faculty', faculty)" class="text-customBlue hover:text-customBlueHover">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 20h9" />
-                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                    </svg>
-                  </button>
-                  <!-- Botón Eliminar -->
-                  <button (click)="deleteItem('faculties', faculty.id)" class="text-red-500 hover:text-red-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M3 6h18" />
-                      <path d="M8 6V4h8v2" />
-                      <path d="M10 11v6" />
-                      <path d="M14 11v6" />
-                      <path d="M5 6h14l-1 14H6L5 6z" />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
 
-        <!-- Ciclos Académicos -->
-        <div>
-          <h2 class="text-2xl font-semibold text-gray-900 mb-4">Ciclos Académicos</h2>
-          <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
-            <thead class="bg-gray-50">
-              <tr>
-                <th class="py-4 px-6 text-left text-gray-700 text-base font-medium">Ciclo Académico</th>
-                <th class="py-4 px-6 text-center text-gray-700 text-base font-medium">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let academicCycle of academicCycles" class="border-t hover:bg-gray-50 transition-colors">
-                <td class="py-4 px-6 text-gray-800 text-base">{{ academicCycle.name }}</td>
-                <td class="py-4 px-6 text-center flex justify-center gap-4">
-                  <!-- Botón Editar -->
-                  <button (click)="editItem('academicCycle', academicCycle)" class="text-customBlue hover:text-customBlueHover">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 20h9" />
-                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                    </svg>
-                  </button>
-                  <!-- Botón Eliminar -->
-                  <button (click)="deleteItem('academicCycles', academicCycle.id)" class="text-red-500 hover:text-red-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M3 6h18" />
-                      <path d="M8 6V4h8v2" />
-                      <path d="M10 11v6" />
-                      <path d="M14 11v6" />
-                      <path d="M5 6h14l-1 14H6L5 6z" />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
 
-        <!-- Mallas Curriculares -->
-        <div>
-          <h2 class="text-2xl font-semibold text-gray-900 mb-4">Mallas Curriculares</h2>
-          <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
-            <thead class="bg-gray-50">
-              <tr>
-                <th class="py-4 px-6 text-left text-gray-700 text-base font-medium">Malla Curricular</th>
-                <th class="py-4 px-6 text-center text-gray-700 text-base font-medium">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let curriculum of curriculums" class="border-t hover:bg-gray-50 transition-colors">
-                <td class="py-4 px-6 text-gray-800 text-base">{{ curriculum.name }}</td>
-                <td class="py-4 px-6 text-center flex justify-center gap-4">
-                  <!-- Botón Editar -->
-                  <button (click)="editItem('curriculum', curriculum)" class="text-customBlue hover:text-customBlueHover">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 20h9" />
-                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                    </svg>
-                  </button>
-                  <!-- Botón Eliminar -->
-                  <button (click)="deleteItem('curriculums', curriculum.id)" class="text-red-500 hover:text-red-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M3 6h18" />
-                      <path d="M8 6V4h8v2" />
-                      <path d="M10 11v6" />
-                      <path d="M14 11v6" />
-                      <path d="M5 6h14l-1 14H6L5 6z" />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    </div>
+
+    <!-- Tables to display the data -->
+    <div class="mt-10 grid grid-cols-4 gap-6">
+      <!-- Carreras -->
+      <div>
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Carreras</h2>
+        <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="py-4 px-6 text-left text-gray-700 text-base font-medium">Carrera</th>
+              <th class="py-4 px-6 text-center text-gray-700 text-base font-medium">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let career of careers" class="border-t hover:bg-gray-50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 text-base">{{ career.name }}</td>
+              <td class="py-4 px-6 text-center flex justify-center gap-4">
+                <!-- Botón Editar -->
+                <button (click)="editItem('career', career)" class="text-customBlue hover:text-customBlueHover">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
+                </button>
+                <!-- Botón Eliminar -->
+                <button (click)="deleteItem('careers', career.id)" class="text-red-500 hover:text-red-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18" />
+                    <path d="M8 6V4h8v2" />
+                    <path d="M10 11v6" />
+                    <path d="M14 11v6" />
+                    <path d="M5 6h14l-1 14H6L5 6z" />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
 
 
 
+      <!-- Facultades -->
+      <div>
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Facultades</h2>
+        <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="py-4 px-6 text-left text-gray-700 text-base font-medium">Facultad</th>
+              <th class="py-4 px-6 text-center text-gray-700 text-base font-medium">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let faculty of faculties" class="border-t hover:bg-gray-50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 text-base">{{ faculty.name }}</td>
+              <td class="py-4 px-6 text-center flex justify-center gap-4">
+                <!-- Botón Editar -->
+                <button (click)="editItem('faculty', faculty)" class="text-customBlue hover:text-customBlueHover">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
+                </button>
+                <!-- Botón Eliminar -->
+                <button (click)="deleteItem('faculties', faculty.id)" class="text-red-500 hover:text-red-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18" />
+                    <path d="M8 6V4h8v2" />
+                    <path d="M10 11v6" />
+                    <path d="M14 11v6" />
+                    <path d="M5 6h14l-1 14H6L5 6z" />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Ciclos Académicos -->
+      <div>
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Ciclos Académicos</h2>
+        <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="py-4 px-6 text-left text-gray-700 text-base font-medium">Ciclo Académico</th>
+              <th class="py-4 px-6 text-center text-gray-700 text-base font-medium">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let academicCycle of academicCycles" class="border-t hover:bg-gray-50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 text-base">{{ academicCycle.name }}</td>
+              <td class="py-4 px-6 text-center flex justify-center gap-4">
+                <!-- Botón Editar -->
+                <button (click)="editItem('academicCycle', academicCycle)"
+                  class="text-customBlue hover:text-customBlueHover">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
+                </button>
+                <!-- Botón Eliminar -->
+                <button (click)="deleteItem('academicCycles', academicCycle.id)"
+                  class="text-red-500 hover:text-red-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18" />
+                    <path d="M8 6V4h8v2" />
+                    <path d="M10 11v6" />
+                    <path d="M14 11v6" />
+                    <path d="M5 6h14l-1 14H6L5 6z" />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mallas Curriculares -->
+      <div>
+        <h2 class="text-2xl font-semibold text-gray-900 mb-4">Mallas Curriculares</h2>
+        <table class="min-w-full bg-white rounded-xl shadow-md overflow-hidden">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="py-4 px-6 text-left text-gray-700 text-base font-medium">Malla Curricular</th>
+              <th class="py-4 px-6 text-center text-gray-700 text-base font-medium">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let curriculum of curriculums" class="border-t hover:bg-gray-50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 text-base">{{ curriculum.name }}</td>
+              <td class="py-4 px-6 text-center flex justify-center gap-4">
+                <!-- Botón Editar -->
+                <button (click)="editItem('curriculum', curriculum)" class="text-customBlue hover:text-customBlueHover">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
+                </button>
+                <!-- Botón Eliminar -->
+                <button (click)="deleteItem('curriculums', curriculum.id)" class="text-red-500 hover:text-red-700">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18" />
+                    <path d="M8 6V4h8v2" />
+                    <path d="M10 11v6" />
+                    <path d="M14 11v6" />
+                    <path d="M5 6h14l-1 14H6L5 6z" />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 

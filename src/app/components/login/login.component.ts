@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   errorMessage: string = '';
   loading: boolean = false; // Estado de carga
   activePeriod: any | null = null;
+  user: any = null;
 
 
   constructor(private authService: AuthService, private router: Router, private fb: FormBuilder, public periodoService: PeriodoService, private firestore: AngularFirestore) {
@@ -42,26 +43,8 @@ export class LoginComponent implements OnInit {
   }
 
 
-  loginWithMicrosoft() {
-    this.loading = true; // Inicia el estado de carga
-    this.errorMessage = ''; // Limpia el mensaje de error
-
-    this.authService.loginWithMicrosoft().then(
-      (user) => {
-        if (!user) {
-          console.error('El usuario cerró la ventana emergente o no se completó el login.');
-          this.loading = false; // Libera el estado de carga
-          return;
-        }
-        console.log('Login con Microsoft exitoso', user);
-        this.router.navigate(['/ventanas']); // Redirige al usuario
-      },
-      (error) => {
-        console.error('Error en login con Microsoft:', error);
-        this.errorMessage = 'No se pudo iniciar sesión con Microsoft.';
-        this.loading = false; // Finaliza el estado de carga
-      }
-    );
+  async login() {
+    this.user = await this.authService.loginWithMicrosoft();
   }
 
 
@@ -69,7 +52,7 @@ export class LoginComponent implements OnInit {
   loginWithGoogle() {
     this.loading = true;
     this.errorMessage = '';
-  
+
     this.authService.loginWithGoogle().then(
       async (user) => {
         if (!user) {
@@ -77,19 +60,19 @@ export class LoginComponent implements OnInit {
           this.loading = false;
           return;
         }
-  
+
         console.log('Login con Google exitoso:', user);
-  
+
         try {
           // Obtener el documento del usuario desde Firestore
           const userDoc = await this.firestore.collection('users').doc(user.uid).get().toPromise();
-  
+
           if (userDoc?.exists) {
             const userData = userDoc.data() as Usuario;
             const role = userData?.role;
             const career = userData?.career;
             const validated = userData?.validated;
-  
+
             // Asegurarse de que el rol sea válido y redirigir
             if (role) {
               if (role === 'admin') {
@@ -126,7 +109,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/carrera']);
         } finally {
           this.loading = false;
-        } 
+        }
       },
       (error) => {
         console.error('Error en el login con Google:', error);
@@ -135,7 +118,7 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-  
+
 
   setupMobileMenuToggle(): void {
     const menuButton = document.getElementById('mobile-menu-button');

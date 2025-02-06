@@ -50,16 +50,27 @@ export class SubmitComponent implements OnInit {
 
   fetchData(collection: string): void {
     this.firestore.collection(collection).snapshotChanges().subscribe((data: any) => {
-      const result = data.map((doc: any) => ({
-        id: doc.payload.doc.id, // Agregamos el ID para editar/eliminar
+      let result = data.map((doc: any) => ({
+        id: doc.payload.doc.id,
         ...doc.payload.doc.data()
       }));
-      if (collection === 'careers') this.careers = result;
-      if (collection === 'faculties') this.faculties = result;
-      if (collection === 'curriculums') this.curriculums = result;
-      if (collection === 'academicCycles') this.academicCycles = result;
+  
+      if (collection === 'academicCycles') {
+        this.academicCycles = result.sort((a: { name: string; }, b: { name: string; }) => {
+          const numA = parseInt(a.name.replace(/\D/g, ''), 10);
+          const numB = parseInt(b.name.replace(/\D/g, ''), 10);
+          return numA - numB;
+        });
+      } else if (collection === 'careers') {
+        this.careers = result;
+      } else if (collection === 'faculties') {
+        this.faculties = result;
+      } else if (collection === 'curriculums') {
+        this.curriculums = result;
+      }
     });
   }
+  
 
   toggleModal(type?: 'career' | 'faculty' | 'curriculum' | 'academicCycle'): void {
     this.isModalOpen = !!type;

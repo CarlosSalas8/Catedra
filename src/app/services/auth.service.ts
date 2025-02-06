@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import * as firebase from 'firebase/compat';
 import { Observable, map, of, switchMap } from 'rxjs';
-import { GoogleAuthProvider, OAuthProvider } from 'firebase/auth';
+import { Auth, getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, User } from 'firebase/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { PeriodoService } from './periodo.service';
 import { CanActivate, Router } from '@angular/router';
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService{
-  
+export class AuthService {
+  private auth: Auth;
+
   activePeriod: any | null = null;
 
   constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore, public periodoService: PeriodoService, private router: Router) {
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
     });
+    this.auth = getAuth();
   }
 
   loginWithEmail(email: string, password: string) {
@@ -30,7 +32,7 @@ export class AuthService{
       const user = userCredential.user;
 
       if (!user) throw new Error('No se pudo autenticar el usuario');
-      
+
 
       const userEmail = user.email;
       if (!userEmail) throw new Error('No se encontró el email del usuario');
@@ -81,6 +83,22 @@ export class AuthService{
       throw error;
     });
   }
+
+  async loginWithMicrosoft() {
+  try {
+    const provider = new OAuthProvider('microsoft.com');
+    provider.setCustomParameters({
+      tenant: '6eeb49aa-436d-43e6-becd-bbdf79e5077d' // Usa el Tenant ID aquí
+    });
+    const result = await this.afAuth.signInWithPopup(provider);
+    this.router.navigate(['/bienvenido']);
+  } catch (error) {
+    console.error("Hubo un error durante el inicio de sesión con Microsoft:", error);
+    alert("Hubo un error, vuelva a iniciar sesión o comuníquese con el administrador del sistema.");
+  }
+}
+
+
 
 
 
@@ -143,23 +161,7 @@ export class AuthService{
     return this.firestore.collection('postulant').valueChanges({ idField: 'id' });
   }
 
-  loginWithMicrosoft() {
-    const provider = new OAuthProvider('microsoft.com');
-    provider.setCustomParameters({
-      prompt: 'select_account' // Solicita al usuario elegir una cuenta, si es necesario.
-    });
 
-    return this.afAuth.signInWithPopup(provider)
-      .then(userCredential => {
-        const user = userCredential.user;
-        if (!user) throw new Error('No se pudo autenticar el usuario con Microsoft.');
-        return user; // Devuelve directamente el usuario autenticado.
-      })
-      .catch(error => {
-        console.error('Error en login con Microsoft:', error);
-        throw error;
-      });
-  }
 
 
 
@@ -171,7 +173,7 @@ export class AuthService{
     });
   }
 
-  
+
 
 
 
