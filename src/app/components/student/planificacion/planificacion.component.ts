@@ -79,7 +79,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
     ).subscribe(filteredActivities => {
       filteredActivities.forEach((activity: any) => {
         let activitiesArray: FormArray;
-  
+
         // Determinar a qué array de actividades pertenece según el campo "type"
         switch (activity.type) {
           case 'segundo_bimestre':
@@ -92,14 +92,14 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
             activitiesArray = this.form.get('activities') as FormArray; // Primer bimestre
             break;
         }
-  
+
         // Evitar agregar actividades duplicadas
         const existingActivity = activitiesArray.controls.find(ctrl =>
           ctrl.get('activity')?.value === activity.activity &&
           ctrl.get('startdate')?.value === activity.startdate &&
           ctrl.get('enddate')?.value === activity.enddate
         );
-  
+
         if (!existingActivity) {
           activitiesArray.push(this.fb.group({
             activity: [activity.activity],
@@ -117,10 +117,10 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       this.removeItem(index, type);
     }
   }
-  
+
   removeItem(index: number, type: string): void {
     let activitiesArray: FormArray;
-  
+
     switch (type) {
       case 'segundo_bimestre':
         activitiesArray = this.activitiesSegundo;
@@ -132,9 +132,9 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
         activitiesArray = this.activities;
         break;
     }
-  
+
     const activity = activitiesArray.at(index).value;
-  
+
     // Eliminar de Firebase
     this.firestore.collection('activities', ref =>
       ref.where('activity', '==', activity.activity)
@@ -146,12 +146,12 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
         this.firestore.collection('activities').doc(doc.id).delete();
       });
     });
-  
+
     // Eliminar de la página
     activitiesArray.removeAt(index);
   }
-  
-  
+
+
 
 
   obtenerPlazasDelUsuario() {
@@ -181,6 +181,8 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
     }
   }
 
+
+
   get activities(): FormArray {
     return this.form.get('activities') as FormArray;
   }
@@ -192,8 +194,6 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
   get activitiesRecuperacion(): FormArray {
     return this.form.get('activitiesRecuperacion') as FormArray;
   }
-
-  
 
   addItems(): void {
     this.activities.push(this.createItem());
@@ -229,7 +229,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
     const nameTeacher = formData.nameTeacher;
     const assistant = formData.assistant;
 
-    const generalData = {
+    const generalData: any = {
       nameTeacher: nameTeacher,
       assistant: assistant,
       faculty: formData.faculty,
@@ -239,10 +239,8 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       emailAssistant: this.userEmail
     };
 
-    console.log('Datos generales a guardar:', generalData);
-
     try {
-      // 🔹 Obtener si el docente existe usando firstValueFrom() en lugar de subscribe()
+      // 🔹 Obtener el docente desde la colección 'teachers'
       const snapshot = await firstValueFrom(
         this.firestore.collection('teachers', ref => ref.where('name', '==', nameTeacher)).get()
       );
@@ -253,12 +251,18 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
         return;
       }
 
+      // 🔹 Obtener el email del docente
+      const teacherDoc = snapshot.docs[0];
+      const teacherData = teacherDoc.data() as { email: string };
+      generalData.emailTeacher = teacherData.email; // Guardar el email del docente
+
+      console.log('Datos generales a guardar con email del docente:', generalData);
+
       // 🔹 Consultar las actividades existentes en Firebase para evitar duplicación
       const activitiesSnapshot = await firstValueFrom(
         this.firestore.collection('activities', ref => ref.where('periodID', '==', this.activePeriod.id)).get()
       );
 
-      // Asegurarse de que existingActivities tiene el tipo adecuado
       const existingActivities: Activity[] = activitiesSnapshot.docs.map(doc => doc.data() as Activity);
 
       const batch = this.firestore.firestore.batch();
@@ -266,16 +270,16 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       // 🔹 Filtrar las actividades que no están ya en Firebase
       formData.activities = formData.activities.filter((activity: Activity) => {
         return !existingActivities.some((existing: Activity) => {
-          const existingStartDate = existing.startdate instanceof Date 
-            ? existing.startdate 
-            : existing.startdate.toDate ? existing.startdate.toDate() 
-            : new Date(existing.startdate);
-          
-          const existingEndDate = existing.enddate instanceof Date 
-            ? existing.enddate 
-            : existing.enddate.toDate ? existing.enddate.toDate() 
-            : new Date(existing.enddate);
-      
+          const existingStartDate = existing.startdate instanceof Date
+            ? existing.startdate
+            : existing.startdate.toDate ? existing.startdate.toDate()
+              : new Date(existing.startdate);
+
+          const existingEndDate = existing.enddate instanceof Date
+            ? existing.enddate
+            : existing.enddate.toDate ? existing.enddate.toDate()
+              : new Date(existing.enddate);
+
           return (
             existing.activity === activity.activity &&
             existingStartDate.getTime() === new Date(activity.startdate).getTime() &&
@@ -286,16 +290,16 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
 
       formData.activitiesSegundo = formData.activitiesSegundo.filter((activity: Activity) => {
         return !existingActivities.some((existing: Activity) => {
-          const existingStartDate = existing.startdate instanceof Date 
-            ? existing.startdate 
-            : existing.startdate.toDate ? existing.startdate.toDate() 
-            : new Date(existing.startdate);
-          
-          const existingEndDate = existing.enddate instanceof Date 
-            ? existing.enddate 
-            : existing.enddate.toDate ? existing.enddate.toDate() 
-            : new Date(existing.enddate);
-      
+          const existingStartDate = existing.startdate instanceof Date
+            ? existing.startdate
+            : existing.startdate.toDate ? existing.startdate.toDate()
+              : new Date(existing.startdate);
+
+          const existingEndDate = existing.enddate instanceof Date
+            ? existing.enddate
+            : existing.enddate.toDate ? existing.enddate.toDate()
+              : new Date(existing.enddate);
+
           return (
             existing.activity === activity.activity &&
             existingStartDate.getTime() === new Date(activity.startdate).getTime() &&
@@ -303,19 +307,19 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
           );
         });
       });
-      
+
       formData.activitiesRecuperacion = formData.activitiesRecuperacion.filter((activity: Activity) => {
         return !existingActivities.some((existing: Activity) => {
-          const existingStartDate = existing.startdate instanceof Date 
-            ? existing.startdate 
-            : existing.startdate.toDate ? existing.startdate.toDate() 
-            : new Date(existing.startdate);
-          
-          const existingEndDate = existing.enddate instanceof Date 
-            ? existing.enddate 
-            : existing.enddate.toDate ? existing.enddate.toDate() 
-            : new Date(existing.enddate);
-      
+          const existingStartDate = existing.startdate instanceof Date
+            ? existing.startdate
+            : existing.startdate.toDate ? existing.startdate.toDate()
+              : new Date(existing.startdate);
+
+          const existingEndDate = existing.enddate instanceof Date
+            ? existing.enddate
+            : existing.enddate.toDate ? existing.enddate.toDate()
+              : new Date(existing.enddate);
+
           return (
             existing.activity === activity.activity &&
             existingStartDate.getTime() === new Date(activity.startdate).getTime() &&
