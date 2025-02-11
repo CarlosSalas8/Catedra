@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { PeriodoService } from 'src/app/services/periodo.service';
+import { arrayUnion } from 'firebase/firestore';
+
 
 @Component({
   selector: 'app-submit',
@@ -27,11 +28,12 @@ export class SubmitComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private firestore: AngularFirestore,
-    public periodoService: PeriodoService
+    public periodoService: PeriodoService,
   ) {
     this.form = this.fb.group({
       career: ['', Validators.required],
       faculty: ['', Validators.required],
+      modality: ['', Validators.required],
       curriculum: ['', Validators.required],
       academicCycle: ['', Validators.required]
     });
@@ -48,13 +50,23 @@ export class SubmitComponent implements OnInit {
     this.fetchData('academicCycles');
   }
 
+  fetchFaculties(): void {
+    this.firestore.collection('faculties').snapshotChanges().subscribe(data => {
+      this.faculties = data.map(doc => ({
+        id: doc.payload.doc.id,
+        ...(doc.payload.doc.data() as object)
+      }));
+    });
+  }
+
+
   fetchData(collection: string): void {
     this.firestore.collection(collection).snapshotChanges().subscribe((data: any) => {
       let result = data.map((doc: any) => ({
         id: doc.payload.doc.id,
         ...doc.payload.doc.data()
       }));
-  
+
       if (collection === 'academicCycles') {
         this.academicCycles = result.sort((a: { name: string; }, b: { name: string; }) => {
           const numA = parseInt(a.name.replace(/\D/g, ''), 10);
@@ -70,7 +82,7 @@ export class SubmitComponent implements OnInit {
       }
     });
   }
-  
+
 
   toggleModal(type?: 'career' | 'faculty' | 'curriculum' | 'academicCycle'): void {
     this.isModalOpen = !!type;
@@ -82,9 +94,30 @@ export class SubmitComponent implements OnInit {
       this.modalType = type;
       this.modalTitle = this.getModalTitle(type);
       this.form.reset();
-      this.form = this.fb.group({
-        [type]: ['', Validators.required]
-      });
+
+      // Add controls conditionally based on modal type
+      const controlsConfig: any = {
+        career: ['', Validators.required],
+        faculty: ['', Validators.required],
+        modality: ['', Validators.required],
+        curriculum: ['', Validators.required],
+        academicCycle: ['', Validators.required]
+      };
+
+      const formConfig: any = {};
+      if (type === 'career') {
+        formConfig.career = controlsConfig.career;
+        formConfig.faculty = controlsConfig.faculty;
+        formConfig.modality = controlsConfig.modality;
+      } else if (type === 'faculty') {
+        formConfig.faculty = controlsConfig.faculty;
+      } else if (type === 'curriculum') {
+        formConfig.curriculum = controlsConfig.curriculum;
+      } else if (type === 'academicCycle') {
+        formConfig.academicCycle = controlsConfig.academicCycle;
+      }
+
+      this.form = this.fb.group(formConfig);
     } else {
       this.modalType = null;
       this.modalTitle = '';
@@ -106,10 +139,10 @@ export class SubmitComponent implements OnInit {
     if (this.form.valid && this.modalType) {
       const data = this.form.value;
       const collectionMap = {
-        'career': { collection: 'careers', value: data.career },
-        'faculty': { collection: 'faculties', value: data.faculty },
-        'curriculum': { collection: 'curriculums', value: data.curriculum },
-        'academicCycle': { collection: 'academicCycles', value: data.academicCycle }
+        'career': { collection: 'careers', value: { name: data.career, facultyId: data.faculty, modality: data.modality } },
+        'faculty': { collection: 'faculties', value: { name: data.faculty } },
+        'curriculum': { collection: 'curriculums', value: { name: data.curriculum } },
+        'academicCycle': { collection: 'academicCycles', value: { name: data.academicCycle } }
       };
 
       const selectedCollection = collectionMap[this.modalType];
@@ -117,10 +150,10 @@ export class SubmitComponent implements OnInit {
       if (selectedCollection) {
         if (this.currentEditId) {
           // Si hay un ID, actualizamos
-          this.updateInFirestore(selectedCollection.collection, this.currentEditId, { name: selectedCollection.value });
+          this.updateInFirestore(selectedCollection.collection, this.currentEditId, selectedCollection.value);
         } else {
           // Si no hay ID, creamos nuevo
-          this.saveToFirestore(selectedCollection.collection, { name: selectedCollection.value });
+          this.saveToFirestore(selectedCollection.collection, selectedCollection.value);
         }
       }
     } else {
@@ -129,18 +162,55 @@ export class SubmitComponent implements OnInit {
   }
 
   saveToFirestore(collection: string, data: any): void {
-    this.firestore.collection(collection).add(data)
-      .then(() => {
-        this.successMessage = `¡Guardado con éxito!`;
-        this.errorMessage = '';
-        this.form.reset();
-        setTimeout(() => this.successMessage = '', 2000);
-      })
-      .catch(error => {
-        this.errorMessage = `Error: ${error.message}`;
-        this.successMessage = '';
+    const docId = data.name.toLowerCase().replace(/\s+/g, '-');
+
+    if (collection === 'careers') {
+      const { name, facultyId, modality } = data;
+
+      // Fetch the faculty name based on facultyId
+      this.firestore.collection('faculties').doc(facultyId).get().subscribe(facultyDoc => {
+        if (facultyDoc.exists) {
+          const facultyName = (facultyDoc.data() as { name: string })?.name;
+
+          // Crear la carrera con la facultad y modalidad asociadas
+          const newCareer = { name, facultyId, facultyName, modality };
+
+          this.firestore.collection('careers').doc(docId).set(newCareer)
+            .then(() => {
+              // Asociar la carrera a la facultad
+              this.firestore.collection('faculties').doc(facultyId).update({
+                careers: arrayUnion({
+                  id: docId,
+                  name,
+                  modality
+                })
+              });
+
+              this.successMessage = `¡Carrera guardada con éxito!`;
+              this.form.reset();
+              setTimeout(() => this.successMessage = '', 2000);
+            })
+            .catch(error => {
+              this.errorMessage = `Error: ${error.message}`;
+            });
+        } else {
+          this.errorMessage = `Error: Facultad no encontrada.`;
+        }
       });
+    } else {
+      const newData = { ...data, id: docId };
+      this.firestore.collection(collection).doc(docId).set(newData)
+        .then(() => {
+          this.successMessage = `¡Guardado con éxito!`;
+          this.form.reset();
+          setTimeout(() => this.successMessage = '', 2000);
+        })
+        .catch(error => {
+          this.errorMessage = `Error: ${error.message}`;
+        });
+    }
   }
+
 
   // Método para actualizar datos
   updateInFirestore(collection: string, id: string, data: any): void {
@@ -153,7 +223,7 @@ export class SubmitComponent implements OnInit {
         setTimeout(() => this.successMessage = '', 2000);
         this.toggleModal(); // Cierra el modal
       })
-      
+
       .catch(error => {
         this.errorMessage = `Error al actualizar: ${error.message}`;
       });
@@ -163,7 +233,16 @@ export class SubmitComponent implements OnInit {
   editItem(type: 'career' | 'faculty' | 'curriculum' | 'academicCycle', item: any): void {
     this.toggleModal(type);
     this.currentEditId = item.id; // Guardar ID para la actualización
-    this.form.patchValue({ [type]: item.name }); // Llenar formulario con datos existentes
+
+    if (type === 'career') {
+      this.form.patchValue({
+        career: item.name,
+        faculty: item.facultyId,
+        modality: item.modality
+      });
+    } else {
+      this.form.patchValue({ [type]: item.name }); // Llenar formulario con datos existentes
+    }
   }
 
   // Método para eliminar un registro

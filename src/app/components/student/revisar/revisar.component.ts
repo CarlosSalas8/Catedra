@@ -15,7 +15,6 @@ export class RevisarComponent implements OnInit {
   fileUrl: string | undefined;
   isLoading: boolean = false;
   showSuccessMessage: boolean = false;
-  previewUrl: SafeResourceUrl | null = null; // Solo se actualizará cuando el usuario seleccione un archivo
   files: any[] = [];  // Almacenar la lista de archivos subidos
 
   constructor(
@@ -49,10 +48,11 @@ export class RevisarComponent implements OnInit {
   }
 
 
-  // Seleccionar archivo para previsualizarlo
+  // Seleccionar archivo para abrirlo en una nueva pestaña
   selectFile(fileUrl: string) {
-    this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrl);
+    window.open(fileUrl, '_blank');
   }
+
 
   // Eliminar archivo
   deleteFile(fileName: string) {
@@ -61,11 +61,6 @@ export class RevisarComponent implements OnInit {
 
     fileRef.delete().subscribe(() => {
       this.files = this.files.filter(file => file.name !== fileName);
-
-      // Si el archivo eliminado era el que se estaba previsualizando, limpiamos la vista previa
-      if (this.previewUrl?.toString().includes(fileName)) {
-        this.previewUrl = null;
-      }
     }, error => {
       console.error("Error al eliminar el archivo:", error);
     });

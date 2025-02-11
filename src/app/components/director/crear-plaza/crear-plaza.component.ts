@@ -36,10 +36,8 @@ export class CrearPlazaComponent implements OnInit {
       nameTeacher: ['', Validators.required],
       emailTeacher: ['', Validators.required],
       parallel: ['', Validators.required],
-      mode: ['', Validators.required],
       curriculum: ['', Validators.required],
       academicCycle: ['', Validators.required],
-      faculty: ['', Validators.required],
     });
   }
 
@@ -59,22 +57,12 @@ export class CrearPlazaComponent implements OnInit {
 
     this.cargarCiclos();
     this.cargarMallas();
-    this.cargarFacultades();
 
 
 
   }
 
-  cargarCiclos() {
-    this.firestore.collection('academicCycles').valueChanges().subscribe((data: any[]) => {
-      this.academicCycles = data.map(item => item.name);
-    });
-  }
-  cargarFacultades() {
-    this.firestore.collection('faculties').valueChanges().subscribe((data: any[]) => {
-      this.faculties = data.map(item => item.name);
-    });
-  }
+  
 
   cargarMallas() {
     this.firestore.collection('curriculums').valueChanges().subscribe((data: any[]) => {
@@ -187,6 +175,8 @@ export class CrearPlazaComponent implements OnInit {
                 directorsId: this.directors?.id || null,
                 directorsName: this.directors?.name || null,
                 career: this.directors?.career || null,
+                faculty: this.directors?.faculty || null,
+                modality: this.directors?.modality || null,
                 postulant: [], // Inicializar como un arreglo vacío
               })
               .then(() => {
@@ -199,6 +189,18 @@ export class CrearPlazaComponent implements OnInit {
           }
         });
     }
+  }
+
+  cargarCiclos() {
+    this.firestore.collection('academicCycles').valueChanges().subscribe((data: any[]) => {
+      this.academicCycles = data
+        .map(item => item.name)
+        .sort((a, b) => {
+          const numA = parseInt(a.replace(/\D/g, ''), 10);
+          const numB = parseInt(b.replace(/\D/g, ''), 10);
+          return numA - numB;
+        });
+    });
   }
 
 

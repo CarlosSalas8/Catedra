@@ -10,8 +10,6 @@
 
   <app-navbar-student> </app-navbar-student>
 
-
-
   <app-aside-student></app-aside-student>
 
   <form [formGroup]="form" (ngSubmit)="guardarDatos()">
@@ -70,7 +68,6 @@
           </div>
         </div>
 
-
         <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
           <p class="mb-5 font-bold">Act. Primer Bimestre </p>
           <div formArrayName="activities">
@@ -80,6 +77,7 @@
                   realizar</label>
                 <input type="text" [formControl]="getactivityControl(i)" [id]="'activity' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <button type="button" (click)="confirmRemoveItem(i, 'primer_bimestre')">Eliminar actividad</button>
               </div>
               <div class="items-center justify-center h-24 rounded">
                 <label for="startdate{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
@@ -104,33 +102,23 @@
             </div>
           </div>
 
-
-
-
           <div class="flex">
             <button type="button"
               class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2"
               (click)="addItems()">Agregar actividad</button>
-            <button type="button"
-              class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2"
-              *ngIf="activities.length > 0" (click)="removeItems(activities.length - 1)">Eliminar última
-              actividad</button>
           </div>
         </div>
 
-
-
-
-
         <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
           <p class="mb-5 font-bold">Act. Segundo Bimestre </p>
-          <div formArrayName="itemsSegundo">
+          <div formArrayName="activitiesSegundo">
             <div *ngFor="let item of activitiesSegundo.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
               <div class="items-center justify-center h-24 rounded ">
                 <label for="activitySegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades
                   a realizar</label>
                 <input type="text" [formControl]="getactivitySegundoControl(i)" [id]="'activitySegundo' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <button type="button" (click)="confirmRemoveItem(i, 'segundo_bimestre')">Eliminar actividad</button>
               </div>
               <div class="items-center justify-center h-24 rounded ">
                 <label for="startdateSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
@@ -157,17 +145,12 @@
             <button type="button"
               class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2"
               (click)="addItemsSegundo()">Agregar actividad</button>
-            <button type="button"
-              class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2"
-              *ngIf="activitiesSegundo.length > 0" (click)="removeItemsSegundo(activitiesSegundo.length - 1)">Eliminar
-              última
-              actividad</button>
           </div>
         </div>
 
         <div class="p-4 border-2 mt-5 mb-6 rounded-lg">
           <p class="mb-5 font-bold">Act. Periodo de Recuperación </p>
-          <div formArrayName="itemsRecuperacion">
+          <div formArrayName="activitiesRecuperacion">
             <div *ngFor="let item of activitiesRecuperacion.controls; let i = index"
               class="grid grid-cols-4 gap-24 mb-5">
               <div class="items-center justify-center h-24 rounded ">
@@ -175,6 +158,7 @@
                   class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a realizar</label>
                 <input type="text" [formControl]="getactivityRecuperacionControl(i)" [id]="'activityRecuperacion' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <button type="button" (click)="confirmRemoveItem(i, 'recuperacion')">Eliminar actividad</button>
               </div>
               <div class="items-center justify-center h-24 rounded ">
                 <label for="startdateRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
@@ -183,8 +167,7 @@
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
               <div class="items-center justify-center h-24 rounded ">
-                <label for="enddateRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
-                  de
+                <label for="enddateRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
                   fin</label><br>
                 <input type="date" [formControl]="getenddateRecuperacionControl(i)" [id]="'enddateRecuperacion' + i"
                   class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -202,11 +185,6 @@
             <button type="button"
               class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2"
               (click)="addItemsRecuperacion()">Agregar actividad</button>
-            <button type="button"
-              class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-customBlue font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-customBlue dark:bg-customBlue dark:border-customBlue dark:text-white dark:hover:bg-customBlue2 me-2 mb-2"
-              *ngIf="activitiesRecuperacion.length > 0"
-              (click)="removeItemsRecuperacion(activitiesRecuperacion.length - 1)">Eliminar última
-              actividad</button>
           </div>
         </div>
 
@@ -216,7 +194,6 @@
             Guardar
           </button>
         </div>
-
 
       </div>
     </div>

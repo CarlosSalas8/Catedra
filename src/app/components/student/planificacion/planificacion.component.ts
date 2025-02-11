@@ -111,6 +111,45 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       });
     });
   }
+
+  confirmRemoveItem(index: number, type: string): void {
+    if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
+      this.removeItem(index, type);
+    }
+  }
+  
+  removeItem(index: number, type: string): void {
+    let activitiesArray: FormArray;
+  
+    switch (type) {
+      case 'segundo_bimestre':
+        activitiesArray = this.activitiesSegundo;
+        break;
+      case 'recuperacion':
+        activitiesArray = this.activitiesRecuperacion;
+        break;
+      default:
+        activitiesArray = this.activities;
+        break;
+    }
+  
+    const activity = activitiesArray.at(index).value;
+  
+    // Eliminar de Firebase
+    this.firestore.collection('activities', ref =>
+      ref.where('activity', '==', activity.activity)
+        .where('startdate', '==', activity.startdate)
+        .where('enddate', '==', activity.enddate)
+        .where('emailAssistant', '==', this.userEmail)
+    ).get().subscribe(snapshot => {
+      snapshot.forEach(doc => {
+        this.firestore.collection('activities').doc(doc.id).delete();
+      });
+    });
+  
+    // Eliminar de la página
+    activitiesArray.removeAt(index);
+  }
   
   
 
@@ -129,7 +168,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
           faculty: datos.faculty || '',
           career: datos.career || '',
           subject: datos.subject || '',
-          modality: datos.mode || ''
+          modality: datos.modality || ''
         });
       }
     });
@@ -141,8 +180,6 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       this.periodSubscription.unsubscribe();
     }
   }
-
-
 
   get activities(): FormArray {
     return this.form.get('activities') as FormArray;
@@ -156,17 +193,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
     return this.form.get('activitiesRecuperacion') as FormArray;
   }
 
-  removeItems(index: number): void {
-    this.activities.removeAt(index);
-  }
-
-  removeItemsSegundo(index: number): void {
-    this.activitiesSegundo.removeAt(index);
-  }
-
-  removeItemsRecuperacion(index: number): void {
-    this.activitiesRecuperacion.removeAt(index);
-  }
+  
 
   addItems(): void {
     this.activities.push(this.createItem());

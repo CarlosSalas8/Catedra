@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body>
+<body class="bg-gray-100">
   <app-navbar-admin></app-navbar-admin>
   <app-aside-admin></app-aside-admin>
 
@@ -47,10 +47,8 @@
           <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">{{ modalTitle }}</h2>
 
           <!-- Mensaje de éxito con ícono de verificación -->
-          <div *ngIf="successMessage"
-            class="flex items-center justify-center bg-green-100 text-green-700 p-3 rounded-lg mb-4">
-            <svg class="w-6 h-6 mr-2 animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
+          <div *ngIf="successMessage" class="flex items-center justify-center bg-green-100 text-green-700 p-3 rounded-lg mb-4">
+            <svg class="w-6 h-6 mr-2 animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
             <span>{{ successMessage }}</span>
@@ -60,46 +58,43 @@
             <div class="space-y-4">
               <div *ngIf="modalType === 'career'">
                 <label class="block text-gray-700 font-medium">Carrera</label>
-                <input formControlName="career" type="text"
-                  class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: COMPUTACION">
+                <input formControlName="career" type="text" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: COMPUTACION">
+                <label for="faculty" class="block text-sm font-medium text-gray-700">Facultad</label>
+                <select id="faculty" formControlName="faculty" class="mt-1 block w-full p-2 border rounded">
+                  <option *ngFor="let faculty of faculties" [value]="faculty.id">{{ faculty.name }}</option>
+                </select>
+
+                <label for="modality" class="block text-sm font-medium text-gray-700 mt-4">Modalidad</label>
+                <select id="modality" formControlName="modality" class="mt-1 block w-full p-2 border rounded">
+                  <option value="presencial">Presencial</option>
+                  <option value="distancia">Distancia</option>
+                </select>
               </div>
               <div *ngIf="modalType === 'faculty'">
                 <label class="block text-gray-700 font-medium">Facultad</label>
-                <input formControlName="faculty" type="text"
-                  class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
-                  placeholder="EJ: FACULTAD DE INGENIERÍA">
+                <input formControlName="faculty" type="text" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: FACULTAD DE INGENIERÍA">
               </div>
               <div *ngIf="modalType === 'curriculum'">
                 <label class="block text-gray-700 font-medium">Malla Curricular</label>
-                <input formControlName="curriculum" type="text"
-                  class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: MALLA: ECTS-1C">
+                <input formControlName="curriculum" type="text" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: MALLA: ECTS-1C">
               </div>
               <div *ngIf="modalType === 'academicCycle'">
                 <label class="block text-gray-700 font-medium">Ciclo Académico</label>
-                <input formControlName="academicCycle" type="text"
-                  class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: CICLO 1">
+                <input formControlName="academicCycle" type="text" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: CICLO 1">
               </div>
             </div>
 
             <div class="flex justify-center mt-6 space-x-4">
-              <button type="button" (click)="toggleModal(undefined)"
-                class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition duration-300">Cancelar</button>
-              <button type="submit"
-                class="bg-customBlue text-white px-6 py-2 rounded-lg hover:bg-customBlueHover transition duration-300">Guardar</button>
+              <button type="button" (click)="toggleModal(undefined)" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition duration-300">Cancelar</button>
+              <button type="submit" class="bg-customBlue text-white px-6 py-2 rounded-lg hover:bg-customBlueHover transition duration-300">Guardar</button>
             </div>
           </form>
         </div>
       </div>
-
-
-
-
-
-
     </div>
 
     <!-- Tables to display the data -->
-    <div class="mt-10 grid grid-cols-4 gap-6">
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Carreras -->
       <div>
         <h2 class="text-2xl font-semibold text-gray-900 mb-4">Carreras</h2>
@@ -116,31 +111,17 @@
               <td class="py-4 px-6 text-center flex justify-center gap-4">
                 <!-- Botón Editar -->
                 <button (click)="editItem('career', career)" class="text-customBlue hover:text-customBlueHover">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 20h9" />
-                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                  </svg>
+                  <i class="fas fa-edit"></i>
                 </button>
                 <!-- Botón Eliminar -->
                 <button (click)="deleteItem('careers', career.id)" class="text-red-500 hover:text-red-700">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 6h18" />
-                    <path d="M8 6V4h8v2" />
-                    <path d="M10 11v6" />
-                    <path d="M14 11v6" />
-                    <path d="M5 6h14l-1 14H6L5 6z" />
-                  </svg>
+                  <i class="fas fa-trash-alt"></i>
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-
-
-
 
       <!-- Facultades -->
       <div>
@@ -158,22 +139,11 @@
               <td class="py-4 px-6 text-center flex justify-center gap-4">
                 <!-- Botón Editar -->
                 <button (click)="editItem('faculty', faculty)" class="text-customBlue hover:text-customBlueHover">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 20h9" />
-                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                  </svg>
+                  <i class="fas fa-edit"></i>
                 </button>
                 <!-- Botón Eliminar -->
                 <button (click)="deleteItem('faculties', faculty.id)" class="text-red-500 hover:text-red-700">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 6h18" />
-                    <path d="M8 6V4h8v2" />
-                    <path d="M10 11v6" />
-                    <path d="M14 11v6" />
-                    <path d="M5 6h14l-1 14H6L5 6z" />
-                  </svg>
+                  <i class="fas fa-trash-alt"></i>
                 </button>
               </td>
             </tr>
@@ -196,25 +166,12 @@
               <td class="py-4 px-6 text-gray-800 text-base">{{ academicCycle.name }}</td>
               <td class="py-4 px-6 text-center flex justify-center gap-4">
                 <!-- Botón Editar -->
-                <button (click)="editItem('academicCycle', academicCycle)"
-                  class="text-customBlue hover:text-customBlueHover">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 20h9" />
-                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                  </svg>
+                <button (click)="editItem('academicCycle', academicCycle)" class="text-customBlue hover:text-customBlueHover">
+                  <i class="fas fa-edit"></i>
                 </button>
                 <!-- Botón Eliminar -->
-                <button (click)="deleteItem('academicCycles', academicCycle.id)"
-                  class="text-red-500 hover:text-red-700">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 6h18" />
-                    <path d="M8 6V4h8v2" />
-                    <path d="M10 11v6" />
-                    <path d="M14 11v6" />
-                    <path d="M5 6h14l-1 14H6L5 6z" />
-                  </svg>
+                <button (click)="deleteItem('academicCycles', academicCycle.id)" class="text-red-500 hover:text-red-700">
+                  <i class="fas fa-trash-alt"></i>
                 </button>
               </td>
             </tr>
@@ -238,22 +195,11 @@
               <td class="py-4 px-6 text-center flex justify-center gap-4">
                 <!-- Botón Editar -->
                 <button (click)="editItem('curriculum', curriculum)" class="text-customBlue hover:text-customBlueHover">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 20h9" />
-                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                  </svg>
+                  <i class="fas fa-edit"></i>
                 </button>
                 <!-- Botón Eliminar -->
                 <button (click)="deleteItem('curriculums', curriculum.id)" class="text-red-500 hover:text-red-700">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 6h18" />
-                    <path d="M8 6V4h8v2" />
-                    <path d="M10 11v6" />
-                    <path d="M14 11v6" />
-                    <path d="M5 6h14l-1 14H6L5 6z" />
-                  </svg>
+                  <i class="fas fa-trash-alt"></i>
                 </button>
               </td>
             </tr>
@@ -262,7 +208,6 @@
       </div>
     </div>
   </div>
-
 </body>
 
 </html>

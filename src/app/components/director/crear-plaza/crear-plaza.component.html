@@ -82,27 +82,30 @@
   </div>
 
   <div *ngIf="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white p-8 rounded-3xl shadow-lg max-w-lg md:max-w-2xl lg:max-w-7xl mx-auto">
+    <div class="bg-white p-8 rounded-3xl shadow-lg max-w-lg md:max-w-2xl lg:max-w-5xl mx-auto">
       <!-- Título del formulario -->
       <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Crear Plaza</h2>
 
-      <div *ngIf="directors" class="flex flex-col items-center">
-        <p class="text-sm text-gray-700 text-center">
-          <span class="font-semibold">DIRECTOR:</span> {{ directors.name }}
-        </p>
-        <p class="text-sm text-gray-700 text-center">
-          <span class="font-semibold">CARRERA:</span> {{ directors.career }}
-        </p>
+      <div *ngIf="directors" class="flex flex-col items-center justify-center bg-gray-50 p-4 rounded-lg shadow-md w-80 mx-auto">
+        <div class="text-sm text-gray-700 space-y-2">
+          <p><span class="font-semibold text-gray-900">DIRECTOR:</span> {{ directors.name }}</p>
+          <p><span class="font-semibold text-gray-900">CARRERA:</span> {{ directors.career }}</p>
+          <p><span class="font-semibold text-gray-900">FACULTAD:</span> {{ directors.faculty }}</p>
+          <p><span class="font-semibold text-gray-900">MODALIDAD:</span> {{ directors.modality }}</p>
+        </div>
       </div>
-      <div *ngIf="!directors" class="text-center">
-        <p class="text-sm text-red-500">No se encontró información del director autenticado.</p>
+      
+      
+      <div *ngIf="!directors" class="text-center p-4 bg-red-100 text-red-500 rounded-lg w-80 shadow-md">
+        <p class="text-sm font-semibold">No se encontró información del director autenticado.</p>
       </div>
+      
 
 
 
       <!-- Formulario de entrada -->
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 p-4">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 p-4">
 
           <!-- Subject -->
           <div>
@@ -142,12 +145,7 @@
             </select>
           </div>
 
-          <!-- Paralelo -->
-          <div>
-            <label class="block text-gray-700 font-medium mb-2">Modalidad</label>
-            <input formControlName="mode" type="text" placeholder="Presencial"
-              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
-          </div>
+          
 
           <!-- Ciclo requerido -->
           <div>
@@ -159,14 +157,7 @@
             </select>
           </div>
 
-          <!-- Facultad -->
-          <div>
-            <label class="block text-gray-700 font-medium mb-2">Facultad</label>
-            <select id="faculty" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700" formControlName="faculty">
-              <option value="" disabled>Selecciona una opción</option>
-              <option *ngFor="let faculty of faculties" [value]="faculty">{{ faculty }}</option>
-            </select>
-          </div>
+          
 
 
 
