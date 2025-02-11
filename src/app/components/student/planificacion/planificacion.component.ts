@@ -33,6 +33,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       faculty: ['', Validators.required],
       career: ['', Validators.required],
       subject: ['', Validators.required],
+      parallel: ['', Validators.required],
       modality: ['', Validators.required],
       activities: this.fb.array([]), // Primer bimestre
       activitiesSegundo: this.fb.array([]), // Segundo bimestre
@@ -52,7 +53,9 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       if (user) {
         this.userEmail = user.email;
         console.log('Usuario logueado:', this.userEmail);
-        this.obtenerPlazasDelUsuario();
+        if (user.email) {
+          this.obtenerPlazasDelUsuario(user.email); // Pasar el email del usuario
+        }
       } else {
         console.error('No hay un usuario autenticado.');
       }
@@ -151,37 +154,32 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
     activitiesArray.removeAt(index);
   }
 
-
-
-
-  obtenerPlazasDelUsuario() {
+  obtenerPlazasDelUsuario(email: string) {
     this.firestore.collection('plazas').valueChanges().pipe(take(1)).subscribe((plazas: any[]) => {
       this.plazasDelUsuario = plazas.filter((plaza: any) =>
-        plaza.postulant?.some((p: any) => p.usuario?.email === this.userEmail)
+        plaza.postulant?.some((p: any) => p.usuario?.email === email)
       );
 
       if (this.plazasDelUsuario.length > 0) {
         const datos = this.plazasDelUsuario[0];  // Primer registro encontrado
         this.form.patchValue({
           nameTeacher: datos.nameTeacher || '',
-          assistant: datos.postulant?.[0]?.usuario?.name || '',
+          assistant: datos.postulant?.find((p: any) => p.usuario?.email === email)?.usuario?.name || '',
           faculty: datos.faculty || '',
-          career: datos.career || '',
+          career: datos.career || '',       
           subject: datos.subject || '',
+          parallel: datos.parallel || '',
           modality: datos.modality || ''
         });
       }
     });
   }
 
-
   ngOnDestroy(): void {
     if (this.periodSubscription) {
       this.periodSubscription.unsubscribe();
     }
   }
-
-
 
   get activities(): FormArray {
     return this.form.get('activities') as FormArray;
@@ -235,6 +233,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       faculty: formData.faculty,
       career: formData.career,
       subject: formData.subject,
+      parallel: formData.parallel,
       modality: formData.modality,
       emailAssistant: this.userEmail
     };

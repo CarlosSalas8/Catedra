@@ -27,27 +27,29 @@
           <table class="w-full text-sm text-left text-gray-500 mt-8">
             <thead class="text-xs text-black uppercase bg-gray-50  ">
               <tr>
-                <th scope="col" class="px-6 py-3">DOCENTE</th>
+                <th scope="col" class="px-6 py-3">ESTUDIANTE</th>
                 <th scope="col" class="px-6 py-3">CARRERA</th>
-                <th scope="col" class="px-6 py-3">MALLA CURRICULAR</th>
-                <th scope="col" class="px-6 py-3">CICLO ACADEMICO</th>
+                <th scope="col" class="px-6 py-3">FACULTAD</th>
                 <th scope="col" class="px-6 py-3">PARALELO</th>
+                <th scope="col" class="px-6 py-3">MODALIDAD</th>
+                
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let plaza of plazas$ | async"
+              <tr *ngFor="let actvities of actvities$ | async"
                 class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100">
-                <td class="px-6 py-4">{{ plaza.nameTeacher }}</td>
-                <td class="px-6 py-4">{{ plaza.career }}</td>
-                <td class="px-6 py-4">{{ plaza.curriculum }}</td>
-                <td class="px-6 py-4">{{ plaza.academicCycle }}</td>
-                <td class="px-6 py-4">{{ plaza.parallel }}</td>
+                <td class="px-6 py-4">{{ actvities.assistant }}</td>
+                <td class="px-6 py-4">{{ actvities.career }}</td>
+                <td class="px-6 py-4">{{ actvities.faculty }}</td>
+                <td class="px-6 py-4">{{ actvities.parallel }}</td>
+                <td class="px-6 py-4">{{ actvities.modality }}</td>
+                
                 <td class="px-6 py-4">
-                  <ng-container *ngIf="(plaza.teacherId$ | async) as teacherId">
-                    <a [routerLink]="['/actividades-docentes', teacherId]"
+                  <ng-container *ngIf="(actvities.teacherId$ | async) as teacherId">
+                    <a [routerLink]="['/actividades-docentes', teacherId, actvities.assistant]"
                       class="text-customBlueHover hover:underline">Ver planificación</a>
                   </ng-container>
-                  <span *ngIf="!(plaza.teacherId$ | async)" class="text-gray-500">Docente no encontrado</span>
+                  <span *ngIf="!(actvities.teacherId$ | async)" class="text-gray-500">Docente no encontrado</span>
                 </td>
               </tr>
             </tbody>

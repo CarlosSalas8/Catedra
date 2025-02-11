@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SeguimientoDocenteComponent implements OnInit {
 
-  plazas$: Observable<any[]> | undefined;
+  actvities$: Observable<any[]> | undefined;
 
   constructor(private firestore: AngularFirestore, private authService: AuthService) { }
 
@@ -18,29 +18,32 @@ export class SeguimientoDocenteComponent implements OnInit {
     // Obtiene el usuario autenticado
     this.authService.getCurrentUser().subscribe(currentUser => {
       if (currentUser?.email) {
-        this.plazas$ = this.firestore.collection('plazas', ref =>
+        this.actvities$ = this.firestore.collection('activities', ref =>
           ref.where('emailTeacher', '==', currentUser.email)
         ).valueChanges().pipe(
-          map(plazas => plazas.map(plaza => {
-            if (typeof plaza === 'object' && plaza !== null) {
-              return {
-                ...plaza,
-                teacherId$: this.firestore.collection('teachers', ref =>
-                  ref.where('email', '==', currentUser.email)
-                ).valueChanges().pipe(
-                  map((teachers: any[]) => teachers.length ? teachers[0].id : null)
-                )
-              };
-            } else {
-              console.error('Plaza is not an object:', plaza);
-              return plaza;
-            }
-          }))
+          map(activities => {
+            const uniqueStudents = new Map();
+            activities.forEach(activity => {
+              const typedActivity = activity as { assistant: string };
+              if (!uniqueStudents.has(typedActivity.assistant)) {
+                uniqueStudents.set((activity as any).assistant, {
+                  ...(typeof activity === 'object' && activity !== null ? activity : {}),
+                  teacherId$: this.firestore.collection('teachers', ref =>
+                    ref.where('email', '==', currentUser.email)
+                  ).valueChanges().pipe(
+                    map((teachers: any[]) => teachers.length ? teachers[0].id : null)
+                  )
+                });
+              }
+            });
+            return Array.from(uniqueStudents.values());
+          })
         );
       } else {
         console.error('No hay un usuario autenticado.');
       }
     });
   }
+  
 
 }

@@ -85,11 +85,10 @@
                           class="block w-4 h-4 bg-gray-500 rounded-full"></span>
                   </td>
                   <td class="px-6 py-4">
-                    <a [routerLink]="['/actividades-docentes', teacherId, 'validar', activity.id]"
+                    <a [routerLink]="['/actividades-docentes', teacherId, activity.assistant, 'validar', activity.id]"
                        class="text-customBlueHover hover:underline">Ingresar</a>
                   </td>
                 </tr>
-                
               </tbody>
             </table>
           </div>

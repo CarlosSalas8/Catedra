@@ -25,24 +25,31 @@ export class ActividadesDocentesComponent {
 
     
     this.route.paramMap.subscribe(params => {
-      this.teacherId = params.get('id'); // Obtener el id del teacher de los parámetros de la ruta
-      if (this.teacherId) {
+      this.teacherId = params.get('id'); 
+      const assistantName = params.get('assistant'); // Obtener el nombre del asistente
+    
+      if (this.teacherId && assistantName) { 
         this.firestore.collection('teachers').doc(this.teacherId).valueChanges().subscribe(teacherData => {
           this.activity = teacherData;
           if (this.activity) {
-            this.cargarActividades(this.activity.name);
+            this.cargarActividades(this.activity.name, assistantName); // Pasar el asistente para filtrar
           }
         });
       }
-    });
+    });    
+    
     
   }
 
-  cargarActividades(teacherName: string): void {
-    this.firestore.collection('activities', ref => ref.where('nameTeacher', '==', teacherName)).valueChanges().subscribe(data => {
+  cargarActividades(teacherName: string, assistantName: string): void {
+    this.firestore.collection('activities', ref => 
+      ref.where('nameTeacher', '==', teacherName)
+         .where('assistant', '==', assistantName) // Filtrar por el estudiante seleccionado
+    ).valueChanges().subscribe(data => {
       this.activitys = data;
     });
   }
+  
 
 
 }

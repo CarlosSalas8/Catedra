@@ -22,8 +22,8 @@ const routes: Routes = [
   { path: 'home-docente', loadChildren: () => import('./components/docente/home-docente/home-docente.module').then(x => x.HomeDocenteModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin'] }, },
   { path: 'seguimiento-docente', loadChildren: () => import('./components/docente/seguimiento-docente/seguimiento-docente.module').then(x => x.SeguimientoDocenteModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin']  } },
   { path: 'presentacion-docente', loadChildren: () => import('./components/docente/presentacion-docente/presentacion-docente.module').then(x => x.PresentacionDocenteModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin']  } },
-  { path: 'actividades-docentes/:id', loadChildren: () => import('./components/docente/actividades-docentes/actividades-docentes.module').then(m => m.ActividadesDocentesModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin']  } },
   { path: 'actividades-docentes/:id/validar/:actividadId', loadChildren: () => import('./components/docente/validar/validar.module').then(m => m.ValidarModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin']  } },
+  { path: 'actividades-docentes/:id/:assistant', loadChildren: () => import('./components/docente/actividades-docentes/actividades-docentes.module').then(m => m.ActividadesDocentesModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin']  } },
 
   { path: 'home-admin', loadChildren: () => import('./components/admin/home-admin/home-admin.module').then(x => x.HomeAdminModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' }  },
   { path: 'seguimiento', loadChildren: () => import('./components/admin/seguimiento/seguimiento.module').then(x => x.SeguimientoModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' }  },
