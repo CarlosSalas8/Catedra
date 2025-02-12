@@ -10,7 +10,10 @@ import { map, Observable } from 'rxjs';
 })
 export class SeguimientoDirectorComponent implements OnInit {
   docentes$: Observable<any[]> | undefined;
+  estudiantes$: Observable<any[]> | undefined;
   directorEmail: string | null = null;
+  docenteSeleccionado: any = null;
+selectedDocenteId: any|string;
 
   constructor(private auth: AngularFireAuth, private firestore: AngularFirestore) {}
 
@@ -36,5 +39,24 @@ export class SeguimientoDirectorComponent implements OnInit {
           })
         )
       );
+  }
+
+  cargarEstudiantes(emailTeacher: string): void {
+    this.estudiantes$ = this.firestore
+      .collection('activities', (ref) => ref.where('emailTeacher', '==', emailTeacher))
+      .valueChanges()
+      .pipe(
+        map((activities: any[]) => {
+          const uniqueStudents = new Map();
+          activities.forEach(activity => {
+            if (!uniqueStudents.has(activity.assistant)) {
+              uniqueStudents.set(activity.assistant, activity);
+            }
+          });
+          return Array.from(uniqueStudents.values());
+        })
+      );
+
+    this.docenteSeleccionado = emailTeacher; // Para mostrar la lista de estudiantes
   }
 }

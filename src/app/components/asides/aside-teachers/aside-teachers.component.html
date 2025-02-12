@@ -1,23 +1,24 @@
 <aside id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform -translate-x-full bg-customBlue order-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
-    aria-label="Sidebar">
-    <div class="h-full px-2 pb-4 overflow-y-auto bg-customBlue dark:bg-customBlue">
-      <ul class="space-y-2 font-medium">
-        <li>
-          <a [routerLink]="'/home-docente'" routerLinkActive="bg-customBlue4 text-white"
-            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/Vector2.png" alt="Home" class="w- h-8">
-            <span class="sr-only">Home Docente</span>
-          </a>
-        </li>
-        <li>
-          <a [routerLink]="'/seguimiento-docente'" routerLinkActive="bg-customBlue4 text-white"
-            class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
-            <img src="/assets/Vector.png" alt="Planificacion" class="w-8 h-8">
-            <span class="sr-only">Seguimiento Docente</span>
-          </a>
-        </li>        
-        
-      </ul>
-    </div>
-  </aside>
+  class="fixed top-0 left-0 z-40 w-20 h-screen pt-20 transition-transform -translate-x-full bg-customBlue order-r border-gray-200 sm:translate-x-0 dark:bg-customBlue dark:border-customBlue"
+  aria-label="Sidebar">
+  <div class="h-full px-2 pb-4 overflow-y-auto bg-customBlue dark:bg-customBlue">
+    <ul class="space-y-2 font-medium">
+      <li>
+        <a *ngIf="teacherEmail" [routerLink]="['/home-docente', teacherEmail]"
+          routerLinkActive="bg-customBlue4 text-white"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+          <img src="/assets/Vector2.png" alt="Home" class="w-8 h-8">
+          <span class="sr-only">Home Docente</span>
+        </a>
+      </li>
+      <li>
+        <a *ngIf="teacherEmail" [routerLink]="['/seguimiento-docente', teacherEmail]"
+          routerLinkActive="bg-customBlue4 text-white"
+          class="flex items-center justify-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-slate-400 group">
+          <img src="/assets/Vector.png" alt="Planificación" class="w-8 h-8">
+          <span class="sr-only">Seguimiento Docente</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>

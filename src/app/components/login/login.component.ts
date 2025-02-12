@@ -123,7 +123,6 @@ export class LoginComponent implements OnInit {
         console.log('Login con Google exitoso:', user);
 
         try {
-          // Obtener el documento del usuario desde Firestore
           const userDoc = await this.firestore.collection('users').doc(user.uid).get().toPromise();
 
           if (userDoc?.exists) {
@@ -131,25 +130,31 @@ export class LoginComponent implements OnInit {
             const role = userData?.role;
             const career = userData?.career;
             const validated = userData?.validated;
+            const email = user.email; // Obtener el email del usuario autenticado
 
-            // Asegurarse de que el rol sea válido y redirigir
             if (role) {
               if (role === 'admin') {
                 console.log('Usuario con role admin, redirigiendo a home-admin...');
                 this.router.navigate(['/home-admin']);
-              } else if (role === 'teacher' || role === 'director') {
-                const homeRoute = role === 'teacher' ? '/home-docente' : '/home-director';
-                console.log(`Redirigiendo al ${homeRoute}`);
-                this.router.navigate([homeRoute]);
-              } else if (role === 'student') {
+              } 
+              else if (role === 'teacher') {
+                console.log(`Redirigiendo a home-docente con email: ${email}`);
+                this.router.navigate(['/home-docente', email]); // Enviar email en la ruta
+              } 
+              else if (role === 'director') {
+                console.log('Redirigiendo a home-director sin email.');
+                this.router.navigate(['/home-director']); // No enviar email
+              } 
+              else if (role === 'student') {
                 if (career) {
-                  console.log('El usuario ya tiene una carrer asignada, redirigiendo al home-ayudante...');
+                  console.log('El usuario ya tiene una carrera asignada, redirigiendo al home-ayudante...');
                   this.router.navigate(['/home-ayudante'], { queryParams: { career: career, validated } });
                 } else {
                   console.log('El usuario no tiene career asignada, redirigiendo a selección de career...');
                   this.router.navigate(['/carrera'], { queryParams: { validated } });
                 }
-              } else {
+              } 
+              else {
                 console.error('Rol desconocido:', role);
                 alert('Rol no válido. Contacte al administrador.');
               }
@@ -176,7 +181,8 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       }
     );
-  }
+}
+
 
 
   setupMobileMenuToggle(): void {
