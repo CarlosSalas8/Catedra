@@ -174,6 +174,7 @@ export class CrearPlazaComponent implements OnInit {
                 periodID: periodID,
                 directorsId: this.directors?.id || null,
                 directorsName: this.directors?.name || null,
+                emailDirector: this.directors?.email || null,
                 career: this.directors?.career || null,
                 faculty: this.directors?.faculty || null,
                 modality: this.directors?.modality || null,

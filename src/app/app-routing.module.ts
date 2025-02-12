@@ -34,7 +34,7 @@ const routes: Routes = [
   { path: 'home-director', loadChildren: () => import('./components/director/home-director/home-director.module').then(x => x.HomeDirectorModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' }  },
   { path: 'crear-plaza', loadChildren: () => import('./components/director/crear-plaza/crear-plaza.module').then(x => x.CrearPlazaModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' }  },
   { path: 'postulantes/:id', loadChildren: () => import('./components/director/postulantes/postulantes.module').then(x => x.PostulantesModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' }  },
-
+  { path: 'seguimiento-director', loadChildren: () => import('./components/director/seguimiento-director/seguimiento-director.module').then(x => x.SeguimientoDirectorModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' }  },
 
 
   { path: 'informe', loadChildren: () => import('./components/student/informe/informe.module').then(x => x.InformeModule),canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },

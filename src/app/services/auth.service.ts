@@ -142,23 +142,68 @@ export class AuthService {
 
   private async createTeacherCollection(user: firebase.default.User) {
     const teacherDocRef = this.firestore.collection('teachers').doc(user.uid);
-
-    // Fetch the document using a snapshot
-    const teacherDoc = await teacherDocRef.get().toPromise();
-
-    // Check if the document exists
-    if (teacherDoc && !teacherDoc.exists) {
-      await teacherDocRef.set({
-        id: user.uid,
-        name: user.displayName,
-        email: user.email,
-        periodID: this.activePeriod.id // Customize this value as needed
-      });
-      console.log('Teacher collection created successfully');
-    } else if (!teacherDoc) {
-      console.error('Failed to retrieve teacher document snapshot');
+  
+    try {
+      // Fetch the document using a snapshot
+      const teacherDoc = await teacherDocRef.get().toPromise();
+  
+      // Check if the document exists
+      if (teacherDoc && !teacherDoc.exists) {
+        // Buscar en la colección 'plazas' el email del director, subject y parallel asociado al docente
+        const plazaQuerySnapshot = await this.firestore
+          .collection('plazas', (ref) => ref.where('emailTeacher', '==', user.email))
+          .get()
+          .toPromise();
+  
+        let emailDirector = null;
+        let subject = null;
+        let parallel = null;
+  
+        if (plazaQuerySnapshot && !plazaQuerySnapshot.empty) {
+          const plazaData = plazaQuerySnapshot.docs[0].data() as { 
+            emailDirector?: string;
+            subject?: string;
+            parallel?: string;
+          };
+  
+          emailDirector = plazaData.emailDirector || null; // Obtener el email del director
+          subject = plazaData.subject || null; // Obtener la materia (subject)
+          parallel = plazaData.parallel || null; // Obtener el paralelo (parallel)
+  
+          console.log('Datos de la plaza encontrados:', { emailDirector, subject, parallel });
+        } else {
+          console.warn('No se encontró plaza asociada a este docente.');
+        }
+  
+        // Crear el documento en la colección 'teachers'
+        await teacherDocRef.set({
+          id: user.uid,
+          name: user.displayName,
+          email: user.email,
+          emailDirector: emailDirector, // Se agrega el email del director
+          subject: subject, // Se agrega la materia
+          parallel: parallel, // Se agrega el paralelo
+          periodID: this.activePeriod?.id || null, // Asegurar que no falle si activePeriod no está definido
+        });
+  
+        console.log('Teacher collection created successfully:', {
+          id: user.uid,
+          name: user.displayName,
+          email: user.email,
+          emailDirector: emailDirector,
+          subject: subject,
+          parallel: parallel,
+        });
+      } else if (!teacherDoc) {
+        console.error('Failed to retrieve teacher document snapshot');
+      }
+    } catch (error) {
+      console.error('Error creating teacher collection:', error);
     }
   }
+  
+ 
+  
 
 
 
@@ -212,12 +257,12 @@ export class AuthService {
   
 
 
-
-
-
   getCurrentUser() {
     return this.afAuth.authState.pipe(map(user => user || null));
   }
+
+  
+  
 
 
 
