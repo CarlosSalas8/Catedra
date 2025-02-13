@@ -12,6 +12,7 @@ import { SharedModule } from './components/shared/shared.module';
 import { AuthService } from './services/auth.service';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -21,7 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent
-    
+
   ],
   imports: [
     BrowserModule,
@@ -31,10 +32,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     AngularFireAuthModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    SharedModule
-  
+    SharedModule,
+    HttpClientModule
   ],
-  
+
   providers: [
     AuthService
   ],
