@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent } from '../home/home/home.component';
 import { NavbarTeacherComponent } from '../navbars/navbar-teacher/navbar-teacher.component';
 import { AsideTeachersComponent } from '../asides/aside-teachers/aside-teachers.component';
+import { PresentacionDocenteComponent } from '../docente/presentacion-docente/presentacion-docente.component';
 
 
 
@@ -16,6 +17,7 @@ import { AsideTeachersComponent } from '../asides/aside-teachers/aside-teachers.
 @NgModule({
   declarations: [
     HomeComponent,
+    PresentacionDocenteComponent,
     HomeDocenteComponent,
     SeguimientoDocenteComponent,
     ActividadesDocentesComponent,
@@ -31,10 +33,14 @@ import { AsideTeachersComponent } from '../asides/aside-teachers/aside-teachers.
   exports:[
     CommonModule,
     ReactiveFormsModule,
+    HomeComponent,
+    PresentacionDocenteComponent,
     HomeDocenteComponent,
     SeguimientoDocenteComponent,
     ActividadesDocentesComponent,
-    ValidarComponent
+    ValidarComponent,
+    NavbarTeacherComponent,
+    AsideTeachersComponent
     
   ]
 })
