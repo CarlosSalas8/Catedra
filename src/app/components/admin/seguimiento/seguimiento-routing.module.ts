@@ -4,6 +4,7 @@ import { SeguimientoComponent } from './seguimiento.component';
 
 const routes: Routes = [
   {path: '', component: SeguimientoComponent}
+  
 ];
 
 @NgModule({

@@ -12,6 +12,13 @@ import { SharedModule } from './components/shared/shared.module';
 import { AuthService } from './services/auth.service';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HomeDocenteComponent } from './components/docente/home-docente/home-docente.component';
+import { SeguimientoDocenteComponent } from './components/docente/seguimiento-docente/seguimiento-docente.component';
+import { NavbarTeacherModule } from "./components/navbars/navbar-teacher/navbar-teacher.module";
+import { AsideTeachersModule } from "./components/asides/aside-teachers/aside-teachers.module";
+import { ActividadesDocentesComponent } from './components/docente/actividades-docentes/actividades-docentes.component';
+import { ValidarComponent } from './components/docente/validar/validar.component';
+import { HomeComponent } from './components/home/home/home.component';
 
 
 
@@ -20,7 +27,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    HomeDocenteComponent,
+    SeguimientoDocenteComponent,
+    ActividadesDocentesComponent,
+    ValidarComponent
     
   ],
   imports: [
@@ -31,9 +43,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     AngularFireAuthModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    SharedModule
-  
-  ],
+    SharedModule,
+    NavbarTeacherModule,
+    AsideTeachersModule
+],
   
   providers: [
     AuthService

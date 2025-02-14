@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { PeriodoService } from 'src/app/services/periodo.service';
 
 @Component({
@@ -9,47 +9,53 @@ import { PeriodoService } from 'src/app/services/periodo.service';
   styleUrls: ['./actividades-docentes.component.css']
 })
 export class ActividadesDocentesComponent {
-  
+
   activity: any;
   activitys: any[] = [];
   teacherId: string | null = null;
+  assistantID: string | null = null;
   activePeriod: any | null = null;
+  assistantName: string | null = null;
 
-  constructor(public periodoService: PeriodoService,private firestore: AngularFirestore,private route: ActivatedRoute) {}
+  constructor(public periodoService: PeriodoService, private firestore: AngularFirestore, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
     });
 
-    
     this.route.paramMap.subscribe(params => {
-      this.teacherId = params.get('id'); 
-      const assistantName = params.get('assistant'); // Obtener el nombre del asistente
-    
-      if (this.teacherId && assistantName) { 
-        this.firestore.collection('teachers').doc(this.teacherId).valueChanges().subscribe(teacherData => {
-          this.activity = teacherData;
-          if (this.activity) {
-            this.cargarActividades(this.activity.name, assistantName); // Pasar el asistente para filtrar
-          }
-        });
+      this.teacherId = params.get('id');
+      this.assistantID = params.get('assistant');  // Esto es un ID, no el nombre
+
+      // Extraer el nombre real del asistente desde el último segmento de la URL
+      const urlSegments = window.location.pathname.split('/');
+      this.assistantName = decodeURIComponent(urlSegments[urlSegments.length - 1]);
+
+      console.log('Teacher ID:', this.teacherId);
+      console.log('Assistant ID:', this.assistantID); // Solo para verificar
+      console.log('Assistant Name:', this.assistantName); // Este es el que necesitamos
+
+      if (this.teacherId && this.assistantName) {
+        this.cargarActividadesPorEstudiante(this.teacherId, this.assistantName);
       }
-    });    
-    
-    
+    });
   }
 
-  cargarActividades(teacherName: string, assistantName: string): void {
-    this.firestore.collection('activities', ref => 
-      ref.where('nameTeacher', '==', teacherName)
-         .where('assistant', '==', assistantName) // Filtrar por el estudiante seleccionado
+
+
+
+  cargarActividadesPorEstudiante(teacherId: string, assistant: string): void {
+    this.firestore.collection('activities', ref =>
+      ref.where('emailTeacher', '==', teacherId)
+        .where('assistant', '==', assistant) // Ahora assistant tiene el nombre correcto
     ).valueChanges().subscribe(data => {
+      console.log('Actividades encontradas:', data); // Verifica si ya devuelve datos
       this.activitys = data;
     });
   }
-  
+
+
 
 
 }

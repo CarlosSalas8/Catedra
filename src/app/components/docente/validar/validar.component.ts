@@ -18,13 +18,11 @@ export class ValidarComponent implements OnInit {
   validationMessage: string = '';
   activePeriod: any | null = null;
   files: any[] = [];  // Lista de archivos subidos
-  previewUrl: SafeResourceUrl | null = null; // Para mostrar el PDF seleccionado
 
   constructor(private firestore: AngularFirestore, 
     public periodoService: PeriodoService, 
     private route: ActivatedRoute,
-    private storage: AngularFireStorage,
-    private sanitizer: DomSanitizer) { }
+    private storage: AngularFireStorage) { }
 
 
   ngOnInit(): void {
@@ -81,8 +79,9 @@ export class ValidarComponent implements OnInit {
   }
   
 
-  selectFile(url: string) {
-    this.previewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  // Seleccionar archivo para abrirlo en una nueva pestaña
+  selectFile(fileUrl: string) {
+    window.open(fileUrl, '_blank');
   }
 
 
