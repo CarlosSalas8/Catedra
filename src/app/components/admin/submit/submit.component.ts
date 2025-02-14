@@ -163,18 +163,25 @@ export class SubmitComponent implements OnInit {
 
   saveToFirestore(collection: string, data: any): void {
     const docId = data.name.toLowerCase().replace(/\s+/g, '-');
-
+  
     if (collection === 'careers') {
       const { name, facultyId, modality } = data;
-
+  
       // Fetch the faculty name based on facultyId
       this.firestore.collection('faculties').doc(facultyId).get().subscribe(facultyDoc => {
         if (facultyDoc.exists) {
           const facultyName = (facultyDoc.data() as { name: string })?.name;
-
-          // Crear la carrera con la facultad y modalidad asociadas
-          const newCareer = { name, facultyId, facultyName, modality };
-
+  
+          // Crear la carrera con la facultad, modalidad y el id de la carrera
+          const newCareer = { 
+            id: docId, // Aquí agregas el ID de la carrera
+            name, 
+            facultyId, 
+            facultyName, 
+            modality 
+          };
+  
+          // Guardar la carrera con el id incluido
           this.firestore.collection('careers').doc(docId).set(newCareer)
             .then(() => {
               // Asociar la carrera a la facultad
@@ -185,7 +192,7 @@ export class SubmitComponent implements OnInit {
                   modality
                 })
               });
-
+  
               this.successMessage = `¡Carrera guardada con éxito!`;
               this.form.reset();
               setTimeout(() => this.successMessage = '', 2000);
@@ -210,6 +217,7 @@ export class SubmitComponent implements OnInit {
         });
     }
   }
+  
 
 
   // Método para actualizar datos

@@ -143,17 +143,20 @@ export class AuthService {
           .toPromise();
 
         let emailDirector = null;
+        let name = null;
         let subject = null;
         let parallel = null;
 
         if (plazaQuerySnapshot && !plazaQuerySnapshot.empty) {
           const plazaData = plazaQuerySnapshot.docs[0].data() as {
             emailDirector?: string;
+            nameTeacher?: string;
             subject?: string;
             parallel?: string;
           };
 
           emailDirector = plazaData.emailDirector || null; // Obtener el email del director
+          name = plazaData.nameTeacher || null; // Obtener el email del director
           subject = plazaData.subject || null; // Obtener la materia (subject)
           parallel = plazaData.parallel || null; // Obtener el paralelo (parallel)
 
@@ -165,7 +168,7 @@ export class AuthService {
         // Crear el documento en la colección 'teachers'
         await teacherDocRef.set({
           id: user.uid,
-          name: user.displayName,
+          name: name,
           email: user.email,
           emailDirector: emailDirector, // Se agrega el email del director
           subject: subject, // Se agrega la materia
@@ -175,7 +178,7 @@ export class AuthService {
 
         console.log('Teacher collection created successfully:', {
           id: user.uid,
-          name: user.displayName,
+          name: name,
           email: user.email,
           emailDirector: emailDirector,
           subject: subject,

@@ -20,15 +20,22 @@
         <div class="bg-customBlue3 p-4 rounded-lg">
           <p class="text-gray-700 mb-2">
             La plataforma permite subir los datos de directores involucrados en el plan
-            de mejora:
+            de mejora. Por favor, asegúrese de que el archivo CSV cumpla con el siguiente formato:
           </p>
-          <p class="text-gray-700 font-bold mb-2">Importante:</p>
+          <p class="text-gray-700 font-bold mb-2">Formato del archivo CSV:</p>
+          <span class="text-red-500">
+            Cada valor debe estar en una celda individual. <br>
+          </span>
           <ul class="list-disc list-inside text-gray-700">
-            <li>La primera fila del archivo <span class="text-red-500">.csv</span> será omitida al momento
-              de subir la información. sera considerada el encabezado del csv.</li>
-            <li>El separador de campos del archivo <span class="text-red-500">.csv</span> debe ser , (coma).</li>
+            <li>La primera fila debe contener los encabezados: 
+              <strong>email | name | career | role</strong> .</li>
+            <li>Desde la segunda fila en adelante, ingrese los datos de los directores.</li>
           </ul>
+          <p class="text-gray-700 mb-2">
+            <strong>Ejemplo:</strong> Si el encabezado es <strong>name</strong>, debajo de name deben ir los nombres de los directores.
+          </p>
         </div>
+
 
         <div class="mt-6">
           <h2 class="text-xl font-semibold text-black mb-4 text-center">Cargar Directores</h2>
@@ -37,8 +44,8 @@
             <p class="text-black mb-4">
               Los directores deben tener el siguiente formato:
               <span class="text-red-500">
-                Correo electrónico de director; Nombres y apellidos del director; Nombre de la carrera; Nombre de la facultad;
-                Modalidad; Asignatura
+                Correo electrónico de director; Nombres y apellidos del director; Nombre de la carrera; Rol (debe ser
+                "director")
               </span>
             </p>
             <div class="border-t border-gray-200 pt-4">

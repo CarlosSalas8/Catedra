@@ -15,13 +15,12 @@ export class SubirTutoresComponent implements OnInit {
   successMessage: string = '';
   isLoading: boolean = false;
 
-  constructor(public periodoService: PeriodoService, private afAuth: AngularFireAuth, private firestore: AngularFirestore) { }
+  constructor(public periodoService: PeriodoService, private afAuth: AngularFireAuth, private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
     });
-
   }
 
   onFileSelected(event: any) {
@@ -30,7 +29,7 @@ export class SubirTutoresComponent implements OnInit {
     if (file) {
       Papa.parse(file, {
         header: true,
-        delimiter: ',', // Asegúrate de que este sea el delimitador correcto
+        delimiter: ',',
         skipEmptyLines: true,
         complete: (result) => {
           const data = result.data;
@@ -44,24 +43,24 @@ export class SubirTutoresComponent implements OnInit {
     const fileInput = document.getElementById('file-upload') as HTMLInputElement;
     if (fileInput && fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
-      this.isLoading = true; // Mostrar indicador de carga
+      this.isLoading = true;
       Papa.parse(file, {
         header: true,
-        delimiter: ',', // Asegúrate de que este sea el delimitador correcto
+        delimiter: ',',
         skipEmptyLines: true,
-        complete: (result) => {
+        complete: async (result) => {
           const data = result.data;
           if (this.validateFormat(data)) {
-            this.uploadDataToFirebase(data); // Llamamos a la carga de datos si pasa la validación
+            await this.uploadDataToFirebase(data);
           } else {
             this.errorMessage = 'El archivo CSV no cumple con el formato requerido.';
-            this.isLoading = false; // Ocultar indicador de carga
+            this.isLoading = false;
           }
         },
         error: (error) => {
           console.error('Error al analizar el archivo CSV', error);
           this.errorMessage = 'Error al analizar el archivo CSV.';
-          this.isLoading = false; // Ocultar indicador de carga
+          this.isLoading = false;
         }
       });
     } else {
@@ -70,9 +69,8 @@ export class SubirTutoresComponent implements OnInit {
   }
 
   validateFormat(data: any[]): boolean {
-    const requiredHeaders = ['email', 'name', 'career', 'role', 'faculty', 'modality', 'subject'];
+    const requiredHeaders = ['email', 'name', 'career', 'role'];
 
-    // Verificar que todas las filas tengan las columnas requeridas
     for (const row of data) {
       for (const header of requiredHeaders) {
         if (!(header in row)) {
@@ -85,18 +83,32 @@ export class SubirTutoresComponent implements OnInit {
   }
 
   async uploadDataToFirebase(data: any) {
-    this.successMessage = ''; // Limpiamos mensajes anteriores
+    this.successMessage = '';
     this.errorMessage = '';
-
+  
     try {
-      // Usamos Promise.all para asegurar que todas las operaciones de guardado se completen antes de mostrar un mensaje
       await Promise.all(
-        data.map(async (directors: any) => {
+        data.map(async (director: any) => {
+          const careerDoc = await this.firestore
+            .collection('careers', ref => ref.where('name', '==', director.career))
+            .get()
+            .toPromise();
+  
+          if (careerDoc && !careerDoc.empty) {
+            const careerData = careerDoc.docs[0].data() as { id?: string; facultyId?: string; facultyName?: string; modality?: string };
+  
+            director.careerId = careerData.id || ''; // Asignamos el ID de la carrera
+            director.faculty = careerData.facultyName || ''; // Usamos facultyName porque así está en Firestore
+            director.facultyId = careerData.facultyId || ''; // Si necesitas el ID de la facultad
+            director.modality = careerData.modality || '';
+          } else {
+            console.warn(`No se encontró la carrera: ${director.career}`);
+          }
+  
           const docRef = this.firestore.collection('directors').doc();
-          const id = docRef.ref.id;
-          directors.id = id; // Añadir el ID al documento
-          directors.periodID = this.activePeriod.id;
-          await docRef.set(directors); // Crear el documento con el ID y los datos
+          director.id = docRef.ref.id;
+          director.periodID = this.activePeriod.id;
+          await docRef.set(director);
         })
       );
       this.successMessage = 'Archivo CSV subido correctamente.';
@@ -104,9 +116,8 @@ export class SubirTutoresComponent implements OnInit {
       console.error('Error al subir datos a Firestore', error);
       this.errorMessage = 'Error al subir datos a Firestore.';
     } finally {
-      this.isLoading = false; // Ocultar indicador de carga
+      this.isLoading = false;
     }
   }
-
-
+  
 }
