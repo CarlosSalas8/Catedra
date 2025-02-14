@@ -7,14 +7,14 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    AsideTeachersComponent
+    
   ],
   imports: [
     CommonModule,
     RouterModule
   ],
   exports: [
-    AsideTeachersComponent
+  
   ]
 })
 export class AsideTeachersModule { }

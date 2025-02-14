@@ -7,14 +7,13 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    NavbarTeacherComponent
+    
   ],
   imports: [
     CommonModule,
     RouterModule
   ],
   exports: [
-    NavbarTeacherComponent
   ]
 })
 export class NavbarTeacherModule { }
