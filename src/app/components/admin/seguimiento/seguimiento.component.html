@@ -8,26 +8,27 @@
 </head>
 
 <body class="h-screen overflow-auto">
-  
-  <app-navbar-admin> </app-navbar-admin>
-  
-  <app-aside-admin> </app-aside-admin>
 
+  <app-navbar-admin></app-navbar-admin>
+  <app-aside-admin></app-aside-admin>
 
   <div class="p-4 sm:ml-20">
     <div class="p-4 mt-14">
       <div class="container mx-auto p-6 bg-white overflow-hidden flex flex-col justify-center max-h-full">
         <h2 class="text-xl font-semibold text-black mb-4 text-center" style="font-size: 22px;">Lista de Directores</h2>
-        
+
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <div class="flex items-center">
-            <span class="bg-gray-300 px-10 p-3 border border-gray-300 border-r-0 rounded-l-lg font-semibold">Buscar</span>
-            <input type="text" class="p-3 border border-gray-300 rounded-r-lg w-full" placeholder="Nombre del tutor">
+            <span class="bg-gray-300 px-10 p-3 border border-gray-300 border-r-0 rounded-l-lg font-semibold">
+              Buscar
+            </span>
+            <input type="text" class="p-3 border border-gray-300 rounded-r-lg w-full" placeholder="Nombre del director">
           </div>
+
           <table class="w-full text-sm text-left text-gray-500 mt-8">
-            <thead class="text-xs text-black uppercase bg-gray-50  ">
+            <thead class="text-xs text-black uppercase bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3">Nombre y Apellido Tutor</th>
+                <th scope="col" class="px-6 py-3">Nombre y Apellido</th>
                 <th scope="col" class="px-6 py-3">Facultad</th>
                 <th scope="col" class="px-6 py-3">Carrera</th>
                 <th scope="col" class="px-6 py-3">Modalidad</th>
@@ -36,24 +37,62 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let director of directors$ | async" class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100 ">
+              <tr *ngFor="let director of directors$ | async" class="bg-white border-b hover:bg-gray-50">
                 <td class="px-6 py-4">{{ director.name }}</td>
                 <td class="px-6 py-4">{{ director.faculty }}</td>
                 <td class="px-6 py-4">{{ director.career }}</td>
                 <td class="px-6 py-4">{{ director.modality }}</td>
                 <td class="px-6 py-4"><a href="#" class="text-customBlueHover hover:underline">VER</a></td>
                 <td class="px-6 py-4">
-                  <a class="text-customBlueHover hover:underline">Ver planificación</a>
+                  <button (click)="toggleDocentes(director.email)" class="text-customBlueHover hover:underline">
+                    {{ selectedDirectorEmail === director.email ? 'Ocultar' : 'Ver Docentes' }}
+                  </button>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <!-- ✅ Toggle de Docentes -->
+        <div *ngIf="selectedDirectorEmail"
+          class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div class="bg-white p-8 rounded-3xl shadow-lg max-w-lg md:max-w-2xl lg:max-w-5xl mx-auto">
+            <h2 class="text-xl font-semibold text-black mb-4 text-center">Docentes de {{ selectedDirectorEmail }}</h2>
+
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <table class="w-full text-sm text-left text-gray-500 mt-8">
+                <thead class="text-xs text-black uppercase bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3">DOCENTE</th>
+                    <th class="px-6 py-3">CONTACTO</th>
+                    <th class="px-6 py-3">ASIGNATURA</th>
+                    <th class="px-6 py-3">PARALELO</th>
+                    <th class="px-6 py-3">ACCIONES</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let docente of docentes$ | async" class="bg-white border-b hover:bg-gray-50">
+                    <td class="px-6 py-4">{{ docente.name }}</td>
+                    <td class="px-6 py-4">{{ docente.email }}</td>
+                    <td class="px-6 py-4">{{ docente.subject }}</td>
+                    <td class="px-6 py-4">{{ docente.parallel }}</td>
+                    <td class="px-6 py-4">
+                      <a [routerLink]="['/seguimiento-docente', docente.email]"
+                        class="text-customBlueHover hover:underline">
+                        Ver Planificación
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
-  
+
 </body>
 
 </html>
-

@@ -39,7 +39,6 @@ const routes: Routes = [
   { path: 'home-admin', loadChildren: () => import('./components/admin/home-admin/home-admin.module').then(x => x.HomeAdminModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
   { path: 'seguimiento', loadChildren: () => import('./components/admin/seguimiento/seguimiento.module').then(x => x.SeguimientoModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
   { path: 'subir-tutores', loadChildren: () => import('./components/admin/subir-tutores/subir-tutores.module').then(x => x.SubirTutoresModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
-  { path: 'teachers', loadChildren: () => import('./components/admin/teachers/teachers.module').then(x => x.TeachersModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
   { path: 'submit', loadChildren: () => import('./components/admin/submit/submit.module').then(x => x.SubmitModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
 
   { path: 'home-director', loadChildren: () => import('./components/director/home-director/home-director.module').then(x => x.HomeDirectorModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },

@@ -13,7 +13,7 @@ export class SeguimientoDirectorComponent implements OnInit {
   estudiantes$: Observable<any[]> | undefined;
   directorEmail: string | null = null;
   docenteSeleccionado: any = null;
-selectedDocenteId: any|string;
+  selectedDocenteId: any|string;
 
   constructor(private auth: AngularFireAuth, private firestore: AngularFirestore) {}
 
