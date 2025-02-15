@@ -22,7 +22,7 @@
           PERIODO {{ activePeriod?.name || 'PERÍODO' }}
         </p>
 
-        <div class="flex flex-col md:flex-row items-center mt-8 space-y-4 md:space-y-0 md:space-x-4">
+        <div class="flex flex-wrap justify-center mt-8 gap-4">
           <button (click)="toggleModal('career')"
             class="bg-customBlue text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold hover:bg-customBlueHover transition duration-300">
             CREAR NUEVA CARRERA
@@ -40,6 +40,7 @@
             CREAR NUEVA MALLA
           </button>
         </div>
+
       </div>
 
       <div *ngIf="modalType" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -47,8 +48,10 @@
           <h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">{{ modalTitle }}</h2>
 
           <!-- Mensaje de éxito con ícono de verificación -->
-          <div *ngIf="successMessage" class="flex items-center justify-center bg-green-100 text-green-700 p-3 rounded-lg mb-4">
-            <svg class="w-6 h-6 mr-2 animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div *ngIf="successMessage"
+            class="flex items-center justify-center bg-green-100 text-green-700 p-3 rounded-lg mb-4">
+            <svg class="w-6 h-6 mr-2 animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
             <span>{{ successMessage }}</span>
@@ -58,7 +61,8 @@
             <div class="space-y-4">
               <div *ngIf="modalType === 'career'">
                 <label class="block text-gray-700 font-medium">Carrera</label>
-                <input formControlName="career" type="text" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: COMPUTACION">
+                <input formControlName="career" type="text"
+                  class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: COMPUTACION">
                 <label for="faculty" class="block text-sm font-medium text-gray-700">Facultad</label>
                 <select id="faculty" formControlName="faculty" class="mt-1 block w-full p-2 border rounded">
                   <option *ngFor="let faculty of faculties" [value]="faculty.id">{{ faculty.name }}</option>
@@ -72,21 +76,27 @@
               </div>
               <div *ngIf="modalType === 'faculty'">
                 <label class="block text-gray-700 font-medium">Facultad</label>
-                <input formControlName="faculty" type="text" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: FACULTAD DE INGENIERÍA">
+                <input formControlName="faculty" type="text"
+                  class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300"
+                  placeholder="EJ: FACULTAD DE INGENIERÍA">
               </div>
               <div *ngIf="modalType === 'curriculum'">
                 <label class="block text-gray-700 font-medium">Malla Curricular</label>
-                <input formControlName="curriculum" type="text" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: MALLA: ECTS-1C">
+                <input formControlName="curriculum" type="text"
+                  class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: MALLA: ECTS-1C">
               </div>
               <div *ngIf="modalType === 'academicCycle'">
                 <label class="block text-gray-700 font-medium">Ciclo Académico</label>
-                <input formControlName="academicCycle" type="text" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: CICLO 1">
+                <input formControlName="academicCycle" type="text"
+                  class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="EJ: CICLO 1">
               </div>
             </div>
 
             <div class="flex justify-center mt-6 space-x-4">
-              <button type="button" (click)="toggleModal(undefined)" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition duration-300">Cancelar</button>
-              <button type="submit" class="bg-customBlue text-white px-6 py-2 rounded-lg hover:bg-customBlueHover transition duration-300">Guardar</button>
+              <button type="button" (click)="toggleModal(undefined)"
+                class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition duration-300">Cancelar</button>
+              <button type="submit"
+                class="bg-customBlue text-white px-6 py-2 rounded-lg hover:bg-customBlueHover transition duration-300">Guardar</button>
             </div>
           </form>
         </div>
@@ -166,11 +176,13 @@
               <td class="py-4 px-6 text-gray-800 text-base">{{ academicCycle.name }}</td>
               <td class="py-4 px-6 text-center flex justify-center gap-4">
                 <!-- Botón Editar -->
-                <button (click)="editItem('academicCycle', academicCycle)" class="text-customBlue hover:text-customBlueHover">
+                <button (click)="editItem('academicCycle', academicCycle)"
+                  class="text-customBlue hover:text-customBlueHover">
                   <i class="fas fa-edit"></i>
                 </button>
                 <!-- Botón Eliminar -->
-                <button (click)="deleteItem('academicCycles', academicCycle.id)" class="text-red-500 hover:text-red-700">
+                <button (click)="deleteItem('academicCycles', academicCycle.id)"
+                  class="text-red-500 hover:text-red-700">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </td>

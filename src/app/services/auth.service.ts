@@ -160,7 +160,7 @@ export class AuthService {
           subject = plazaData.subject || null; // Obtener la materia (subject)
           parallel = plazaData.parallel || null; // Obtener el paralelo (parallel)
 
-          console.log('Datos de la plaza encontrados:', { emailDirector, subject, parallel });
+          
         } else {
           console.warn('No se encontró plaza asociada a este docente.');
         }
@@ -174,16 +174,7 @@ export class AuthService {
           subject: subject, // Se agrega la materia
           parallel: parallel, // Se agrega el paralelo
           periodID: this.activePeriod?.id || null, // Asegurar que no falle si activePeriod no está definido
-        });
-
-        console.log('Teacher collection created successfully:', {
-          id: user.uid,
-          name: name,
-          email: user.email,
-          emailDirector: emailDirector,
-          subject: subject,
-          parallel: parallel,
-        });
+        }); 
       } else if (!teacherDoc) {
         console.error('Failed to retrieve teacher document snapshot');
       }
@@ -239,7 +230,6 @@ export class AuthService {
     this.afAuth.signOut().then(() => {
       sessionStorage.removeItem('userToken');
       this.cookieService.deleteCookie('user'); // Eliminar la cookie de usuario
-      console.log('Sesión cerrada');
       this.router.navigate(['/home']);
     });
   }

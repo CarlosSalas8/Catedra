@@ -32,7 +32,6 @@
                 <th scope="col" class="px-6 py-3">Facultad</th>
                 <th scope="col" class="px-6 py-3">Carrera</th>
                 <th scope="col" class="px-6 py-3">Modalidad</th>
-                <th scope="col" class="px-6 py-3">Plan docente</th>
                 <th scope="col" class="px-6 py-3">Acción</th>
               </tr>
             </thead>
@@ -42,7 +41,6 @@
                 <td class="px-6 py-4">{{ director.faculty }}</td>
                 <td class="px-6 py-4">{{ director.career }}</td>
                 <td class="px-6 py-4">{{ director.modality }}</td>
-                <td class="px-6 py-4"><a href="#" class="text-customBlueHover hover:underline">VER</a></td>
                 <td class="px-6 py-4">
                   <button (click)="toggleDocentes(director.email)" class="text-customBlueHover hover:underline">
                     {{ selectedDirectorEmail === director.email ? 'Ocultar' : 'Ver Docentes' }}
@@ -52,12 +50,16 @@
             </tbody>
           </table>
         </div>
-
         <!-- ✅ Toggle de Docentes -->
         <div *ngIf="selectedDirectorEmail"
-          class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div class="bg-white p-8 rounded-3xl shadow-lg max-w-lg md:max-w-2xl lg:max-w-5xl mx-auto">
-            <h2 class="text-xl font-semibold text-black mb-4 text-center">Docentes de {{ selectedDirectorEmail }}</h2>
+          class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          (click)="toggleDocentes('')">
+          <div class="bg-white p-8 rounded-3xl shadow-lg max-w-lg md:max-w-2xl lg:max-w-5xl mx-auto"
+            (click)="$event.stopPropagation()">
+            <h2 class="text-xl font-semibold text-black mb-4 text-center">
+              Docentes de {{ selectedDirectorName | async }}
+            </h2>
+            
 
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table class="w-full text-sm text-left text-gray-500 mt-8">
@@ -88,6 +90,7 @@
             </div>
           </div>
         </div>
+
 
       </div>
     </div>

@@ -14,11 +14,9 @@ export class AsideTeachersComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe(user => {
       if (user) {
-        this.teacherEmail = user.email;
-        console.log('Email del docente:', this.teacherEmail);
+        this.teacherEmail = user.email;      
       } else {
-        this.teacherEmail = 'default@example.com';
-        console.log('No se encontró el usuario, asignando default@example.com');
+        this.teacherEmail = 'default@example.com'; 
       }
     });
   }

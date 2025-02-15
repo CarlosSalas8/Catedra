@@ -43,7 +43,7 @@ export class InformeComponent implements OnInit {
       bibliography: ['', Validators.required],
 
     });
-    console.log('Formulario inicializado:', this.form); // Para validar que el formulario está correctamente creado
+    
   }
 
 
@@ -52,7 +52,7 @@ export class InformeComponent implements OnInit {
     
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
-      console.log('Periodo activo recibido:', this.activePeriod);
+      
     });
 
   }
@@ -73,7 +73,7 @@ export class InformeComponent implements OnInit {
         .collection('report') // Nombre de la colección
         .add(reportData)
         .then(() => {
-          console.log('Datos guardados exitosamente en Firebase');
+          
           this.mostrarAlerta('success'); // Redirigir o mostrar un mensaje de éxito
           this.router.navigate(['/ver-informe']);
 

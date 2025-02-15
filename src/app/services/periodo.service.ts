@@ -39,9 +39,9 @@ export class PeriodoService {
   }
 
   saveActivities(batch: any, generalData: any, activities: any[], type: string, periodID: string) {
-    console.log('Guardando actividades para el tipo:', type, 'y el periodo:', periodID);
+    
     activities.forEach((activity: any) => {
-      console.log('Guardando actividad:', activity);
+      
       const newDocRef = this.firestore.collection('activities').doc().ref;
       batch.set(newDocRef, { id: newDocRef.id, ...generalData, ...activity, type, periodID: periodID });
     });

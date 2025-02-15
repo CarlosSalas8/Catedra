@@ -100,8 +100,6 @@ export class PlazasComponent implements OnInit {
     if (this.form.valid) {
       this.guardarDatos(plazaID);
       this.toggleModal(); // Cierra el modal tras guardar
-    } else {
-      console.log('Formulario no válido');
     }
   }
 
@@ -146,7 +144,7 @@ export class PlazasComponent implements OnInit {
                   .doc(postId)
                   .set(postulanteData)
                   .then(() => {
-                    console.log('Postulación guardada exitosamente:', postulanteData);
+                   
 
                     // Actualizar el array de postulant en la plaza
                     this.actualizarPostulantesPlaza(plazaID, postulanteData);
@@ -180,7 +178,7 @@ export class PlazasComponent implements OnInit {
         postulant: arrayUnion(postulanteData), // Añadir el objeto completo
       })
       .then(() => {
-        console.log(`Información de postulación añadida a la plaza ${plazaID}`);
+       
       })
       .catch((error) => {
         console.error('Error al actualizar la plaza:', error);

@@ -20,7 +20,6 @@ export class AsideStudentComponent implements OnInit {
         if (userDoc?.exists) {
           const userData = userDoc.data() as { validated?: boolean };
           this.validated = userData?.validated || false;
-          console.log('Valor de validated:', this.validated);
         } else {
           console.error('No se encontró el documento del usuario.');
         }

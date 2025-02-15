@@ -32,7 +32,7 @@
                 <th scope="col" class="px-6 py-3">FACULTAD</th>
                 <th scope="col" class="px-6 py-3">PARALELO</th>
                 <th scope="col" class="px-6 py-3">MODALIDAD</th>
-                
+                <th scope="col" class="px-6 py-3">ACCIONES</th>
               </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@
                 <td class="px-6 py-4">
                   <ng-container *ngIf="(actvities.teacherId$ | async) as teacherId">
                     <a [routerLink]="['/actividades-docentes',actvities.emailTeacher, teacherId, actvities.assistant]"
-                      class="text-customBlueHover hover:underline">Ver planificación</a>
+                      class="text-customBlueHover hover:underline">Ver Actividades</a>
                   </ng-container>
                   <span *ngIf="!(actvities.teacherId$ | async)" class="text-gray-500">Docente no encontrado</span>
                 </td>

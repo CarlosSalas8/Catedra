@@ -17,7 +17,6 @@ export class HomeDocenteComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.teacherEmail = params.get('email');
-      console.log('Email recibido en HomeDocente:', this.teacherEmail);
     });
   }
 

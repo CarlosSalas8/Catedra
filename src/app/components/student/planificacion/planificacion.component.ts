@@ -39,20 +39,20 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       activitiesSegundo: this.fb.array([]), // Segundo bimestre
       activitiesRecuperacion: this.fb.array([]),  // Recuperación
     });
-    console.log('Formulario inicializado:', this.form); // Para validar que el formulario está correctamente creado
+    
   }
 
   ngOnInit(): void {
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
-      console.log('Periodo activo recibido:', this.activePeriod);
+      
     });
 
     // Obtener el usuario logueado
     this.authService.getCurrentUser().subscribe(user => {
       if (user) {
         this.userEmail = user.email;
-        console.log('Usuario logueado:', this.userEmail);
+        
         if (user.email) {
           this.obtenerPlazasDelUsuario(user.email); // Pasar el email del usuario
         }
@@ -221,7 +221,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('Formulario válido. Datos a guardar:', this.form.value);
+    
 
     const formData = this.form.value;
     const nameTeacher = formData.nameTeacher;
@@ -255,7 +255,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       const teacherData = teacherDoc.data() as { email: string };
       generalData.emailTeacher = teacherData.email; // Guardar el email del docente
 
-      console.log('Datos generales a guardar con email del docente:', generalData);
+      
 
       // 🔹 Consultar las actividades existentes en Firebase para evitar duplicación
       const activitiesSnapshot = await firstValueFrom(
@@ -333,7 +333,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
 
       await batch.commit();
 
-      console.log('Datos guardados correctamente en Firebase');
+    
       this.form.reset();
       alert('¡Datos guardados correctamente!');
       this.router.navigateByUrl('/vista');

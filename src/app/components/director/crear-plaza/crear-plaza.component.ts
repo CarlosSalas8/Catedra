@@ -78,7 +78,7 @@ export class CrearPlazaComponent implements OnInit {
       .subscribe((data: any[]) => {
         if (data.length > 0) {
           this.directors = data[0]; // Guardar el director autenticado
-          console.log('Director autenticado:', this.directors);
+          
         } else {
           console.warn('No se encontró director para el email:', email);
         }
@@ -137,7 +137,7 @@ export class CrearPlazaComponent implements OnInit {
       }
       this.toggleModal();
     } else {
-      console.log('Formulario no válido');
+      
     }
   }
 
@@ -181,7 +181,7 @@ export class CrearPlazaComponent implements OnInit {
                 postulant: [], // Inicializar como un arreglo vacío
               })
               .then(() => {
-                console.log('Plaza creada exitosamente.');
+                
                 this.form.reset();
               })
               .catch((error) => {
@@ -215,7 +215,7 @@ export class CrearPlazaComponent implements OnInit {
         postulant: this.selectedPlaza.postulant || [], // Mantener postulantes existentes
       })
       .then(() => {
-        console.log('Plaza actualizada exitosamente en Firebase.');
+        
         this.form.reset();
       })
       .catch((error) => {
@@ -230,7 +230,7 @@ export class CrearPlazaComponent implements OnInit {
       .doc(id)
       .delete()
       .then(() => {
-        console.log('Plaza eliminada exitosamente.');
+        
       })
       .catch((error) => {
         console.error('Error al eliminar la plaza:', error);

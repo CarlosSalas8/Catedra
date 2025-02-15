@@ -32,9 +32,7 @@ export class ActividadesDocentesComponent {
       const urlSegments = window.location.pathname.split('/');
       this.assistantName = decodeURIComponent(urlSegments[urlSegments.length - 1]);
 
-      console.log('Teacher ID:', this.teacherId);
-      console.log('Assistant ID:', this.assistantID); // Solo para verificar
-      console.log('Assistant Name:', this.assistantName); // Este es el que necesitamos
+      
 
       if (this.teacherId && this.assistantName) {
         this.cargarActividadesPorEstudiante(this.teacherId, this.assistantName);
@@ -50,7 +48,7 @@ export class ActividadesDocentesComponent {
       ref.where('emailTeacher', '==', teacherId)
         .where('assistant', '==', assistant) // Ahora assistant tiene el nombre correcto
     ).valueChanges().subscribe(data => {
-      console.log('Actividades encontradas:', data); // Verifica si ya devuelve datos
+      
       this.activitys = data;
     });
   }

@@ -43,7 +43,7 @@ export class PostulantesComponent implements OnInit {
       // Suscribirse a los cambios en la colección 'postulant'
       this.authService.getPostulant().subscribe((postulantes) => {
         this.postulant = postulantes.filter(postulante => postulante.plazaID === this.plazaID);
-        console.log('Lista de postulantes actualizada:', this.postulant);
+        
       });
 
     }
@@ -65,7 +65,7 @@ export class PostulantesComponent implements OnInit {
           this.firestore.collection('postulant').doc(postulanteId).update({
             validated: isValid
           }).then(() => {
-            console.log(`Postulante ${isValid ? 'aceptado' : 'rechazado'}`);
+            
           }).catch(error => {
             console.error('Error al actualizar la validación del postulante:', error);
           });
@@ -75,7 +75,7 @@ export class PostulantesComponent implements OnInit {
             this.firestore.collection('users').doc(userId).update({
               validated: isValid
             }).then(() => {
-              console.log(`Usuario ${isValid ? 'validado' : 'no validado'} en la colección 'users'`);
+              
             }).catch(error => {
               console.error('Error al actualizar la validación del usuario:', error);
             });
@@ -96,17 +96,17 @@ export class PostulantesComponent implements OnInit {
 
   solicitarEntrevista(postulante: any): void {
     // Lógica para solicitar entrevista (ejemplo: mostrar mensaje o guardar en la base de datos)
-    console.log(`Entrevista solicitada para ${postulante.usuario?.name}`);
+    
   }
 
   aceptarPostulante(postulante: any): void {
     // Lógica para aceptar al postulante (ejemplo: actualizar estado en la base de datos)
-    console.log(`Postulante aceptado: ${postulante.usuario?.name}`);
+    
   }
 
   rechazarPostulante(postulante: any): void {
     // Lógica para rechazar al postulante (ejemplo: actualizar estado en la base de datos)
-    console.log(`Postulante rechazado: ${postulante.usuario?.name}`);
+    
   }
 
   guardarCambios(postulante: any): void {

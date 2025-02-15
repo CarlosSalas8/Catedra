@@ -22,7 +22,7 @@ export class VerInformeComponent implements OnInit {
     this.firestore.collection('report', ref => ref.limit(1).orderBy('periodID', 'desc')).get().subscribe(snapshot => {
       if (!snapshot.empty) {
         this.reportData = snapshot.docs[0].data();
-        console.log('Datos cargados:', this.reportData);
+       
       } else {
         console.error('No se encontraron datos.');
       }

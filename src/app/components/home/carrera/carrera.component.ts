@@ -54,29 +54,29 @@ export class CarreraComponent implements OnInit {
         switch (role) {
 
           case 'admin':
-            console.log('El usuario es administrador, redirigiendo...');
+            
             this.router.navigate(['/home-admin']);
             break;
 
           case 'teacher':
-            console.log('El usuario es teacher, redirigiendo...');
+            
             this.router.navigate(['/home-docente']);
             break;
 
           case 'director':
-            console.log('El usuario es director, redirigiendo...');
+            
             this.router.navigate(['/home-director']);
             break;
 
           case 'student':
             if (!userData.career) {
-              console.log('El usuario no tenía career. Asignando...');
+              
               await this.firestore.collection('users').doc(user.uid).set(
                 { career: this.careerSeleccionada, role: 'student' },
                 { merge: true }
               );
             } else {
-              console.log('El usuario ya tiene una Carrer asignada.');
+              
             }
             this.router.navigate(['/home-ayudante'], { queryParams: { career: this.careerSeleccionada } });
             break;
