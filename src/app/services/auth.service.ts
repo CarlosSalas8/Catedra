@@ -234,6 +234,10 @@ export class AuthService {
     });
   }
 
+  getCurrentUserRole(): Observable<string> {
+    return of('teacher'); 
+  }
+
   getCurrentUser() {
     return this.afAuth.authState.pipe(map((user) => user || null));
   }

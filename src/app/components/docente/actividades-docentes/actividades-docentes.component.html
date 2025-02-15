@@ -56,6 +56,10 @@
         </div>
       </div>
 
+      <button *ngIf="usuario === 'teacher'" class="ml-2 p-2 bg-blue-500 text-white rounded">
+        Aprobar
+      </button>
+
       <div *ngIf="activitys.length > 0" class="mt-10">
         <h2 class="text-2xl mb-2">Actividades</h2><br>
         <div

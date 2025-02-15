@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
 
 @Component({
@@ -16,10 +17,18 @@ export class ActividadesDocentesComponent {
   assistantID: string | null = null;
   activePeriod: any | null = null;
   assistantName: string | null = null;
+  usuario: any = null;
 
-  constructor(public periodoService: PeriodoService, private firestore: AngularFirestore, private route: ActivatedRoute) { }
+  constructor(public periodoService: PeriodoService, private firestore: AngularFirestore, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
+
+    this.authService.getCurrentUserRole().subscribe(role => {
+      this.usuario = role;  // Asumes que 'role' es el rol del usuario logueado (puede ser 'docente' o 'estudiante')
+    });
+
+
+
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
     });
@@ -47,8 +56,7 @@ export class ActividadesDocentesComponent {
     this.firestore.collection('activities', ref =>
       ref.where('emailTeacher', '==', teacherId)
         .where('assistant', '==', assistant) // Ahora assistant tiene el nombre correcto
-    ).valueChanges().subscribe(data => {
-      
+    ).valueChanges().subscribe(data => {   
       this.activitys = data;
     });
   }
