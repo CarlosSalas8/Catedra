@@ -7,6 +7,8 @@ import { SeguimientoDocenteComponent } from './components/docente/seguimiento-do
 import { ActividadesDocentesComponent } from './components/docente/actividades-docentes/actividades-docentes.component';
 import { ValidarComponent } from './components/docente/validar/validar.component';
 import { HomeComponent } from './components/home/home/home.component';
+import { InformeDocenteComponent } from './components/docente/informe-docente/informe-docente.component';
+import { InformeDirectorComponent } from './components/director/informe-director/informe-director.component';
 
 
 const routes: Routes = [
@@ -26,13 +28,13 @@ const routes: Routes = [
 
 
   { path: 'home-docente/:email', component: HomeDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin', 'director'] }, },
-  { path: 'seguimiento-docente/:email', component: SeguimientoDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin', 'director'] }}, 
+  { path: 'seguimiento-docente/:email', component: SeguimientoDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin', 'director'] } },
   { path: 'actividades-docentes/:id/:assistant/:email', component: ActividadesDocentesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin', 'director'] } },
   { path: 'actividades-docentes/:id/:assistant/:email/validar/:actividadId', component: ValidarComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin', 'director'] } },
 
 
 
-  { path: 'presentacion-docente', loadChildren: () => import('./components/docente/presentacion-docente/presentacion-docente.module').then(x => x.PresentacionDocenteModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin'] } },
+  { path: 'informe-docente', component: InformeDocenteComponent },
 
 
 
@@ -40,15 +42,19 @@ const routes: Routes = [
   { path: 'seguimiento', loadChildren: () => import('./components/admin/seguimiento/seguimiento.module').then(x => x.SeguimientoModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
   { path: 'subir-tutores', loadChildren: () => import('./components/admin/subir-tutores/subir-tutores.module').then(x => x.SubirTutoresModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
   { path: 'submit', loadChildren: () => import('./components/admin/submit/submit.module').then(x => x.SubmitModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
+  { path: 'informe-admin', loadChildren: () => import('./components/admin/informe-admin/informe-admin.module').then(x => x.InformeAdminModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
+
+
 
   { path: 'home-director', loadChildren: () => import('./components/director/home-director/home-director.module').then(x => x.HomeDirectorModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
   { path: 'crear-plaza', loadChildren: () => import('./components/director/crear-plaza/crear-plaza.module').then(x => x.CrearPlazaModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
   { path: 'postulantes/:id', loadChildren: () => import('./components/director/postulantes/postulantes.module').then(x => x.PostulantesModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
   { path: 'seguimiento-director', loadChildren: () => import('./components/director/seguimiento-director/seguimiento-director.module').then(x => x.SeguimientoDirectorModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
+  { path: 'informe-director', loadChildren: () => import('./components/director/informe-director/informe-director.module').then(x => x.InformeDirectorModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
 
 
   { path: 'informe', loadChildren: () => import('./components/student/informe/informe.module').then(x => x.InformeModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
-  { path: 'ver-informe', loadChildren: () => import('./components/student/ver-informe/ver-informe.module').then(x => x.VerInformeModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
+
 
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];

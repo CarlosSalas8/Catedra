@@ -9,7 +9,10 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent } from '../home/home/home.component';
 import { NavbarTeacherComponent } from '../navbars/navbar-teacher/navbar-teacher.component';
 import { AsideTeachersComponent } from '../asides/aside-teachers/aside-teachers.component';
-import { PresentacionDocenteComponent } from '../docente/presentacion-docente/presentacion-docente.component';
+import { InformeDocenteComponent } from '../docente/informe-docente/informe-docente.component';
+import { InformeDirectorComponent } from '../director/informe-director/informe-director.component';
+import { AsideDirectorsComponent } from '../asides/aside-directors/aside-directors.component';
+import { NavbarDirectorsComponent } from '../navbars/navbar-directors/navbar-directors.component';
 
 
 
@@ -17,7 +20,7 @@ import { PresentacionDocenteComponent } from '../docente/presentacion-docente/pr
 @NgModule({
   declarations: [
     HomeComponent,
-    PresentacionDocenteComponent,
+    InformeDocenteComponent,
     HomeDocenteComponent,
     SeguimientoDocenteComponent,
     ActividadesDocentesComponent,
@@ -34,7 +37,7 @@ import { PresentacionDocenteComponent } from '../docente/presentacion-docente/pr
     CommonModule,
     ReactiveFormsModule,
     HomeComponent,
-    PresentacionDocenteComponent,
+    InformeDocenteComponent,
     HomeDocenteComponent,
     SeguimientoDocenteComponent,
     ActividadesDocentesComponent,

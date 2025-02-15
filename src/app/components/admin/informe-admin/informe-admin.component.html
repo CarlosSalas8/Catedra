@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desarrollo de Informe y Evaluación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <app-navbar-admin> </app-navbar-admin>
+
+    <app-aside-admin> </app-aside-admin>
+
+    <main class="ml-16 mt-16 p-6">
+        <div class="bg-white font-['Inter']">
+            <!-- Título Principal -->
+            <h1 class="text-center text-lg font-semibold mb-6">DESARROLLO DE INFORME Y EVALUACIÓN</h1>
+
+            <!-- Primera Sección -->
+            <div class="bg-[#fff9e5] p-6 rounded-lg mb-8">
+                <p class="text-sm text-center mb-4">
+                    En la siguiente sección se encuentra el informe de Ayudante de Cátedra y la Evaluación del Becario
+                    de Responsabilidad Universitaria (BRU) Ayudante de Cátedra Modalidad Presencial
+                </p>
+
+                <h2 class="text-center font-semibold mb-4">INFORME DE AYUDANTE DE CÁTEDRA</h2>
+
+                <ul class="list-disc text-sm space-y-2 mb-6 mx-8">
+                    <li>El estudiante debe descargar el formato adjunto y generar su informe a partir del mismo. Una vez
+                        completado, se debe firmar por parte del docente encargado de la ayudantía y el estudiante
+                        ayudante de cátedra en la sección correspondiente.</li>
+                    <li>Una vez firmado y validado, se debe cargar en el sistema.</li>
+                </ul>
+
+                <div class="max-w-md mx-auto mb-6">
+                    <!-- Botón de Descarga -->
+                    <div class="border border-slate-400 rounded-lg p-4 text-center">
+                        <p class="font-semibold mb-2">DESCARGAR INFORME DE AYUDANTE DE CÁTEDRA
+                        </p>
+                        <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                        </button>
+                        <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
+                    </div>
+
+
+                    <!-- Dropdown y Comentarios -->
+                    <div class="max-w-md mx-auto mt-6">
+                        <select class="w-full p-2 border rounded mb-4">
+                            <option value="" disabled selected>PENDIENTE</option>
+                            <option value="1">Opción 1</option>
+                            <option value="2">Opción 2</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4 w-full">
+                    <div class="mb-2">Comentario</div>
+                    <input class="w-full h-12 bg-gray-100 rounded px-4 block">
+                </div>
+
+                <button
+                    class="bg-customBlue hover:bg-customBlueHover text-white py-2 px-6 rounded mx-auto block mb-2">Aceptar</button>
+
+            </div>
+        </div>
+
+        <!-- Segunda Sección -->
+        <div class="bg-[#e6f0ff] p-6 rounded-lg mt-6">
+            <h2 class="text-center font-semibold mb-4">EVALUACIÓN DEL BECARIO DE RESPONSABILIDAD UNIVERSITARIA (BRU)
+            </h2>
+
+            <ul class="list-disc text-sm space-y-2 mb-6 mx-8">
+                <li>El docente debe descargar el formato adjunto y generar la evaluación. Una vez completado, se
+                    debe
+                    firmar
+                    por parte del docente.</li>
+                <li>Una vez firmado y validado, se debe cargar en el sistema.</li>
+            </ul>
+
+            <div class="grid md:grid-cols-2 gap-6">
+
+                <!-- Botón Descargar Evaluación -->
+                <div class="border border-slate-400 rounded-lg p-4 text-center">
+                    <p class="font-semibold mb-2">DESCARGAR EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA
+                    </p>
+                    <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                    </button>
+                    <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
+                </div>
+
+
+                <!-- Botón Descargar Declaratoria -->
+                <div class="border border-slate-400 rounded-lg p-4 text-center">
+                    <p class="font-semibold mb-2">DESCARGAR DECLARATORIA DE CONFLICTO DE INTERÉS</p>
+                    <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                    </button>
+                    <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
+                </div>
+            </div>
+            <div class="max-w-md mx-auto mt-6">
+                <select class="w-full p-2 border rounded mb-4">
+                    <option value="" disabled selected>PENDIENTE</option>
+                    <option value="1">Opción 1</option>
+                    <option value="2">Opción 2</option>
+                </select>
+            </div>
+
+            <div class="mb-4 w-full">
+                <div class="mb-2">Comentario</div>
+                <input class="w-full h-12 bg-gray-100 rounded px-4 block">
+            </div>
+
+            <button
+                class="bg-customBlue hover:bg-customBlueHover text-white py-2 px-6 rounded mx-auto block mb-2">Aceptar</button>
+
+        </div>
+
+
+    </main>
+</body>
+
+</html>

@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Informes</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body>
 
-    <app-navbar-student> </app-navbar-student>
-
-    <app-aside-student></app-aside-student>
+    <app-navbar-directors> </app-navbar-directors>
+    <app-aside-directors> </app-aside-directors>
 
     <main class="ml-16 mt-16 p-6">
         <div class="bg-white font-['Inter']">
@@ -20,7 +20,7 @@
             <h1 class="text-center text-lg font-semibold mb-6">DESARROLLO DE INFORME Y EVALUACIÓN</h1>
 
             <!-- Primera Sección - Informe de Ayudante -->
-            <div class="bg-[#fff9e5] p-6 rounded-lg mb-8">
+            <div class="bg-[#e6f0ff] p-6 rounded-lg mb-8">
                 <p class="text-sm text-center mb-4">
                     En la siguiente sección se encuentra el informe de Ayudante de Cátedra y la Evaluación del Becario
                     de
@@ -38,7 +38,7 @@
                     <li>Una vez firmado y validado, se debe cargar en el sistema.</li>
                 </ul>
 
-                <div class="grid md:grid-cols-2 gap-6">
+                <div class="grid md:grid-flow-row gap-6 justify-center">
                     <!-- Botón Descargar -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
                         <p class="font-semibold mb-2">DESCARGAR FORMATO DE INFORME DE AYUDANTE DE CÁTEDRA</p>
@@ -49,47 +49,33 @@
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </button>
-                        <p class="text-xs text-gray-600">Se descarga en formato de Word</p>
-                    </div>
-
-                    <!-- Botón Cargar -->
-                    <div class="border border-slate-400 rounded-lg p-4 text-center">
-                        <p class="font-semibold mb-2">CARGA EL INFORME DE AYUDANTE DE CÁTEDRA</p>
-                        <button class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                            </svg>
-                        </button>
-                        <p class="text-xs text-gray-600">Debe estar en formato PDF, copias firmas correspondientes</p>
+                        <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
                     </div>
                 </div>
-
-                <!-- Estados -->
-                <div class="mt-6 space-y-2">
-                    <div class="flex items-center gap-2">
-                        <span class="text-sm"><span class="font-semibold text-green-600">VALIDADO</span> por el
-                            administrador.</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-sm"><span class="font-semibold text-red-600">NO VALIDADO</span> por el
-                            administrador.
-                            <span class="font-semibold">Comentario:</span> El informe no tiene la introducción ni la
-                            firma
-                            del
-                            docente.</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-sm"><span class="font-semibold text-yellow-500">PENDIENTE</span> de validar
-                            por el
-                            administrador.</span>
-                    </div>
+            </div>
+            <!-- Estados -->
+            <div class="mt-6 space-y-2">
+                <div class="flex items-center gap-2">
+                    <span class="text-sm"><span class="font-semibold text-green-600">VALIDADO</span> por el
+                        administrador.</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm"><span class="font-semibold text-red-600">NO VALIDADO</span> por el
+                        administrador.
+                        <span class="font-semibold">Comentario:</span> El informe no tiene la introducción ni la
+                        firma
+                        del
+                        docente.</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm"><span class="font-semibold text-yellow-500">PENDIENTE</span> de validar
+                        por el
+                        administrador.</span>
                 </div>
             </div>
 
             <!-- Segunda Sección - Evaluación BRU -->
-            <div class="bg-[#e6f0ff] p-6 rounded-lg">
+            <div class="bg-[#e6f0ff] p-6 rounded-lg mt-6">
                 <h2 class="text-center font-semibold mb-4">EVALUACIÓN DEL BECARIO DE RESPONSABILIDAD UNIVERSITARIA (BRU)
                 </h2>
 
@@ -102,10 +88,10 @@
                 </ul>
 
                 <div class="grid md:grid-cols-2 gap-6">
+
                     <!-- Botón Descargar Evaluación -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
-                        <p class="font-semibold mb-2">DESCARGAR EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA
-                        </p>
+                        <p class="font-semibold mb-2">DESCARGAR EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA</p>
                         <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
