@@ -9,6 +9,24 @@ import { ValidarComponent } from './components/docente/validar/validar.component
 import { HomeComponent } from './components/home/home/home.component';
 import { InformeDocenteComponent } from './components/docente/informe-docente/informe-docente.component';
 import { InformeDirectorComponent } from './components/director/informe-director/informe-director.component';
+import { LoginComponent } from './components/login/login.component';
+import { CarreraComponent } from './components/home/carrera/carrera.component';
+import { InformeComponent } from './components/student/informe/informe.component';
+import { HomeAyudanteComponent } from './components/student/home-ayudante/home-ayudante.component';
+import { PlanificacionComponent } from './components/student/planificacion/planificacion.component';
+import { VistaComponent } from './components/student/vista/vista.component';
+import { PlazasComponent } from './components/student/plazas/plazas.component';
+import { PresentacionComponent } from './components/student/presentacion/presentacion.component';
+import { RevisarComponent } from './components/student/revisar/revisar.component';
+import { HomeAdminComponent } from './components/admin/home-admin/home-admin.component';
+import { InformeAdminComponent } from './components/admin/informe-admin/informe-admin.component';
+import { SeguimientoComponent } from './components/admin/seguimiento/seguimiento.component';
+import { SubirTutoresComponent } from './components/admin/subir-tutores/subir-tutores.component';
+import { SubmitComponent } from './components/admin/submit/submit.component';
+import { CrearPlazaComponent } from './components/director/crear-plaza/crear-plaza.component';
+import { SeguimientoDirectorComponent } from './components/director/seguimiento-director/seguimiento-director.component';
+import { HomeDirectorComponent } from './components/director/home-director/home-director.component';
+import { PostulantesComponent } from './components/director/postulantes/postulantes.component';
 
 
 const routes: Routes = [
@@ -16,15 +34,15 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   { path: 'home', component: HomeComponent },
-  { path: 'login', loadChildren: () => import('./components/login/login.module').then(x => x.LoginModule) },
-  { path: 'carrera', loadChildren: () => import('./components/home/carrera/carrera.module').then(x => x.CarreraModule) },
+  { path: 'login', component: LoginComponent },
+  { path: 'carrera', component: CarreraComponent },
 
-  { path: 'home-ayudante', loadChildren: () => import('./components/student/home-ayudante/home-ayudante.module').then(x => x.HomeAyudanteModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
-  { path: 'planificacion', loadChildren: () => import('./components/student/planificacion/planificacion.module').then(x => x.PlanificacionModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
-  { path: 'vista', loadChildren: () => import('./components/student/vista/vista.module').then(x => x.VistaModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
-  { path: 'revisar/:id', loadChildren: () => import('./components/student/revisar/revisar.module').then(x => x.RevisarModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
-  { path: 'presentacion', loadChildren: () => import('./components/student/presentacion/presentacion.module').then(x => x.PresentacionModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
-  { path: 'plazas', loadChildren: () => import('./components/student/plazas/plazas.module').then(x => x.PlazasModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
+  { path: 'home-ayudante', component: HomeAyudanteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
+  { path: 'planificacion', component: PlanificacionComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
+  { path: 'vista', component: VistaComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
+  { path: 'revisar/:id', component: RevisarComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
+  { path: 'presentacion', component: PresentacionComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
+  { path: 'plazas', component: PlazasComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
 
 
   { path: 'home-docente/:email', component: HomeDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin', 'director'] }, },
@@ -38,22 +56,22 @@ const routes: Routes = [
 
 
 
-  { path: 'home-admin', loadChildren: () => import('./components/admin/home-admin/home-admin.module').then(x => x.HomeAdminModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
-  { path: 'seguimiento', loadChildren: () => import('./components/admin/seguimiento/seguimiento.module').then(x => x.SeguimientoModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
-  { path: 'subir-tutores', loadChildren: () => import('./components/admin/subir-tutores/subir-tutores.module').then(x => x.SubirTutoresModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
-  { path: 'submit', loadChildren: () => import('./components/admin/submit/submit.module').then(x => x.SubmitModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
-  { path: 'informe-admin', loadChildren: () => import('./components/admin/informe-admin/informe-admin.module').then(x => x.InformeAdminModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
+  { path: 'home-admin', component: HomeAdminComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
+  { path: 'seguimiento', component: SeguimientoComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
+  { path: 'subir-tutores', component: SubirTutoresComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
+  { path: 'submit', component: SubmitComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
+  { path: 'informe-admin', component: InformeAdminComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
 
 
 
-  { path: 'home-director', loadChildren: () => import('./components/director/home-director/home-director.module').then(x => x.HomeDirectorModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
-  { path: 'crear-plaza', loadChildren: () => import('./components/director/crear-plaza/crear-plaza.module').then(x => x.CrearPlazaModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
-  { path: 'postulantes/:id', loadChildren: () => import('./components/director/postulantes/postulantes.module').then(x => x.PostulantesModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
-  { path: 'seguimiento-director', loadChildren: () => import('./components/director/seguimiento-director/seguimiento-director.module').then(x => x.SeguimientoDirectorModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
-  { path: 'informe-director', loadChildren: () => import('./components/director/informe-director/informe-director.module').then(x => x.InformeDirectorModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
+  { path: 'home-director', component: HomeDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
+  { path: 'crear-plaza', component: CrearPlazaComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
+  { path: 'postulantes/:id', component: PostulantesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
+  { path: 'seguimiento-director', component: SeguimientoDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
+  { path: 'informe-director', component: InformeDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
 
 
-  { path: 'informe', loadChildren: () => import('./components/student/informe/informe.module').then(x => x.InformeModule), canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
+  { path: 'informe', component: InformeComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
 
 
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
