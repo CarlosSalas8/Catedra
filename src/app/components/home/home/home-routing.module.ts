@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { CarreraComponent } from '../carrera/carrera.component';
-import { LoginComponent } from '../../login/login.component';
+
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { RoleGuard } from 'src/app/guards/role.guard';
 import { HomeAyudanteComponent } from '../../student/home-ayudante/home-ayudante.component';
 import { HomeDocenteComponent } from '../../docente/home-docente/home-docente.component';
 import { HomeDirectorComponent } from '../../director/home-director/home-director.component';
 import { HomeAdminComponent } from '../../admin/home-admin/home-admin.component';
+import { LoginComponent } from '../login/login.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },

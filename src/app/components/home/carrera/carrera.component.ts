@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { Usuario } from '../../models/usuario.model';
+import { Usuario } from '../../../models/usuario.model';
 
 @Component({
   selector: 'app-carrera',

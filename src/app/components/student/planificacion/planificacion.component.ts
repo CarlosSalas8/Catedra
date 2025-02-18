@@ -6,7 +6,7 @@ import { firstValueFrom, Observable, of, Subscription } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
-import { Activity } from '../../models/activity.model';
+import { Activity } from '../../../models/activity.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({

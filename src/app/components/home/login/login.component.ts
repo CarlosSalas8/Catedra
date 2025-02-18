@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Usuario } from 'src/app/models/usuario.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
-import { Usuario } from '../models/usuario.model';
+
 
 
 @Component({
