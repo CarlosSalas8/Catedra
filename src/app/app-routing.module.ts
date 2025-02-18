@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './services/auth.guard';
-import { RoleGuard } from './services/role.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 import { SeguimientoDocenteComponent } from './components/docente/seguimiento-docente/seguimiento-docente.component';
 import { ActividadesDocentesComponent } from './components/docente/actividades-docentes/actividades-docentes.component';
 import { ValidarComponent } from './components/docente/validar/validar.component';
