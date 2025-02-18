@@ -10,11 +10,6 @@ import { SharedModule } from './shared/shared.module';
 import { AuthService } from './services/auth.service';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { HttpClientModule } from '@angular/common/http';
-
-
-
-
-
 import { HomeModule } from './components/home/home/home.module';
 import { CoreModule } from './core/core.module';
 
@@ -22,7 +17,6 @@ import { CoreModule } from './core/core.module';
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,
