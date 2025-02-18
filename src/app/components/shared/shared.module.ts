@@ -1,53 +1,49 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HomeDocenteComponent } from '../docente/home-docente/home-docente.component';
-import { SeguimientoDocenteComponent } from '../docente/seguimiento-docente/seguimiento-docente.component';
-import { ActividadesDocentesComponent } from '../docente/actividades-docentes/actividades-docentes.component';
-import { ValidarComponent } from '../docente/validar/validar.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HomeComponent } from '../home/home/home.component';
-import { NavbarTeacherComponent } from '../navbars/navbar-teacher/navbar-teacher.component';
+import { AsideStudentComponent } from '../asides/aside-student/aside-student.component';
+import { NavbarStudentComponent } from '../navbars/navbar-student/navbar-student.component';
 import { AsideTeachersComponent } from '../asides/aside-teachers/aside-teachers.component';
-import { InformeDocenteComponent } from '../docente/informe-docente/informe-docente.component';
-
-
+import { NavbarTeacherComponent } from '../navbars/navbar-teacher/navbar-teacher.component';
+import { AsideDirectorsComponent } from '../asides/aside-directors/aside-directors.component';
+import { NavbarDirectorsComponent } from '../navbars/navbar-directors/navbar-directors.component';
+import { AsideAdminComponent } from '../asides/aside-admin/aside-admin.component';
+import { NavbarAdminComponent } from '../navbars/navbar-admin/navbar-admin.component';
 
 
 
 
 @NgModule({
   declarations: [
-    HomeComponent,
-    InformeDocenteComponent,
-    HomeDocenteComponent,
-    SeguimientoDocenteComponent,
-    ActividadesDocentesComponent,
-    ValidarComponent,
-    NavbarTeacherComponent,
+    AsideStudentComponent,
+    NavbarStudentComponent,
     AsideTeachersComponent,
-
-    
+    NavbarTeacherComponent,
+    AsideDirectorsComponent,
+    NavbarDirectorsComponent,
+    AsideAdminComponent,
+    NavbarAdminComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule 
+    RouterModule,
+    FormsModule,
   ],
-  exports:[
+  exports: [
     CommonModule,
     ReactiveFormsModule,
-    HomeComponent,
-    InformeDocenteComponent,
-    HomeDocenteComponent,
-    SeguimientoDocenteComponent,
-    ActividadesDocentesComponent,
-    ValidarComponent,
-    NavbarTeacherComponent,
+    RouterModule,
+    FormsModule,
+    AsideStudentComponent,
+    NavbarStudentComponent,
     AsideTeachersComponent,
-
-    
-    
+    NavbarTeacherComponent,
+    AsideDirectorsComponent,
+    NavbarDirectorsComponent,
+    AsideAdminComponent,
+    NavbarAdminComponent
   ]
 })
 export class SharedModule { }
