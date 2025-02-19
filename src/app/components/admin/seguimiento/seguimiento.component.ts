@@ -81,6 +81,12 @@ export class SeguimientoComponent implements OnInit {
           return Array.from(uniqueStudents.values());
         })
       );
+
+      // Resetear actividades y detalles de actividades
+      this.selectedEstudianteEmail = null;
+      this.activities$ = undefined;
+      this.activityDetails$ = undefined;
+      this.files = [];
     }
   }
 
