@@ -46,7 +46,7 @@
                 
                 <td class="px-6 py-4">
                   <ng-container *ngIf="(actvities.teacherId$ | async) as teacherId">
-                    <a [routerLink]="['/actividades-docentes',actvities.emailTeacher, teacherId, actvities.assistant]"
+                    <a [routerLink]="['/actividades-docentes', teacherId, actvities.assistant]"
                       class="text-customBlueHover hover:underline">Ver Actividades</a>
                   </ng-container>
                   <span *ngIf="!(actvities.teacherId$ | async)" class="text-gray-500">Docente no encontrado</span>

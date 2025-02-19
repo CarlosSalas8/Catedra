@@ -6,19 +6,6 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './aside-teachers.component.html',
   styleUrls: ['./aside-teachers.component.css']
 })
-export class AsideTeachersComponent implements OnInit {
-  teacherEmail: string | null = null;
+export class AsideTeachersComponent {
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe(user => {
-      if (user) {
-        this.teacherEmail = user.email;      
-      } else {
-        this.teacherEmail = 'default@example.com'; 
-      }
-    });
-  }
-  
 }

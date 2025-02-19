@@ -32,9 +32,9 @@ const routes: Routes = [
 
 
 
-  { path: 'seguimiento-docente/:email', component: SeguimientoDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin', 'director'] } },
-  { path: 'actividades-docentes/:id/:assistant/:email', component: ActividadesDocentesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin', 'director'] } },
-  { path: 'actividades-docentes/:id/:assistant/:email/validar/:actividadId', component: ValidarComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin', 'director'] } },
+  { path: 'seguimiento-docente', component: SeguimientoDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher'] } },
+  { path: 'actividades-docentes/:id/:assistant', component: ActividadesDocentesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher'] } },
+  { path: 'actividades-docentes/:id/:assistant/validar/:actividadId', component: ValidarComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher'] } },
   { path: 'informe-docente', component: InformeDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'teacher' } },
 
 

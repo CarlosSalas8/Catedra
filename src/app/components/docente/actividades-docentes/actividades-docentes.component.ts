@@ -13,7 +13,6 @@ export class ActividadesDocentesComponent {
 
   activity: any;
   activitys: any[] = [];
-  teacherId: string | null = null;
   assistantID: string | null = null;
   activePeriod: any | null = null;
   assistantName: string | null = null;
@@ -24,7 +23,7 @@ export class ActividadesDocentesComponent {
   ngOnInit(): void {
 
     this.authService.getCurrentUserRole().subscribe(role => {
-      this.usuario = role;  // Asumes que 'role' es el rol del usuario logueado (puede ser 'docente' o 'estudiante')
+      this.usuario = role;  // Asumes que 'role' es el rol del usuario logueado
     });
 
 
@@ -34,7 +33,6 @@ export class ActividadesDocentesComponent {
     });
 
     this.route.paramMap.subscribe(params => {
-      this.teacherId = params.get('id');
       this.assistantID = params.get('assistant');  // Esto es un ID, no el nombre
 
       // Extraer el nombre real del asistente desde el último segmento de la URL
@@ -43,8 +41,8 @@ export class ActividadesDocentesComponent {
 
       
 
-      if (this.teacherId && this.assistantName) {
-        this.cargarActividadesPorEstudiante(this.teacherId, this.assistantName);
+      if (this.assistantName) {
+        this.cargarActividadesPorEstudiante(this.assistantName);
       }
     });
   }
@@ -52,10 +50,9 @@ export class ActividadesDocentesComponent {
 
 
 
-  cargarActividadesPorEstudiante(teacherId: string, assistant: string): void {
+  cargarActividadesPorEstudiante(assistant: string): void {
     this.firestore.collection('activities', ref =>
-      ref.where('emailTeacher', '==', teacherId)
-        .where('assistant', '==', assistant) // Ahora assistant tiene el nombre correcto
+      ref.where('assistant', '==', assistant) // Ahora assistant tiene el nombre correcto
     ).valueChanges().subscribe(data => {   
       this.activitys = data;
     });

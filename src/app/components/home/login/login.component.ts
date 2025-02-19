@@ -153,7 +153,6 @@ export class LoginComponent implements OnInit {
                 const role = userData?.role;
                 const career = userData?.career;
                 const validated = userData?.validated;
-                const email = user.email; // Obtener el email del usuario autenticado
 
                 if (role) {
                   if (role === 'admin') {
@@ -162,7 +161,7 @@ export class LoginComponent implements OnInit {
                   }
                   else if (role === 'teacher') {
                     
-                    this.router.navigate(['/home-docente', email]); // Enviar email en la ruta
+                    this.router.navigate(['/home-docente']); // Enviar email en la ruta
                   }
                   else if (role === 'director') {
                     

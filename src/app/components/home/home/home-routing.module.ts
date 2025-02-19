@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'carrera', component: CarreraComponent },
   { path: 'login', component: LoginComponent },
   { path: 'home-ayudante', component: HomeAyudanteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
-  { path: 'home-docente/:email', component: HomeDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher', 'admin', 'director'] }, },
+  { path: 'home-docente', component: HomeDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['teacher'] }, },
   { path: 'home-director', component: HomeDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
   { path: 'home-admin', component: HomeAdminComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
 ];
