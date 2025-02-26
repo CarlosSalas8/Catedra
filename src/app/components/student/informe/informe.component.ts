@@ -112,41 +112,24 @@ export class InformeComponent implements OnInit {
       alert("No se encontró un estudiante con este correo.");
       return;
     }
-  
+
     const archivo = event.target.files[0];
     if (!archivo) return;
-  
+
     this.archivoSubiendo = true;
     this.mensajeExito = false;
-  
+
     const filePath = `students/${this.estudianteId}/ayudante_catedra/${archivo.name}`;
     const fileRef = this.storage.ref(filePath);
-  
-    // Verificar si ya existe un archivo y eliminarlo
-    if (this.conflictoInteresUrl) {
-      const oldFileRef = this.storage.refFromURL(this.conflictoInteresUrl);
-      oldFileRef.delete().toPromise().then(() => {
-        console.log("Archivo anterior eliminado");
-        this.uploadNuevoArchivo(filePath, archivo);
-      }).catch((error) => {
-        console.error("Error al eliminar archivo anterior:", error);
-        this.uploadNuevoArchivo(filePath, archivo);  // Si no hay archivo anterior, continuar con la carga
-      });
-    } else {
-      this.uploadNuevoArchivo(filePath, archivo);
-    }
-  }
-  
-  uploadNuevoArchivo(filePath: string, archivo: any) {
     const uploadTask = this.storage.upload(filePath, archivo);
-  
+
     uploadTask.snapshotChanges().pipe(
       finalize(() => {
-        this.storage.ref(filePath).getDownloadURL().subscribe((url) => {
+        fileRef.getDownloadURL().subscribe((url) => {
           const updateData = {
             [`files.ayudante_catedra`]: url
           };
-  
+
           this.firestore.collection('students').doc(this.estudianteId as string).update(updateData)
             .then(() => {
               this.archivoSubiendo = false;
@@ -161,5 +144,4 @@ export class InformeComponent implements OnInit {
       })
     ).subscribe();
   }
-  
 }
