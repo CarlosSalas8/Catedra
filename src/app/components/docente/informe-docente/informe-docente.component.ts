@@ -41,7 +41,6 @@ export class InformeDocenteComponent implements OnInit {
           .valueChanges({ idField: 'id' })
           .subscribe(estudiantes => {
             this.estudiantes = estudiantes;
-            console.log("Estudiantes:", this.estudiantes);
           });
       }
     });
