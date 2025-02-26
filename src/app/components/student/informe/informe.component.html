@@ -40,30 +40,67 @@
 
                 <div class="grid md:grid-cols-2 gap-6">
                     <!-- Botón Descargar -->
-                    <div class="border border-slate-400 rounded-lg p-4 text-center">
-                        <p class="font-semibold mb-2">DESCARGAR FORMATO DE INFORME DE AYUDANTE DE CÁTEDRA</p>
-                        <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                        </button>
-                        <p class="text-xs text-gray-600">Se descarga en formato de Word</p>
+                    <div *ngIf="archivosFiltrados.length > 0; else noArchivos">
+                        <div *ngFor="let archivo of archivosFiltrados"
+                            class="border border-slate-400 rounded-lg p-4 text-center">
+                            <p class="font-semibold mb-2">
+                                <!-- Mostrar el título según el fileType -->
+                                <span *ngIf="archivo.fileType === 'ayudante_catedra'">DESCARGAR FORMATO DE INFORME
+                                    DE AYUDANTE DE CÁTEDRA</span>
+                            </p>
+                            <a [href]="archivo.url" download="{{ archivo.name }}" target="_blank"
+                                class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2 inline-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                            </a>
+                            <p class="text-xs text-gray-600">Se Descarga en formato PDF</p>
+                        </div>
                     </div>
+
+                    <ng-template #noArchivos>
+                        <p class="text-center text-gray-500">No hay Formatos Disponibles.</p>
+                    </ng-template>
 
                     <!-- Botón Cargar -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
                         <p class="font-semibold mb-2">CARGA EL INFORME DE AYUDANTE DE CÁTEDRA</p>
-                        <button class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2">
+
+
+
+                        <input type="file" (change)="subirArchivo($event)" class="hidden" #fileInput>
+                        <button (click)="fileInput.click()" [disabled]="archivoSubiendo"
+                            class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                             </svg>
                         </button>
+
                         <p class="text-xs text-gray-600">Debe estar en formato PDF, copias firmas correspondientes</p>
+
+                        <!-- Mostrar mensaje si ya existe un archivo -->
+                        <div *ngIf="archivoExistente" class="text-gray-600 font-semibold mt-2">
+                            <p>Archivo Subido.</p>
+                        </div>
+
+                        <!-- Indicador de carga -->
+                        <div *ngIf="archivoSubiendo" class="flex justify-center items-center mt-2">
+                            <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 border-t-4 border-blue-500 rounded-full"
+                                role="status"></div>
+                        </div>
+
+                        <!-- Mensaje de éxito -->
+                        <div *ngIf="mensajeExito" class="text-green-500 mt-2">
+                            <p>Archivo cargado con éxito!</p>
+                        </div>
                     </div>
+
+
+
                 </div>
 
                 <!-- Estados -->
@@ -96,8 +133,7 @@
                 <ul class="list-disc text-sm space-y-2 mb-6 mx-8">
                     <li>El docente debe descargar el formato adjunto y generar la evaluación. Una vez completado, se
                         debe
-                        firmar
-                        por parte del docente.</li>
+                        firmar por parte del docente.</li>
                     <li>Una vez firmado y validado, se debe cargar en el sistema.</li>
                 </ul>
 
@@ -106,31 +142,39 @@
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
                         <p class="font-semibold mb-2">DESCARGAR EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA
                         </p>
-                        <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
+                        <button *ngIf="evaluacionBecarioUrl"
+                            class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                            <a [href]="evaluacionBecarioUrl" target="_blank" class="flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                            </a>
                         </button>
-                        <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
+                        <p *ngIf="!evaluacionBecarioUrl" class="text-xs text-gray-600">No disponible</p>
+                        <p class="text-xs text-gray-600">Se Descarga en formato PDF</p>
                     </div>
-
 
                     <!-- Botón Descargar Declaratoria -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
                         <p class="font-semibold mb-2">DESCARGAR DECLARATORIA DE CONFLICTO DE INTERÉS</p>
-                        <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
+                        <button *ngIf="conflictoInteresUrl"
+                            class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                            <a [href]="conflictoInteresUrl" target="_blank" class="flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                            </a>
                         </button>
-                        <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
+                        <p *ngIf="!conflictoInteresUrl" class="text-xs text-gray-600">No disponible</p>
+                        <p class="text-xs text-gray-600">Se Descarga en formato PDF</p>
                     </div>
                 </div>
             </div>
+
         </div>
 
     </main>

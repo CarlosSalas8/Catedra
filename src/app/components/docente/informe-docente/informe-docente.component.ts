@@ -14,8 +14,13 @@ export class InformeDocenteComponent implements OnInit {
   archivosFiltrados: any[] = [];
   estudiantes: any[] = [];
   estudianteSeleccionado: any = null;
-  archivoSubiendo: boolean = false;
-  mostrarSelector: boolean = false; // Controla la visibilidad del selector
+
+  archivoSubiendoEvaluacion: boolean = false;
+  archivoSubiendoConflicto: boolean = false;
+  mensajeExitoEvaluacion: boolean = false;
+  mensajeExitoConflicto: boolean = false;
+
+  mostrarSelector: boolean = false;
 
   constructor(
     private firestore: AngularFirestore,
@@ -32,7 +37,6 @@ export class InformeDocenteComponent implements OnInit {
     this.authService.getCurrentUser().subscribe(user => {
       if (user) {
         const emailTeacher = user.email;
-
         this.firestore.collection('students', ref => ref.where('emailTeacher', '==', emailTeacher))
           .valueChanges({ idField: 'id' })
           .subscribe(estudiantes => {
@@ -58,7 +62,7 @@ export class InformeDocenteComponent implements OnInit {
 
   seleccionarEstudiante(estudiante: any) {
     this.estudianteSeleccionado = estudiante;
-    this.mostrarSelector = false; // Cierra el selector después de seleccionar
+    this.mostrarSelector = false;
   }
 
   subirArchivo(event: any, tipoArchivo: string) {
@@ -66,30 +70,40 @@ export class InformeDocenteComponent implements OnInit {
       alert("Por favor, selecciona un estudiante antes de subir un archivo.");
       return;
     }
-  
+
     const archivo = event.target.files[0];
     if (!archivo) return;
-  
-    this.archivoSubiendo = true;
-    const filePath = `students/${this.estudianteSeleccionado.id}/${tipoArchivo}/${archivo.name}`;  // Añadir el tipo de archivo en el path
+
+    if (tipoArchivo === 'evaluacion_becario') {
+      this.archivoSubiendoEvaluacion = true;
+      this.mensajeExitoEvaluacion = false;
+    } else {
+      this.archivoSubiendoConflicto = true;
+      this.mensajeExitoConflicto = false;
+    }
+
+    const filePath = `students/${this.estudianteSeleccionado.id}/${tipoArchivo}/${archivo.name}`;
     const fileRef = this.storage.ref(filePath);
     const uploadTask = this.storage.upload(filePath, archivo);
-  
+
     uploadTask.snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe((url) => {
-          // Aquí se actualiza la propiedad específica dependiendo del tipo de archivo
           const updateData = {
-            [`files.${tipoArchivo}`]: url  // Guarda el archivo en el campo adecuado
+            [`files.${tipoArchivo}`]: url
           };
-  
+
           this.firestore.collection('students').doc(this.estudianteSeleccionado.id).update(updateData).then(() => {
-            this.archivoSubiendo = false;
-            alert('Archivo subido con éxito.');
+            if (tipoArchivo === 'evaluacion_becario') {
+              this.archivoSubiendoEvaluacion = false;
+              this.mensajeExitoEvaluacion = true;
+            } else {
+              this.archivoSubiendoConflicto = false;
+              this.mensajeExitoConflicto = true;
+            }
           });
         });
       })
     ).subscribe();
   }
-  
 }
