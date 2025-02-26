@@ -62,7 +62,7 @@ export class CrearPlazaComponent implements OnInit {
 
   }
 
-  
+
 
   cargarMallas() {
     this.firestore.collection('curriculums').valueChanges().subscribe((data: any[]) => {
@@ -78,9 +78,6 @@ export class CrearPlazaComponent implements OnInit {
       .subscribe((data: any[]) => {
         if (data.length > 0) {
           this.directors = data[0]; // Guardar el director autenticado
-          
-        } else {
-          console.warn('No se encontró director para el email:', email);
         }
       });
   }
@@ -137,7 +134,7 @@ export class CrearPlazaComponent implements OnInit {
       }
       this.toggleModal();
     } else {
-      
+
     }
   }
 
@@ -181,7 +178,7 @@ export class CrearPlazaComponent implements OnInit {
                 postulant: [], // Inicializar como un arreglo vacío
               })
               .then(() => {
-                
+
                 this.form.reset();
               })
               .catch((error) => {
@@ -215,7 +212,7 @@ export class CrearPlazaComponent implements OnInit {
         postulant: this.selectedPlaza.postulant || [], // Mantener postulantes existentes
       })
       .then(() => {
-        
+
         this.form.reset();
       })
       .catch((error) => {
@@ -230,7 +227,7 @@ export class CrearPlazaComponent implements OnInit {
       .doc(id)
       .delete()
       .then(() => {
-        
+
       })
       .catch((error) => {
         console.error('Error al eliminar la plaza:', error);

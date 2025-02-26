@@ -133,6 +133,97 @@
         </div>
 
 
+        <div class="bg-[#fff9e5] p-6 rounded-lg mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
+        
+                <!-- Cargar Ayudante de Cátedra -->
+                <div class="border border-slate-400 rounded-lg p-4 text-center w-full">
+                    <p class="font-semibold mb-2">CARGAR FORMATO AYUDANTE DE CÁTEDRA</p>
+                    <input type="file" #fileAyudante hidden (change)="uploadFile($event, 'ayudante_catedra')" accept="application/pdf">
+                    <button class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2"
+                        (click)="triggerFileInput('ayudantecatedra')" [disabled]="uploadStatus['ayudante_catedra'].success">
+                        📂 Subir Archivo
+                    </button>
+                    <p class="text-xs text-gray-600">Debe estar en formato PDF</p>
+                    <p *ngIf="uploadStatus['ayudante_catedra'].message" class="text-gray-600 font-semibold mt-2">
+                        {{ uploadStatus['ayudante_catedra'].message }}
+                    </p>
+        
+                    <div *ngIf="fileData['ayudante_catedra'].url">
+                        <p class="text-gray-600 mt-2">Fecha de carga: {{ fileData['ayudante_catedra'].date }}</p>
+                        <a [href]="fileData['ayudante_catedra'].url" target="_blank" class="text-blue-600 underline block mb-2">
+                            {{ fileData['ayudante_catedra'].name }}
+                        </a>
+                        <a [href]="fileData['ayudante_catedra'].url" download="{{ fileData['ayudante_catedra'].name }}"
+                            class="bg-customBlue hover:bg-customBlueHover text-white font-bold py-2 px-4 rounded block">
+                            Descargar archivo
+                        </a>
+                    </div>
+                </div>
+        
+                <!-- Cargar Evaluación de Becario -->
+                <div class="border border-slate-400 rounded-lg p-4 text-center w-full">
+                    <p class="font-semibold mb-2">CARGAR FORMATO EVALUACIÓN DE BECARIO</p>
+                    <input type="file" #fileEvaluacionBecario hidden (change)="uploadFile($event, 'evaluacion_becario')" accept="application/pdf">
+                    <button class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2"
+                        (click)="triggerFileInput('evaluacionbecario')" [disabled]="uploadStatus['evaluacion_becario'].success">
+                        📂 Subir Archivo
+                    </button>
+                    <p class="text-xs text-gray-600">Debe estar en formato PDF</p>
+                    <p *ngIf="uploadStatus['evaluacion_becario'].message" class="text-gray-600 font-semibold mt-2">
+                        {{ uploadStatus['evaluacion_becario'].message }}
+                    </p>
+        
+                    <div *ngIf="fileData['evaluacion_becario'].url">
+                        <p class="text-gray-600 mt-2">Fecha de carga: {{ fileData['evaluacion_becario'].date }}</p>
+                        <a [href]="fileData['evaluacion_becario'].url" target="_blank" class="text-blue-600 underline block mb-2">
+                            {{ fileData['evaluacion_becario'].name }}
+                        </a>
+                        <a [href]="fileData['evaluacion_becario'].url" download="{{ fileData['evaluacion_becario'].name }}"
+                            class="bg-customBlue hover:bg-customBlueHover text-white font-bold py-2 px-4 rounded block">
+                            Descargar archivo
+                        </a>
+                    </div>
+                </div>
+        
+                <!-- Cargar Conflicto de Interés -->
+                <div class="border border-slate-400 rounded-lg p-4 text-center w-full">
+                    <p class="font-semibold mb-2">CARGAR FORMATO DE CONFLICTO DE INTERÉS</p>
+                    <input type="file" #fileConflictoInteres hidden (change)="uploadFile($event, 'conflicto_interes')" accept="application/pdf">
+                    <button class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2"
+                        (click)="triggerFileInput('conflictointeres')" [disabled]="uploadStatus['conflicto_interes'].success">
+                        📂 Subir Archivo
+                    </button>
+                    <p class="text-xs text-gray-600">Debe estar en formato PDF</p>
+                    <p *ngIf="uploadStatus['conflicto_interes'].message" class="text-gray-600 font-semibold mt-2">
+                        {{ uploadStatus['conflicto_interes'].message }}
+                    </p>
+        
+                    <div *ngIf="fileData['conflicto_interes'].url">
+                        <p class="text-gray-600 mt-2">Fecha de carga: {{ fileData['conflicto_interes'].date }}</p>
+                        <a [href]="fileData['conflicto_interes'].url" target="_blank" class="text-blue-600 underline block mb-2">
+                            {{ fileData['conflicto_interes'].name }}
+                        </a>
+                        <a [href]="fileData['conflicto_interes'].url" download="{{ fileData['conflicto_interes'].name }}"
+                            class="bg-customBlue hover:bg-customBlueHover text-white font-bold py-2 px-4 rounded block">
+                            Descargar archivo
+                        </a>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        
+        
+
+
+
+
+
+
+
+
+
     </main>
 </body>
 

@@ -39,20 +39,20 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       activitiesSegundo: this.fb.array([]), // Segundo bimestre
       activitiesRecuperacion: this.fb.array([]),  // Recuperación
     });
-    
+
   }
 
   ngOnInit(): void {
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
-      
+
     });
 
     // Obtener el usuario logueado
     this.authService.getCurrentUser().subscribe(user => {
       if (user) {
         this.userEmail = user.email;
-        
+
         if (user.email) {
           this.obtenerPlazasDelUsuario(user.email); // Pasar el email del usuario
         }
@@ -166,7 +166,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
           nameTeacher: datos.nameTeacher || '',
           assistant: datos.postulant?.find((p: any) => p.usuario?.email === email)?.usuario?.name || '',
           faculty: datos.faculty || '',
-          career: datos.career || '',       
+          career: datos.career || '',
           subject: datos.subject || '',
           parallel: datos.parallel || '',
           modality: datos.modality || ''
@@ -220,13 +220,10 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       alert('Por favor, completa todos los campos del formulario y asegúrate de que hay un periodo activo.');
       return;
     }
-
-    
-
     const formData = this.form.value;
     const nameTeacher = formData.nameTeacher;
     const assistant = formData.assistant;
-
+  
     const generalData: any = {
       nameTeacher: nameTeacher,
       assistant: assistant,
@@ -237,35 +234,33 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       modality: formData.modality,
       emailAssistant: this.userEmail
     };
-
+  
     try {
       // 🔹 Obtener el docente desde la colección 'teachers'
       const snapshot = await firstValueFrom(
         this.firestore.collection('teachers', ref => ref.where('name', '==', nameTeacher)).get()
       );
-
+  
       if (snapshot.empty) {
         console.warn('El docente no existe en la base de datos.');
         alert('El docente no está registrado. No se pueden guardar las actividades.');
         return;
       }
-
+  
       // 🔹 Obtener el email del docente
       const teacherDoc = snapshot.docs[0];
       const teacherData = teacherDoc.data() as { email: string };
       generalData.emailTeacher = teacherData.email; // Guardar el email del docente
-
-      
-
+  
       // 🔹 Consultar las actividades existentes en Firebase para evitar duplicación
       const activitiesSnapshot = await firstValueFrom(
         this.firestore.collection('activities', ref => ref.where('periodID', '==', this.activePeriod.id)).get()
       );
-
+  
       const existingActivities: Activity[] = activitiesSnapshot.docs.map(doc => doc.data() as Activity);
-
+  
       const batch = this.firestore.firestore.batch();
-
+  
       // 🔹 Filtrar las actividades que no están ya en Firebase
       formData.activities = formData.activities.filter((activity: Activity) => {
         return !existingActivities.some((existing: Activity) => {
@@ -273,12 +268,12 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
             ? existing.startdate
             : existing.startdate.toDate ? existing.startdate.toDate()
               : new Date(existing.startdate);
-
+  
           const existingEndDate = existing.enddate instanceof Date
             ? existing.enddate
             : existing.enddate.toDate ? existing.enddate.toDate()
               : new Date(existing.enddate);
-
+  
           return (
             existing.activity === activity.activity &&
             existingStartDate.getTime() === new Date(activity.startdate).getTime() &&
@@ -286,19 +281,19 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
           );
         });
       });
-
+  
       formData.activitiesSegundo = formData.activitiesSegundo.filter((activity: Activity) => {
         return !existingActivities.some((existing: Activity) => {
           const existingStartDate = existing.startdate instanceof Date
             ? existing.startdate
             : existing.startdate.toDate ? existing.startdate.toDate()
               : new Date(existing.startdate);
-
+  
           const existingEndDate = existing.enddate instanceof Date
             ? existing.enddate
             : existing.enddate.toDate ? existing.enddate.toDate()
               : new Date(existing.enddate);
-
+  
           return (
             existing.activity === activity.activity &&
             existingStartDate.getTime() === new Date(activity.startdate).getTime() &&
@@ -306,19 +301,19 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
           );
         });
       });
-
+  
       formData.activitiesRecuperacion = formData.activitiesRecuperacion.filter((activity: Activity) => {
         return !existingActivities.some((existing: Activity) => {
           const existingStartDate = existing.startdate instanceof Date
             ? existing.startdate
             : existing.startdate.toDate ? existing.startdate.toDate()
               : new Date(existing.startdate);
-
+  
           const existingEndDate = existing.enddate instanceof Date
             ? existing.enddate
             : existing.enddate.toDate ? existing.enddate.toDate()
               : new Date(existing.enddate);
-
+  
           return (
             existing.activity === activity.activity &&
             existingStartDate.getTime() === new Date(activity.startdate).getTime() &&
@@ -326,14 +321,36 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
           );
         });
       });
+  
       // 🔹 Guardar solo las actividades no duplicadas
       this.periodoService.saveActivities(batch, generalData, formData.activities, 'primer_bimestre', this.activePeriod.id);
       this.periodoService.saveActivities(batch, generalData, formData.activitiesSegundo, 'segundo_bimestre', this.activePeriod.id);
       this.periodoService.saveActivities(batch, generalData, formData.activitiesRecuperacion, 'recuperacion', this.activePeriod.id);
-
+  
+      // 🔹 Verificar si el assistant ya está en la colección de 'students'
+      const studentSnapshot = await firstValueFrom(
+        this.firestore.collection('students', ref =>
+          ref.where('assistant', '==', assistant)
+            .where('periodID', '==', this.activePeriod.id)
+        ).get()
+      );
+  
+      // Si no existe, guardar 
+      if (studentSnapshot.empty) {
+        const studentRef = this.firestore.firestore.collection('students').doc(); // Generar un nuevo documento
+        const studentData = {
+          id: studentRef.id, // Guardar el ID generado automáticamente
+          assistant: assistant,
+          emailAssistant: this.userEmail,
+          emailTeacher: generalData.emailTeacher, // Guardar email del docente
+          nameTeacher: generalData.nameTeacher,   // Guardar nombre del docente
+          periodID: this.activePeriod.id
+        };
+        batch.set(studentRef, studentData);
+      }
+  
       await batch.commit();
-
-    
+  
       this.form.reset();
       alert('¡Datos guardados correctamente!');
       this.router.navigateByUrl('/vista');
@@ -342,6 +359,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       alert('Error al guardar los datos. Por favor, inténtalo de nuevo.');
     }
   }
+  
 
   // Métodos para obtener los controles específicos del Primer Bimestre
   getactivityControl(index: number): FormControl {

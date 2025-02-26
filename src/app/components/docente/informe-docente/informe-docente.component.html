@@ -42,7 +42,7 @@
                 <div class="grid md:grid-flow-row gap-6 justify-center">
                     <!-- Botón Descargar -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
-                        <p class="font-semibold mb-2">DESCARGAR FORMATO DE INFORME DE AYUDANTE DE CÁTEDRA</p>
+                        <p class="font-semibold mb-2">DESCARGAR INFORME DE AYUDANTE DE CÁTEDRA</p>
                         <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -74,6 +74,38 @@
                         administrador.</span>
                 </div>
             </div>
+
+            <div class="bg-gray-100 font-['Inter'] p-6 rounded-lg">
+                <h2 class="text-center font-semibold mb-4">FORMATOS DE EVALUACIÓN DEL BECARIO DE RESPONSABILIDAD UNIVERSITARIA (BRU)</h2>
+
+                <div *ngIf="archivosFiltrados.length > 0; else noArchivos">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
+                        <div *ngFor="let archivo of archivosFiltrados"
+                            class="border border-slate-400 rounded-lg p-4 text-center">
+                            <p class="font-semibold mb-2">
+                                <!-- Mostrar el título según el fileType -->
+                                <span *ngIf="archivo.fileType === 'evaluacion_becario'">DESCARGAR FORMATO EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA</span>
+                                <span *ngIf="archivo.fileType === 'conflicto_interes'">DESCARGAR FORMATO DECLARATORIA DE CONFLICTO DE INTERÉS</span>
+                            </p>
+                            <a [href]="archivo.url" download="{{ archivo.name }}" target="_blank"
+                                class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2 inline-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                            </a>
+                            <p class="text-xs text-gray-600">Se Descarga en formato PDF</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <ng-template #noArchivos>
+                    <p class="text-center text-gray-500">No hay Formatos Disponibles.</p>
+                </ng-template>
+            </div>
+
 
             <!-- Segunda Sección - Evaluación BRU -->
             <div class="bg-[#fff9e5] p-6 rounded-lg mt-6">
@@ -116,6 +148,10 @@
                         <p class="text-xs text-gray-600">Debe estar en formato PDF, copias firmas correspondientes</p>
                     </div>
                 </div>
+
+
+
+
             </div>
         </div>
 
