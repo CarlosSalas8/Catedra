@@ -50,7 +50,7 @@
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </button>
-                        <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
+                        <p class="text-xs text-gray-600">Se Descarga en formato de PDF</p>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,8 @@
             </div>
 
             <div class="bg-gray-100 font-['Inter'] p-6 rounded-lg">
-                <h2 class="text-center font-semibold mb-4">FORMATOS DE EVALUACIÓN DEL BECARIO DE RESPONSABILIDAD UNIVERSITARIA (BRU)</h2>
+                <h2 class="text-center font-semibold mb-4">FORMATOS DE EVALUACIÓN DEL BECARIO DE RESPONSABILIDAD
+                    UNIVERSITARIA (BRU)</h2>
 
                 <div *ngIf="archivosFiltrados.length > 0; else noArchivos">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
@@ -84,8 +85,10 @@
                             class="border border-slate-400 rounded-lg p-4 text-center">
                             <p class="font-semibold mb-2">
                                 <!-- Mostrar el título según el fileType -->
-                                <span *ngIf="archivo.fileType === 'evaluacion_becario'">DESCARGAR FORMATO EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA</span>
-                                <span *ngIf="archivo.fileType === 'conflicto_interes'">DESCARGAR FORMATO DECLARATORIA DE CONFLICTO DE INTERÉS</span>
+                                <span *ngIf="archivo.fileType === 'evaluacion_becario'">DESCARGAR FORMATO EVALUACIÓN DE
+                                    BECARIO DE RESPONSABILIDAD UNIVERSITARIA</span>
+                                <span *ngIf="archivo.fileType === 'conflicto_interes'">DESCARGAR FORMATO DECLARATORIA DE
+                                    CONFLICTO DE INTERÉS</span>
                             </p>
                             <a [href]="archivo.url" download="{{ archivo.name }}" target="_blank"
                                 class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2 inline-block">
@@ -108,51 +111,73 @@
 
 
             <!-- Segunda Sección - Evaluación BRU -->
-            <div class="bg-[#fff9e5] p-6 rounded-lg mt-6">
-                <h2 class="text-center font-semibold mb-4">EVALUACIÓN DEL BECARIO DE RESPONSABILIDAD UNIVERSITARIA (BRU)
-                </h2>
+            <button (click)="toggleSelector()"
+                class="bg-customBlue hover:bg-customBlueHover text-white px-4 py-2 rounded mt-3">
+                Seleccionar Estudiante
+            </button>
 
-                <ul class="list-disc text-sm space-y-2 mb-6 mx-8">
-                    <li>El docente debe descargar el formato adjunto y generar la evaluación. Una vez completado, se
-                        debe
-                        firmar
-                        por parte del docente.</li>
-                    <li>Una vez firmado y validado, se debe cargar en el sistema.</li>
-                </ul>
+            <!-- Toggle flotante para seleccionar estudiante -->
+            <div *ngIf="mostrarSelector"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                <div class="bg-white p-8 rounded-3xl shadow-lg max-w-md mx-auto">
+                    <h3 class="text-2xl font-semibold text-center text-gray-800 mb-4">Seleccionar Estudiante</h3>
+                    <ul>
+                        <li *ngFor="let estudiante of estudiantes" (click)="seleccionarEstudiante(estudiante)"
+                            class="p-2 cursor-pointer hover:bg-gray-100">
+                            {{ estudiante.assistant }}
+                        </li>
+                    </ul>
 
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Botón Descargar Evaluación -->
-                    <div class="border border-slate-400 rounded-lg p-4 text-center">
-                        <p class="font-semibold mb-2">CARGAR EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA</p>
-                        <button class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                            </svg>
-                        </button>
-                        <p class="text-xs text-gray-600">Debe estar en formato PDF, copias firmas correspondientes</p>
-                    </div>
+                    <button (click)="toggleSelector()"
+                        class="bg-customBlue hover:bg-customBlueHover text-white px-4 py-2 mt-4 rounded w-full">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
 
+            <!-- Mostrar el estudiante seleccionado -->
+            <div class="mt-3 items-center"  *ngIf="estudianteSeleccionado">
+                <p>Estudiante seleccionado: <strong>{{ estudianteSeleccionado.assistant }}</strong></p>
+            </div>
 
-                    <!-- Botón Descargar Declaratoria -->
-                    <div class="border border-slate-400 rounded-lg p-4 text-center">
-                        <p class="font-semibold mb-2">CARGAR DECLARATORIA DE CONFLICTO DE INTERÉS</p>
-                        <button class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                            </svg>
-                        </button>
-                        <p class="text-xs text-gray-600">Debe estar en formato PDF, copias firmas correspondientes</p>
-                    </div>
+            <!-- Mensaje si no hay estudiante seleccionado -->
+            <div *ngIf="!estudianteSeleccionado" class="text-red-500 text-center mb-4">
+                <p><strong>¡Debes seleccionar un estudiante antes de cargar los archivos!</strong></p>
+            </div>
+
+            <!-- Botones para subir archivos -->
+            <div class="grid md:grid-cols-2 gap-6 mt-4">
+                <div class="border border-slate-400 rounded-lg p-4 text-center">
+                    <p class="font-semibold mb-2">CARGAR EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA</p>
+                    <input type="file" (change)="subirArchivo($event, 'evaluacion_becario')" class="hidden" #fileInput1>
+                    <button (click)="fileInput1.click()" [disabled]="!estudianteSeleccionado"
+                        class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                    </button>
+                    <p class="text-xs text-gray-600">Se Debe Cargar en formato de PDF</p>
                 </div>
 
-
-
-
+                <div class="border border-slate-400 rounded-lg p-4 text-center">
+                    <p class="font-semibold mb-2">CARGAR DECLARATORIA DE CONFLICTO DE INTERÉS</p>
+                    <input type="file" (change)="subirArchivo($event, 'conflicto_interes')" class="hidden" #fileInput2>
+                    <button (click)="fileInput2.click()" [disabled]="!estudianteSeleccionado"
+                        class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                    </button>
+                    <p class="text-xs text-gray-600">Se Debe Cargar en formato de PDF</p>
+                </div>
             </div>
+
+
+
         </div>
 
     </main>
