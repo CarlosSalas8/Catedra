@@ -151,11 +151,8 @@
         
                     <div *ngIf="fileData['ayudante_catedra'].url">
                         <p class="text-gray-600 mt-2">Fecha de carga: {{ fileData['ayudante_catedra'].date }}</p>
-                        <a [href]="fileData['ayudante_catedra'].url" target="_blank" class="text-blue-600 underline block mb-2">
-                            {{ fileData['ayudante_catedra'].name }}
-                        </a>
-                        <a [href]="fileData['ayudante_catedra'].url" download="{{ fileData['ayudante_catedra'].name }}"
-                            class="bg-customBlue hover:bg-customBlueHover text-white font-bold py-2 px-4 rounded block">
+                        <a [href]="fileData['ayudante_catedra'].url" target="_blank"
+                            class="bg-customBlue hover:bg-customBlueHover text-white font-bold py-2 px-4 rounded block mt-4">
                             Descargar archivo
                         </a>
                     </div>
@@ -176,11 +173,8 @@
         
                     <div *ngIf="fileData['evaluacion_becario'].url">
                         <p class="text-gray-600 mt-2">Fecha de carga: {{ fileData['evaluacion_becario'].date }}</p>
-                        <a [href]="fileData['evaluacion_becario'].url" target="_blank" class="text-blue-600 underline block mb-2">
-                            {{ fileData['evaluacion_becario'].name }}
-                        </a>
-                        <a [href]="fileData['evaluacion_becario'].url" download="{{ fileData['evaluacion_becario'].name }}"
-                            class="bg-customBlue hover:bg-customBlueHover text-white font-bold py-2 px-4 rounded block">
+                        <a [href]="fileData['evaluacion_becario'].url" target="_blank"
+                            class="bg-customBlue hover:bg-customBlueHover text-white font-bold py-2 px-4 rounded block mt-4">
                             Descargar archivo
                         </a>
                     </div>
@@ -201,11 +195,8 @@
         
                     <div *ngIf="fileData['conflicto_interes'].url">
                         <p class="text-gray-600 mt-2">Fecha de carga: {{ fileData['conflicto_interes'].date }}</p>
-                        <a [href]="fileData['conflicto_interes'].url" target="_blank" class="text-blue-600 underline block mb-2">
-                            {{ fileData['conflicto_interes'].name }}
-                        </a>
-                        <a [href]="fileData['conflicto_interes'].url" download="{{ fileData['conflicto_interes'].name }}"
-                            class="bg-customBlue hover:bg-customBlueHover text-white font-bold py-2 px-4 rounded block">
+                        <a [href]="fileData['conflicto_interes'].url" target="_blank"
+                            class="bg-customBlue hover:bg-customBlueHover text-white font-bold py-2 px-4 rounded block mt-4">
                             Descargar archivo
                         </a>
                     </div>
