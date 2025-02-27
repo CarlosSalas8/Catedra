@@ -55,8 +55,7 @@
                     <!-- Botón Descargar -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
                         <p class="font-semibold mb-2">DESCARGAR FORMATO DE INFORME DE AYUDANTE DE CÁTEDRA</p>
-                        <button (click)="descargarArchivo('ayudante_catedra')"
-                            [disabled]="!estudianteSeleccionado || !conflictoInteresUrl || !evaluacionBecarioUrl"
+                        <button (click)="descargarArchivo('ayudante_catedra')" [disabled]="!estudianteSeleccionado"
                             class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -64,9 +63,13 @@
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </button>
-
+                        <p *ngIf="!ayudanteCatedraUrl" class="text-xs text-gray-600">No disponible</p>
                         <p class="text-xs text-gray-600">Se Descarga en formato de PDF</p>
                     </div>
+                </div>
+                <!-- Mensaje si no hay estudiante seleccionado -->
+                <div *ngIf="!estudianteSeleccionado" class="text-red-500 text-center mb-4 mt-3">
+                    <p><strong>¡Debes seleccionar un estudiante antes de descargar los archivos!</strong></p>
                 </div>
             </div>
             <!-- Estados -->
@@ -109,8 +112,7 @@
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
                         <p class="font-semibold mb-2">DESCARGAR EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA
                         </p>
-                        <button (click)="descargarArchivo('evaluacion_becario')"
-                            [disabled]="!estudianteSeleccionado || !conflictoInteresUrl || !evaluacionBecarioUrl"
+                        <button (click)="descargarArchivo('evaluacion_becario')" [disabled]="!estudianteSeleccionado"
                             class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -118,6 +120,7 @@
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </button>
+                        <p *ngIf="!evaluacionBecarioUrl" class="text-xs text-gray-600">No disponible</p>
                         <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
                     </div>
 
@@ -125,8 +128,7 @@
                     <!-- Botón Descargar Declaratoria -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
                         <p class="font-semibold mb-2">DESCARGAR DECLARATORIA DE CONFLICTO DE INTERÉS</p>
-                        <button (click)="descargarArchivo('conflicto_interes')"
-                            [disabled]="!estudianteSeleccionado || !conflictoInteresUrl || !evaluacionBecarioUrl"
+                        <button (click)="descargarArchivo('conflicto_interes')" [disabled]="!estudianteSeleccionado"
                             class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -134,6 +136,7 @@
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </button>
+                        <p *ngIf="!conflictoInteresUrl" class="text-xs text-gray-600">No disponible</p>
                         <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
                     </div>
                 </div>

@@ -14,6 +14,8 @@ export class InformeDirectorComponent implements OnInit {
   estudianteSeleccionado: any = null;
   archivos: any = {}; // Para almacenar las URLs de los archivos
   mostrarSelector: boolean = false;
+
+
   conflictoInteresUrl: string | undefined;
   ayudanteCatedraUrl: string | undefined;
   evaluacionBecarioUrl: string | undefined;
@@ -66,6 +68,10 @@ export class InformeDirectorComponent implements OnInit {
           this.conflictoInteresUrl = data?.files?.conflicto_interes || null;
           this.evaluacionBecarioUrl = data?.files?.evaluacion_becario || null;
         }
+        // Mostrar mensaje si no hay archivos
+        if (!this.ayudanteCatedraUrl && !this.conflictoInteresUrl && !this.evaluacionBecarioUrl) {
+          alert("Este estudiante no tiene archivos disponibles.");
+        }
       });
     }
   }
@@ -74,43 +80,43 @@ export class InformeDirectorComponent implements OnInit {
 
 
   descargarArchivo(tipoArchivo: string) {
-    if (!this.estudianteSeleccionado) {
-      alert("Debes seleccionar un estudiante primero.");
-      return;
-    }
-
-    // Verificar el tipo de archivo y descargar el correspondiente
-    switch (tipoArchivo) {
-      case 'ayudante_catedra':
-        if (this.ayudanteCatedraUrl) {
-          window.open(this.ayudanteCatedraUrl, '_blank');
-        } else {
-          alert("No hay archivo de Ayudante de Cátedra disponible para este estudiante.");
-        }
-        break;
-
-      case 'evaluacion_becario':
-        if (this.evaluacionBecarioUrl) {
-          window.open(this.evaluacionBecarioUrl, '_blank');
-        } else {
-          alert("No hay archivo de Evaluación BRU disponible para este estudiante.");
-        }
-        break;
-
-      case 'conflicto_interes':
-        if (this.conflictoInteresUrl) {
-          window.open(this.conflictoInteresUrl, '_blank');
-        } else {
-          alert("No hay archivo de Conflicto de Interés disponible para este estudiante.");
-        }
-        break;
-
-      default:
-        alert("Archivo desconocido.");
-    }
+  if (!this.estudianteSeleccionado) {
+    alert("Debes seleccionar un estudiante primero.");
+    return;
   }
 
+  // Verificar el tipo de archivo y descargar el correspondiente
+  switch (tipoArchivo) {
+    case 'ayudante_catedra':
+      if (this.ayudanteCatedraUrl) {
+        window.open(this.ayudanteCatedraUrl, '_blank');
+      } else {
+        alert("No hay archivo de Ayudante de Cátedra disponible para este estudiante.");
+      }
+      break;
 
+    case 'evaluacion_becario':
+      if (this.evaluacionBecarioUrl) {
+        window.open(this.evaluacionBecarioUrl, '_blank');
+      } else {
+        alert("No hay archivo de Evaluación BRU disponible para este estudiante.");
+      }
+      break;
+
+    case 'conflicto_interes':
+      if (this.conflictoInteresUrl) {
+        window.open(this.conflictoInteresUrl, '_blank');
+      } else {
+        alert("No hay archivo de Conflicto de Interés disponible para este estudiante.");
+      }
+      break;
+
+    default:
+      alert("Archivo desconocido.");
+  }
+}
+
+  
 
 
 }
