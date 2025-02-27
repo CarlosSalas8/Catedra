@@ -249,8 +249,9 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
   
       // 🔹 Obtener el email del docente
       const teacherDoc = snapshot.docs[0];
-      const teacherData = teacherDoc.data() as { email: string };
+      const teacherData = teacherDoc.data() as { email: string, emailDirector: string };
       generalData.emailTeacher = teacherData.email; // Guardar el email del docente
+      generalData.emailDirector = teacherData.emailDirector; // Guardar el email del director
   
       // 🔹 Consultar las actividades existentes en Firebase para evitar duplicación
       const activitiesSnapshot = await firstValueFrom(
@@ -343,7 +344,8 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
           assistant: assistant,
           emailAssistant: this.userEmail,
           emailTeacher: generalData.emailTeacher, // Guardar email del docente
-          nameTeacher: generalData.nameTeacher,   // Guardar nombre del docente
+          nameTeacher: generalData.nameTeacher,
+          emailDirector: generalData.emailDirector,   // Guardar nombre del docente
           periodID: this.activePeriod.id
         };
         batch.set(studentRef, studentData);
