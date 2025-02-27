@@ -40,17 +40,33 @@
                 </ul>
 
                 <div class="grid md:grid-flow-row gap-6 justify-center">
+                    <!-- Selector de estudiantes -->
+                    <div class="border border-slate-400 rounded-lg p-4 text-center">
+                        <label for="select-estudiante" class="font-semibold mb-2 block">Selecciona un estudiante</label>
+                        <select *ngFor="let estudiante of estudiantes" id="select-estudiante"
+                            class="border rounded w-full p-2" (change)="seleccionarEstudiante2(estudiante)">
+                            <option value="">-- Seleccionar --</option>
+                            <option [value]="estudiante.id">
+                                {{ estudiante.assistant }}
+                            </option>
+                        </select>
+                    </div>
+
                     <!-- Botón Descargar -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
                         <p class="font-semibold mb-2">DESCARGAR INFORME DE AYUDANTE DE CÁTEDRA</p>
-                        <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                        <button (click)="descargarAyudanteCatedra()"
+                            [disabled]="!estudianteSeleccionado2 || !ayudanteCatedraUrl"
+                            class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </button>
+
                         <p class="text-xs text-gray-600">Se Descarga en formato de PDF</p>
+
                     </div>
                 </div>
             </div>

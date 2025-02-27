@@ -14,6 +14,7 @@ export class InformeDocenteComponent implements OnInit {
   archivosFiltrados: any[] = [];
   estudiantes: any[] = [];
   estudianteSeleccionado: any = null;
+  estudianteSeleccionado2: any = null;
 
   archivoSubiendoEvaluacion: boolean = false;
   archivoSubiendoConflicto: boolean = false;
@@ -21,6 +22,8 @@ export class InformeDocenteComponent implements OnInit {
   mensajeExitoConflicto: boolean = false;
 
   mostrarSelector: boolean = false;
+
+  ayudanteCatedraUrl: string | null = null;
 
   constructor(
     private firestore: AngularFirestore,
@@ -62,6 +65,31 @@ export class InformeDocenteComponent implements OnInit {
   seleccionarEstudiante(estudiante: any) {
     this.estudianteSeleccionado = estudiante;
     this.mostrarSelector = false;
+  }
+
+  seleccionarEstudiante2(estudiante: any) {
+    this.estudianteSeleccionado2 = estudiante;
+    this.mostrarSelector = false;
+
+    // Buscar en Firestore si tiene el archivo de ayudante_catedra
+    this.firestore.collection('students').doc(estudiante.id).get().subscribe(doc => {
+      if (doc.exists) {
+        const data: any = doc.data();
+        this.ayudanteCatedraUrl = data?.files?.ayudante_catedra || null;
+      }
+    });
+  }
+
+  descargarAyudanteCatedra() {
+    if (!this.estudianteSeleccionado2) {
+      alert("Debes seleccionar un estudiante primero.");
+      return;
+    }
+    if (this.ayudanteCatedraUrl) {
+      window.open(this.ayudanteCatedraUrl, '_blank');
+    } else {
+      alert("No hay un archivo de Ayudante de Cátedra disponible para este estudiante.");
+    }
   }
 
   subirArchivo(event: any, tipoArchivo: string) {
