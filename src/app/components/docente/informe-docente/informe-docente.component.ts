@@ -67,18 +67,24 @@ export class InformeDocenteComponent implements OnInit {
     this.mostrarSelector = false;
   }
 
-  seleccionarEstudiante2(estudiante: any) {
-    this.estudianteSeleccionado2 = estudiante;
-    this.mostrarSelector = false;
-
-    // Buscar en Firestore si tiene el archivo de ayudante_catedra
-    this.firestore.collection('students').doc(estudiante.id).get().subscribe(doc => {
-      if (doc.exists) {
-        const data: any = doc.data();
-        this.ayudanteCatedraUrl = data?.files?.ayudante_catedra || null;
-      }
-    });
+  seleccionarEstudiante2(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const estudianteId = target.value;
+  
+    if (estudianteId) {
+      this.estudianteSeleccionado2 = this.estudiantes.find(est => est.id === estudianteId);
+      this.mostrarSelector = false;
+  
+      // Buscar en Firestore si tiene el archivo de ayudante_catedra
+      this.firestore.collection('students').doc(this.estudianteSeleccionado2.id).get().subscribe(doc => {
+        if (doc.exists) {
+          const data: any = doc.data();
+          this.ayudanteCatedraUrl = data?.files?.ayudante_catedra || null;
+        }
+      });
+    }
   }
+  
 
   descargarAyudanteCatedra() {
     if (!this.estudianteSeleccionado2) {
