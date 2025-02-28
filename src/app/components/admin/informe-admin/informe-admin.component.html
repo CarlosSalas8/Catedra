@@ -19,7 +19,7 @@
             <h1 class="text-center text-lg font-semibold mb-6">DESARROLLO DE INFORME Y EVALUACIÓN</h1>
 
             <!-- Primera Sección -->
-            <div class="bg-[#fff9e5] p-6 rounded-lg mb-8">
+            <div class="bg-gray-100 p-6 rounded-lg mb-8">
                 <p class="text-sm text-center mb-4">
                     En la siguiente sección se encuentra el informe de Ayudante de Cátedra y la Evaluación del Becario
                     de Responsabilidad Universitaria (BRU) Ayudante de Cátedra Modalidad Presencial
@@ -35,41 +35,64 @@
                 </ul>
 
                 <div class="max-w-md mx-auto mb-6">
-                    <!-- Botón de Descarga -->
+                    <!-- Selector de estudiantes -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
-                        <p class="font-semibold mb-2">DESCARGAR INFORME DE AYUDANTE DE CÁTEDRA
-                        </p>
-                        <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                        <label for="select-estudiante" class="font-semibold mb-2 block">Selecciona un estudiante</label>
+                        <select id="select-estudiante" class="border rounded w-full p-2"
+                            (change)="seleccionarEstudiante($event)">
+                            <option value="">SELECCIONAR</option>
+                            <option *ngFor="let estudiante of estudiantes" [value]="estudiante.id"
+                                [selected]="estudianteSeleccionado?.id === estudiante.id">
+                                {{ estudiante.assistant }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Botón de Descarga -->
+                    <div class="border border-slate-400 rounded-lg p-4 text-center mt-3">
+                        <p class="font-semibold mb-2">DESCARGAR INFORME DE AYUDANTE DE CÁTEDRA</p>
+                        <button (click)="descargarArchivo('ayudante_catedra')" [disabled]="!estudianteSeleccionado"
+                            class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
                         </button>
+                        <p *ngIf="!ayudanteCatedraUrl" class="text-xs text-gray-600">No disponible</p>
                         <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
                     </div>
 
+                    <!-- Dropdown y Validación -->
+                    <div class="mt-4 flex items-center justify-center h-20 mb-4 rounded space-x-4">
+                        <button
+                            class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300"
+                            (click)="validatefiles(true, 'ayudante_catedra')" [disabled]="!estudianteSeleccionado">
+                            Validar Informe
+                        </button>
+                        <button
+                            class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300"
+                            (click)="validatefiles(false, 'ayudante_catedra')" [disabled]="!estudianteSeleccionado">
+                            No Validar Informe
+                        </button>
+                    </div>
 
-                    <!-- Dropdown y Comentarios -->
-                    <div class="max-w-md mx-auto mt-6">
-                        <select class="w-full p-2 border rounded mb-4">
-                            <option value="" disabled selected>PENDIENTE</option>
-                            <option value="1">Opción 1</option>
-                            <option value="2">Opción 2</option>
-                        </select>
+                    <!-- Mensaje de validación Ayudante de Cátedra -->
+                    <div *ngIf="estudianteSeleccionado" class="text-center mt-4">
+                        <p *ngIf="estudianteSeleccionado.validated === true" class="text-green-600 font-semibold">
+                            ✅ Estudiante Validado en Informe de Ayudante de Cátedra
+                        </p>
+                        <p *ngIf="estudianteSeleccionado.validated === false" class="text-red-600 font-semibold">
+                            ❌ Estudiante No Validado en Informe Ayudante de Cátedra
+                        </p>
+                        <p *ngIf="estudianteSeleccionado.validated === undefined" class="text-gray-600 font-semibold">
+                            ⏳ Pendiente de Validación en Informe Ayudante de Cátedra
+                        </p>
                     </div>
                 </div>
-
-                <div class="mb-4 w-full">
-                    <div class="mb-2">Comentario</div>
-                    <input class="w-full h-12 bg-gray-100 rounded px-4 block">
-                </div>
-
-                <button
-                    class="bg-customBlue hover:bg-customBlueHover text-white py-2 px-6 rounded mx-auto block mb-2">Aceptar</button>
-
             </div>
         </div>
+
 
         <!-- Segunda Sección -->
         <div class="bg-[#e6f0ff] p-6 rounded-lg mt-6">
@@ -90,13 +113,15 @@
                 <div class="border border-slate-400 rounded-lg p-4 text-center">
                     <p class="font-semibold mb-2">DESCARGAR EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA
                     </p>
-                    <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                    <button (click)="descargarArchivo('evaluacion_becario')" [disabled]="!estudianteSeleccionado"
+                        class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
                     </button>
+                    <p *ngIf="!evaluacionBecarioUrl" class="text-xs text-gray-600">No disponible</p>
                     <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
                 </div>
 
@@ -104,51 +129,77 @@
                 <!-- Botón Descargar Declaratoria -->
                 <div class="border border-slate-400 rounded-lg p-4 text-center">
                     <p class="font-semibold mb-2">DESCARGAR DECLARATORIA DE CONFLICTO DE INTERÉS</p>
-                    <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                    <button (click)="descargarArchivo('conflicto_interes')" [disabled]="!estudianteSeleccionado"
+                        class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
                     </button>
+                    <p *ngIf="!conflictoInteresUrl" class="text-xs text-gray-600">No disponible</p>
                     <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
                 </div>
             </div>
-            <div class="max-w-md mx-auto mt-6">
-                <select class="w-full p-2 border rounded mb-4">
-                    <option value="" disabled selected>PENDIENTE</option>
-                    <option value="1">Opción 1</option>
-                    <option value="2">Opción 2</option>
-                </select>
+
+            <div class="mt-4 flex items-center justify-center h-20 mb-4 rounded space-x-4">
+                <button
+                    class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300"
+                    (click)="validatefiles(true, 'evaluacion_becario')" [disabled]="!estudianteSeleccionado">
+                    Validar Evaluaciónes
+                </button>
+                <button
+                    class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300"
+                    (click)="validatefiles(false, 'evaluacion_becario')" [disabled]="!estudianteSeleccionado">
+                    No Validar Evaluaciónes
+                </button>
+            </div>
+            <div *ngIf="estudianteSeleccionado" class="text-center mt-4">
+                <p *ngIf="estudianteSeleccionado.validated2 === true" class="text-green-600 font-semibold">
+                    ✅ Estudiante Validado en Evaluación de Evaluación de Becario y Conflicto de Interés
+                </p>
+                <p *ngIf="estudianteSeleccionado.validated2 === false" class="text-red-600 font-semibold">
+                    ❌ Estudiante No Validado en Evaluación de Evaluación de Becario y Conflicto de Interés
+                </p>
+                <p *ngIf="estudianteSeleccionado.validated2 === undefined" class="text-gray-600 font-semibold">
+                    ⏳ Pendiente de Validación en Evaluación de Evaluación de Becario y Conflicto de Interés
+                </p>
             </div>
 
-            <div class="mb-4 w-full">
-                <div class="mb-2">Comentario</div>
-                <input class="w-full h-12 bg-gray-100 rounded px-4 block">
-            </div>
-
-            <button
-                class="bg-customBlue hover:bg-customBlueHover text-white py-2 px-6 rounded mx-auto block mb-2">Aceptar</button>
 
         </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
         <div class="bg-[#fff9e5] p-6 rounded-lg mb-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
-        
+
                 <!-- Cargar Ayudante de Cátedra -->
                 <div class="border border-slate-400 rounded-lg p-4 text-center w-full">
                     <p class="font-semibold mb-2">CARGAR FORMATO AYUDANTE DE CÁTEDRA</p>
-                    <input type="file" #fileAyudante hidden (change)="uploadFile($event, 'ayudante_catedra')" accept="application/pdf">
+                    <input type="file" #fileAyudante hidden (change)="uploadFile($event, 'ayudante_catedra')"
+                        accept="application/pdf">
                     <button class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2"
-                        (click)="triggerFileInput('ayudantecatedra')" [disabled]="uploadStatus['ayudante_catedra'].success">
+                        (click)="triggerFileInput('ayudantecatedra')"
+                        [disabled]="uploadStatus['ayudante_catedra'].success">
                         📂 Subir Archivo
                     </button>
                     <p class="text-xs text-gray-600">Debe estar en formato PDF</p>
                     <p *ngIf="uploadStatus['ayudante_catedra'].message" class="text-gray-600 font-semibold mt-2">
                         {{ uploadStatus['ayudante_catedra'].message }}
                     </p>
-        
+
                     <div *ngIf="fileData['ayudante_catedra'].url">
                         <p class="text-gray-600 mt-2">Fecha de carga: {{ fileData['ayudante_catedra'].date }}</p>
                         <a [href]="fileData['ayudante_catedra'].url" target="_blank"
@@ -157,20 +208,22 @@
                         </a>
                     </div>
                 </div>
-        
+
                 <!-- Cargar Evaluación de Becario -->
                 <div class="border border-slate-400 rounded-lg p-4 text-center w-full">
                     <p class="font-semibold mb-2">CARGAR FORMATO EVALUACIÓN DE BECARIO</p>
-                    <input type="file" #fileEvaluacionBecario hidden (change)="uploadFile($event, 'evaluacion_becario')" accept="application/pdf">
+                    <input type="file" #fileEvaluacionBecario hidden (change)="uploadFile($event, 'evaluacion_becario')"
+                        accept="application/pdf">
                     <button class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2"
-                        (click)="triggerFileInput('evaluacionbecario')" [disabled]="uploadStatus['evaluacion_becario'].success">
+                        (click)="triggerFileInput('evaluacionbecario')"
+                        [disabled]="uploadStatus['evaluacion_becario'].success">
                         📂 Subir Archivo
                     </button>
                     <p class="text-xs text-gray-600">Debe estar en formato PDF</p>
                     <p *ngIf="uploadStatus['evaluacion_becario'].message" class="text-gray-600 font-semibold mt-2">
                         {{ uploadStatus['evaluacion_becario'].message }}
                     </p>
-        
+
                     <div *ngIf="fileData['evaluacion_becario'].url">
                         <p class="text-gray-600 mt-2">Fecha de carga: {{ fileData['evaluacion_becario'].date }}</p>
                         <a [href]="fileData['evaluacion_becario'].url" target="_blank"
@@ -179,20 +232,22 @@
                         </a>
                     </div>
                 </div>
-        
+
                 <!-- Cargar Conflicto de Interés -->
                 <div class="border border-slate-400 rounded-lg p-4 text-center w-full">
                     <p class="font-semibold mb-2">CARGAR FORMATO DE CONFLICTO DE INTERÉS</p>
-                    <input type="file" #fileConflictoInteres hidden (change)="uploadFile($event, 'conflicto_interes')" accept="application/pdf">
+                    <input type="file" #fileConflictoInteres hidden (change)="uploadFile($event, 'conflicto_interes')"
+                        accept="application/pdf">
                     <button class="bg-[#ffa500] hover:bg-[#ffb733] text-white w-full py-2 rounded mb-2"
-                        (click)="triggerFileInput('conflictointeres')" [disabled]="uploadStatus['conflicto_interes'].success">
+                        (click)="triggerFileInput('conflictointeres')"
+                        [disabled]="uploadStatus['conflicto_interes'].success">
                         📂 Subir Archivo
                     </button>
                     <p class="text-xs text-gray-600">Debe estar en formato PDF</p>
                     <p *ngIf="uploadStatus['conflicto_interes'].message" class="text-gray-600 font-semibold mt-2">
                         {{ uploadStatus['conflicto_interes'].message }}
                     </p>
-        
+
                     <div *ngIf="fileData['conflicto_interes'].url">
                         <p class="text-gray-600 mt-2">Fecha de carga: {{ fileData['conflicto_interes'].date }}</p>
                         <a [href]="fileData['conflicto_interes'].url" target="_blank"
@@ -201,11 +256,11 @@
                         </a>
                     </div>
                 </div>
-        
+
             </div>
         </div>
-        
-        
+
+
 
 
 
