@@ -52,8 +52,6 @@
                         </select>
                     </div>
 
-
-
                     <!-- Botón Descargar -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
                         <p class="font-semibold mb-2">DESCARGAR INFORME DE AYUDANTE DE CÁTEDRA</p>
@@ -72,28 +70,22 @@
                     </div>
                 </div>
             </div>
+
             <!-- Estados -->
-            <div class="mt-6 space-y-2">
-                <div class="flex items-center gap-2">
-                    <span class="text-sm"><span class="font-semibold text-green-600">VALIDADO</span> por el
-                        administrador.</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-sm"><span class="font-semibold text-red-600">NO VALIDADO</span> por el
-                        administrador.
-                        <span class="font-semibold">Comentario:</span> El informe no tiene la introducción ni la
-                        firma
-                        del
-                        docente.</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-sm"><span class="font-semibold text-yellow-500">PENDIENTE</span> de validar
-                        por el
-                        administrador.</span>
-                </div>
+            <div *ngIf="estudianteSeleccionado2" class="text-center mt-4">
+                <p *ngIf="estudianteSeleccionado2.validated === true" class="text-green-600 font-semibold">
+                    ✅ Estudiante Validado por el Administrador en Informe de Ayudante de Cátedra
+                </p>
+                <p *ngIf="estudianteSeleccionado2.validated === false" class="text-red-600 font-semibold">
+                    ❌ Estudiante No Validado por el Administrador en Informe de Ayudante de Cátedra
+                </p>
+                <p *ngIf="estudianteSeleccionado2.validated === undefined" class="text-gray-600 font-semibold">
+                    ⏳ Pendiente de Validación por el Administrador en Informe de Ayudante de Cátedra
+                </p>
             </div>
 
-            <div class="bg-gray-100 font-['Inter'] p-6 rounded-lg">
+
+            <div class="bg-gray-100 font-['Inter'] p-6 rounded-lg mt-2">
                 <h2 class="text-center font-semibold mb-4">FORMATOS DE EVALUACIÓN DEL BECARIO DE RESPONSABILIDAD
                     UNIVERSITARIA (BRU)</h2>
 
@@ -129,10 +121,14 @@
 
 
             <!-- Segunda Sección - Evaluación BRU -->
-            <button (click)="toggleSelector()"
-                class="bg-customBlue hover:bg-customBlueHover text-white px-4 py-2 rounded mt-3">
-                Seleccionar Estudiante
-            </button>
+            <!-- Segunda Sección - Evaluación BRU -->
+            <div class="flex justify-center mt-3">
+                <button (click)="toggleSelector()"
+                    class="bg-customBlue hover:bg-customBlueHover text-white px-4 py-2 rounded">
+                    Seleccionar Estudiante
+                </button>
+            </div>
+
 
             <!-- Toggle flotante para seleccionar estudiante -->
             <div *ngIf="mostrarSelector"
@@ -159,7 +155,7 @@
             </div>
 
             <!-- Mensaje si no hay estudiante seleccionado -->
-            <div *ngIf="!estudianteSeleccionado" class="text-red-500 text-center mb-4">
+            <div *ngIf="!estudianteSeleccionado" class="text-red-500 text-center mb-4 mt-3">
                 <p><strong>¡Debes seleccionar un estudiante antes de cargar los archivos!</strong></p>
             </div>
 
@@ -218,6 +214,19 @@
                         <p>Archivo cargado con éxito!</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Estados -->
+            <div *ngIf="estudianteSeleccionado" class="text-center mt-4">
+                <p *ngIf="estudianteSeleccionado.validated2 === true" class="text-green-600 font-semibold">
+                    ✅ Estudiante Validado por el Administrador en Informe de Ayudante de Cátedra
+                </p>
+                <p *ngIf="estudianteSeleccionado.validated2 === false" class="text-red-600 font-semibold">
+                    ❌ Estudiante No Validado por el Administrador en Informe de Ayudante de Cátedra
+                </p>
+                <p *ngIf="estudianteSeleccionado.validated2 === undefined" class="text-gray-600 font-semibold">
+                    ⏳ Pendiente de Validación por el Administrador en Informe de Ayudante de Cátedra
+                </p>
             </div>
 
 

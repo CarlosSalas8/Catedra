@@ -3,16 +3,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AuthService } from 'src/app/services/auth.service';
 import { finalize } from 'rxjs/operators';
+import { Estudiante } from 'src/app/models/student.model';
 
-interface Estudiante {
-  id: string;
-  emailAssistant: string;
-  files?: {
-    ayudante_catedra?: string;
-    conflicto_interes?: string;
-    evaluacion_becario?: string;
-  };
-}
 
 @Component({
   selector: 'app-informe',
@@ -31,6 +23,9 @@ export class InformeComponent implements OnInit {
 
   conflictoInteresUrl: string | undefined;
   evaluacionBecarioUrl: string | undefined;
+
+  validated: boolean | undefined = undefined;
+  validated2: boolean | undefined = undefined;
 
   constructor(
     private authService: AuthService,
@@ -61,6 +56,8 @@ export class InformeComponent implements OnInit {
       .subscribe(estudiantes => {
         if (estudiantes.length > 0) {
           this.estudianteId = estudiantes[0].id;
+          this.validated = estudiantes[0].validated;
+          this.validated2 = estudiantes[0].validated2;
           this.verificarArchivoExistente();
         }
       });

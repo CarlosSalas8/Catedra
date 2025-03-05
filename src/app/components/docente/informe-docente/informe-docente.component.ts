@@ -65,7 +65,17 @@ export class InformeDocenteComponent implements OnInit {
   seleccionarEstudiante(estudiante: any) {
     this.estudianteSeleccionado = estudiante;
     this.mostrarSelector = false;
+  
+    // Verifica si ya hay archivos subidos para este estudiante
+    this.firestore.collection('students').doc(estudiante.id).get().subscribe(doc => {
+      if (doc.exists) {
+        const data: any = doc.data();
+        this.mensajeExitoEvaluacion = !!data?.files?.evaluacion_becario;
+        this.mensajeExitoConflicto = !!data?.files?.conflicto_interes;
+      }
+    });
   }
+  
 
   seleccionarEstudiante2(event: Event) {
     const target = event.target as HTMLSelectElement;

@@ -72,25 +72,17 @@
                     <p><strong>¡Debes seleccionar un estudiante antes de descargar los archivos!</strong></p>
                 </div>
             </div>
-            <!-- Estados -->
-            <div class="mt-6 space-y-2">
-                <div class="flex items-center gap-2">
-                    <span class="text-sm"><span class="font-semibold text-green-600">VALIDADO</span> por el
-                        administrador.</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-sm"><span class="font-semibold text-red-600">NO VALIDADO</span> por el
-                        administrador.
-                        <span class="font-semibold">Comentario:</span> El informe no tiene la introducción ni la
-                        firma
-                        del
-                        docente.</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-sm"><span class="font-semibold text-yellow-500">PENDIENTE</span> de validar
-                        por el
-                        administrador.</span>
-                </div>
+            <!-- Mensaje de validación en Informe del Director -->
+            <div *ngIf="estudianteSeleccionado" class="text-center mt-4">
+                <p *ngIf="estudianteSeleccionado.validated === true" class="text-green-600 font-semibold">
+                    ✅ Estudiante Validado por el Administrador en Informe de Ayudante de Cátedra
+                </p>
+                <p *ngIf="estudianteSeleccionado.validated === false" class="text-red-600 font-semibold">
+                    ❌ Estudiante No Validado por el Administrador en Informe de Ayudante de Cátedra
+                </p>
+                <p *ngIf="estudianteSeleccionado.validated === undefined" class="text-gray-600 font-semibold">
+                    ⏳ Pendiente de Validación por el Administrador en Informe de Ayudante de Cátedra
+                </p>
             </div>
 
             <!-- Segunda Sección - Evaluación BRU -->
@@ -140,6 +132,18 @@
                         <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
                     </div>
                 </div>
+            </div>
+
+            <div *ngIf="estudianteSeleccionado" class="text-center mt-4">
+                <p *ngIf="estudianteSeleccionado.validated2 === true" class="text-green-600 font-semibold">
+                    ✅ Estudiante Validado por el Administrador en Evaluación de Becario y Conflicto de Interés
+                </p>
+                <p *ngIf="estudianteSeleccionado.validated2 === false" class="text-red-600 font-semibold">
+                    ❌ Estudiante No Validado por el Administrador en Evaluación de Becario y Conflicto de Interés
+                </p>
+                <p *ngIf="estudianteSeleccionado.validated2 === undefined" class="text-gray-600 font-semibold">
+                    ⏳ Pendiente de Validación por el Administrador en Evaluación de Becario y Conflicto de Interés
+                </p>
             </div>
         </div>
 

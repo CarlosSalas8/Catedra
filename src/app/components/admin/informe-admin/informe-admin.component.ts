@@ -97,11 +97,6 @@ export class InformeAdminComponent implements OnInit {
     });
   }
   
-  
-
-
-
-
 
   obtenerArchivos() {
     this.firestore.collection('files').valueChanges().subscribe((data) => {
@@ -128,7 +123,7 @@ export class InformeAdminComponent implements OnInit {
           this.evaluacionBecarioUrl = data?.files?.evaluacion_becario || null;
   
           // Actualizar la validación sin perder la referencia del objeto
-          this.estudianteSeleccionado.validated = data?.validated !== undefined;
+          this.estudianteSeleccionado.validated = data?.validated ?? false;
   
           // Mantener la selección en el select
           setTimeout(() => {
