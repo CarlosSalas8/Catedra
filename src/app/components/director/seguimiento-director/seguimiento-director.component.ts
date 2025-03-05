@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-seguimiento-director',
@@ -19,11 +20,24 @@ export class SeguimientoDirectorComponent implements OnInit {
   selectedDocenteEmail: string | null = null;
   selectedDocenteName: Observable<string> = of('');
   selectedEstudianteEmail: string | null = null;
+  emailDirector: string | null = null;
 
-  constructor(private firestore: AngularFirestore, private storage: AngularFireStorage) { }
+
+
+  constructor(private firestore: AngularFirestore, private storage: AngularFireStorage, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.docentes$ = this.firestore.collection('teachers').valueChanges();
+    this.docentes$ = this.authService.getCurrentUser().pipe(
+      switchMap(user => {
+        if (user && user.email) {
+          return this.firestore.collection('teachers', ref =>
+            ref.where('emailDirector', '==', user.email)
+          ).valueChanges();
+        } else {
+          return of([]); // Si no hay usuario logueado, devuelve una lista vacía.
+        }
+      })
+    );
   }
 
   toggleEstudiantes(docenteEmail: string) {
