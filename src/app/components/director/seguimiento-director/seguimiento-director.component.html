@@ -15,6 +15,12 @@
     <div class="p-4 mt-14">
       <div class="container mx-auto p-6 bg-white overflow-hidden flex flex-col justify-center max-h-full">
         <h2 class="text-xl font-semibold text-black mb-4 text-center" style="font-size: 22px;">Lista de Docentes</h2>
+        <div class="flex items-center">
+          <span class="bg-gray-300 px-10 p-3 border border-gray-300 border-r-0 rounded-l-lg font-semibold">Buscar</span>
+          <input type="text" [(ngModel)]="searchTerm" (input)="filterDocentes()" placeholder="Buscar docente"
+            class="p-3 border border-gray-300 rounded-r-lg w-full">
+        </div>
+
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="w-full text-sm text-left text-gray-500 mt-8">
             <thead class="text-xs text-black uppercase bg-gray-50">
@@ -27,7 +33,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let docente of docentes$ | async" class="bg-white border-b hover:bg-gray-50">
+              <tr *ngFor="let docente of filteredDocentes" class="bg-white border-b hover:bg-gray-50">
                 <td class="px-6 py-4">{{ docente.name }}</td>
                 <td class="px-6 py-4">{{ docente.email }}</td>
                 <td class="px-6 py-4">{{ docente.subject }}</td>
@@ -64,16 +70,16 @@
           </thead>
           <tbody>
             <tr *ngFor="let estudiante of estudiantes$ | async" class="bg-white border-b hover:bg-gray-50">
-                  <td class="px-6 py-4">{{ estudiante.assistant }}</td>
-                  <td class="px-6 py-4">{{ estudiante.career }}</td>
-                  <td class="px-6 py-4">{{ estudiante.faculty }}</td>
-                  <td class="px-6 py-4">{{ estudiante.parallel }}</td>
-                  <td class="px-6 py-4">
-                    <button (click)="toggleActividades(estudiante.assistant)" class="text-customBlueHover hover:underline">
-                      {{ selectedEstudianteEmail === estudiante.assistant ? 'Ocultar' : 'Ver Actividades' }}
-                    </button>
-                  </td>
-                </tr>
+              <td class="px-6 py-4">{{ estudiante.assistant }}</td>
+              <td class="px-6 py-4">{{ estudiante.career }}</td>
+              <td class="px-6 py-4">{{ estudiante.faculty }}</td>
+              <td class="px-6 py-4">{{ estudiante.parallel }}</td>
+              <td class="px-6 py-4">
+                <button (click)="toggleActividades(estudiante.assistant)" class="text-customBlueHover hover:underline">
+                  {{ selectedEstudianteEmail === estudiante.assistant ? 'Ocultar' : 'Ver Actividades' }}
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -81,8 +87,7 @@
   </div>
 
   <!-- Modal de Actividades -->
-  <div *ngIf="selectedEstudianteEmail"
-    class="fixed inset-0 z-50 flex items-center justify-center">
+  <div *ngIf="selectedEstudianteEmail" class="fixed inset-0 z-50 flex items-center justify-center">
     <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-3xl w-full relative">
       <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-lg"
         (click)="toggleActividades('')">✕</button>

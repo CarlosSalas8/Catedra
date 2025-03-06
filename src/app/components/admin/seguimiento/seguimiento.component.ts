@@ -12,6 +12,13 @@ import { map } from 'rxjs/operators';
 export class SeguimientoComponent implements OnInit {
 
   directors$: Observable<any[]> | undefined;
+
+  filteredDirectors: any[] = [];
+  searchTerm: string = '';
+
+
+
+
   docentes$: Observable<any[]> | undefined;
   estudiantes$: Observable<any[]> | undefined;
   activities$: Observable<any[]> | undefined;
@@ -29,6 +36,18 @@ export class SeguimientoComponent implements OnInit {
 
   ngOnInit(): void {
     this.directors$ = this.firestore.collection('directors').valueChanges();
+
+    this.directors$.subscribe(directors => {
+      this.filteredDirectors = directors; // Inicializa con todos los directores
+    });
+  }
+
+  filterDirectors() {
+    this.directors$?.subscribe(directors => {
+      this.filteredDirectors = directors.filter(director =>
+        director.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    });
   }
 
   toggleDocentes(directorEmail: string) {

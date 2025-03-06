@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscribable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -12,6 +12,11 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SeguimientoDirectorComponent implements OnInit {
 
+
+  allDocentes: any[] = [];
+
+  searchTerm: string = '';
+
   docentes$: Observable<any[]> | undefined;
   estudiantes$: Observable<any[]> | undefined;
   activities$: Observable<any[]> | undefined;
@@ -21,6 +26,7 @@ export class SeguimientoDirectorComponent implements OnInit {
   selectedDocenteName: Observable<string> = of('');
   selectedEstudianteEmail: string | null = null;
   emailDirector: string | null = null;
+  filteredDocentes: any[] = [];
 
 
 
@@ -34,11 +40,23 @@ export class SeguimientoDirectorComponent implements OnInit {
             ref.where('emailDirector', '==', user.email)
           ).valueChanges();
         } else {
-          return of([]); // Si no hay usuario logueado, devuelve una lista vacía.
+          return of([]);
         }
       })
     );
+    this.docentes$.subscribe(docentes => {
+      this.allDocentes = docentes;
+      this.filteredDocentes = docentes; // Inicialmente, muestra todos
+    });
   }
+
+  filterDocentes() {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredDocentes = this.allDocentes.filter(docente =>
+      docente.name.toLowerCase().includes(term)
+    );
+  }
+
 
   toggleEstudiantes(docenteEmail: string) {
     if (this.selectedDocenteEmail === docenteEmail) {
