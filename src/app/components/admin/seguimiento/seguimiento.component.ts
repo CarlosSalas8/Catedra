@@ -13,11 +13,11 @@ export class SeguimientoComponent implements OnInit {
 
   directors$: Observable<any[]> | undefined;
 
-  filteredDirectors: any[] = [];
+  allDirectors: any[] = [];
+  filteredDirectores: any[] = [];
+
   searchTerm: string = '';
-
-
-
+  
 
   docentes$: Observable<any[]> | undefined;
   estudiantes$: Observable<any[]> | undefined;
@@ -37,18 +37,24 @@ export class SeguimientoComponent implements OnInit {
   ngOnInit(): void {
     this.directors$ = this.firestore.collection('directors').valueChanges();
 
-    this.directors$.subscribe(directors => {
-      this.filteredDirectors = directors; // Inicializa con todos los directores
+    this.directors$.subscribe({
+      next: (directors) => {
+        this.allDirectors = directors;
+        this.filteredDirectores = directors; // Inicialmente, muestra todos
+      },
+      error: (err) => console.error('Error cargando directores:', err)
     });
   }
 
   filterDirectors() {
-    this.directors$?.subscribe(directors => {
-      this.filteredDirectors = directors.filter(director =>
-        director.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    });
+    const term = this.searchTerm.toLowerCase();
+    this.filteredDirectores = this.allDirectors.filter(director =>
+      director.name?.toLowerCase().includes(term) // Verifica que name no sea undefined
+    );
   }
+  
+
+  
 
   toggleDocentes(directorEmail: string) {
     if (this.selectedDirectorEmail === directorEmail) {
