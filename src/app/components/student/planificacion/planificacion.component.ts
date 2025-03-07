@@ -26,6 +26,9 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
   plazasDelUsuario: any[] = [];
   activitiesLoaded = false;
 
+
+  formDisabled: boolean = false;
+
   constructor(private fb: FormBuilder, private firestore: AngularFirestore, private router: Router, public periodoService: PeriodoService, private authService: AuthService, private afAuth: AngularFireAuth) {
     this.form = this.fb.group({
       nameTeacher: ['', Validators.required],
@@ -55,6 +58,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
 
         if (user.email) {
           this.obtenerPlazasDelUsuario(user.email); // Pasar el email del usuario
+          this.checkIfValidatedCurriculum(user.email);
         }
       } else {
         console.error('No hay un usuario autenticado.');
@@ -68,6 +72,25 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       });
     }
 
+  }
+
+
+  checkIfValidatedCurriculum(email: string): void {
+    this.firestore.collection('users', ref => ref.where('email', '==', email)).get().pipe(take(1)).subscribe(snapshot => {
+      if (!snapshot.empty) {
+        const userData = snapshot.docs[0].data() as { validatedCurriculums?: boolean };
+        const validatedCurriculums = userData?.validatedCurriculums;
+  
+        if (validatedCurriculums) {
+          this.disableForm(); // Deshabilitar el formulario si validatedCurriculums es true
+          this.formDisabled = validatedCurriculums === true;
+        }
+      }
+    });
+  }
+
+  disableForm(): void {
+    this.form.disable();  // Deshabilita todo el formulario
   }
 
   setActivities(activities: any[]): void {

@@ -56,9 +56,26 @@
         </div>
       </div>
 
-      <button *ngIf="usuario === 'teacher'" class="ml-2 p-2 bg-blue-500 text-white rounded">
-        Aprobar
-      </button>
+      <div class="mt-4 flex items-center justify-center h-20 mb-4 rounded space-x-4">
+        <button *ngIf="usuario === 'teacher'" (click)="aprobarEstudiante(true)"
+          class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">
+          Aprobar
+        </button>
+
+        <button *ngIf="usuario === 'teacher'" (click)="aprobarEstudiante(false)"
+          class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">
+          Desaprobar
+        </button>
+      </div>
+
+      <div *ngIf="successMessage" class="mt-4 text-center p-4 rounded-lg">
+        <p *ngIf="isApproved === true" class="text-lg text-green-500">{{ successMessage }}</p>
+        <p *ngIf="isApproved === false" class="text-lg text-red-500">{{ successMessage }}</p>
+      </div>
+      
+
+
+
 
       <div *ngIf="activitys.length > 0" class="mt-10">
         <h2 class="text-2xl mb-2">Actividades</h2><br>
@@ -83,14 +100,12 @@
                   <td class="px-6 py-4">{{ activity.enddate }}</td>
                   <td class="px-6 py-4">{{ activity.verificationmethod }}</td>
                   <td class="px-6 py-4">
-                    <span *ngIf="activity.validated === true" 
-                          class="block w-4 h-4 bg-green-500 rounded-full"></span>
-                    <span *ngIf="activity.validated === false" 
-                          class="block w-4 h-4 bg-gray-500 rounded-full"></span>
+                    <span *ngIf="activity.validated === true" class="block w-4 h-4 bg-green-500 rounded-full"></span>
+                    <span *ngIf="activity.validated === false" class="block w-4 h-4 bg-gray-500 rounded-full"></span>
                   </td>
                   <td class="px-6 py-4">
                     <a [routerLink]="['/actividades-docentes',assistantID,assistantName, 'validar', activity.id]"
-                       class="text-customBlueHover hover:underline">Ingresar</a>
+                      class="text-customBlueHover hover:underline">Ingresar</a>
                   </td>
                 </tr>
               </tbody>
