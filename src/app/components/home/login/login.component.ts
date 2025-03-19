@@ -7,7 +7,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
 
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -208,7 +207,83 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       }
     );
-}
+  }
+
+
+  
+  loginWithEmail() {
+    this.loading = true;
+    this.errorMessage = '';
+
+    const { email, password } = this.loginForm.value;
+
+    this.authService.loginWithEmail(email, password).then(
+      async (user) => {
+        if (!user) {
+          console.error('Error inesperado: no se obtuvo un usuario tras iniciar sesión.');
+          alert('Error inesperado: no se obtuvo un usuario tras iniciar sesión.');
+          this.loading = false;
+          return;
+        }
+
+        try {
+          this.authService.tokenValidation((user.multiFactor as any).user.accessToken).subscribe(
+            async (data) => {
+              if (!data) {
+                console.error('Error inesperado: no se obtuvieron datos del usuario.');
+                this.loading = false;
+                return;
+              }
+              const userDoc = await this.firestore.collection('users').doc(user.uid).get().toPromise();
+
+              if (userDoc?.exists) {
+                const userData = userDoc.data() as Usuario;
+                const role = userData?.role;
+                const career = userData?.career;
+                const validated = userData?.validated;
+
+                if (role) {
+                  if (role === 'admin') {
+                    this.router.navigate(['/home-admin']);
+                  }
+                  else if (role === 'teacher') {
+                    this.router.navigate(['/home-docente']);
+                  }
+                  else if (role === 'director') {
+                    this.router.navigate(['/home-director']);
+                  }
+                  else if (role === 'student') {
+                    if (career) {
+                      this.router.navigate(['/home-ayudante'], { queryParams: { career: career, validated } });
+                    } else {
+                      this.router.navigate(['/carrera'], { queryParams: { validated } });
+                    }
+                  }
+                  else {
+                    console.error('Rol desconocido:', role);
+                    alert('Rol no válido. Contacte al administrador.');
+                  }
+                } else {
+                  console.error('Rol no encontrado en los datos del usuario.');
+                  alert('No se pudo obtener el rol del usuario. Contacte al administrador.');
+                  this.router.navigate(['/carrera']);
+                }
+              } else {
+                console.error('Usuario no encontrado en la colección "users".');
+                this.router.navigate(['/carrera']);
+              }
+            },
+            (error) => {
+              console.error('Error al validar token:', error);
+            }
+          );
+        } catch (error) {
+          console.error('Error al obtener datos del usuario:', error);
+          alert('Error al intentar obtener los datos del usuario.');
+          this.router.navigate(['/carrera']);
+        }
+    });
+  }
 
 
 
@@ -230,10 +305,5 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-
-
-
 }
-
-
 

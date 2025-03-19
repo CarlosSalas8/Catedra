@@ -1,68 +1,52 @@
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-</head>
+<app-navbar-teacher> </app-navbar-teacher>
 
-<body>
-  
-  <app-navbar-teacher> </app-navbar-teacher>
+<app-aside-teachers> </app-aside-teachers>
 
-  <app-aside-teachers> </app-aside-teachers>
+<div class="p-4 sm:ml-20">
+  <div class="p-4 mt-14">
+    <div class="container mx-auto p-6 bg-white overflow-hidden flex flex-col justify-center max-h-full">
+      <h2 class="text-xl font-semibold text-black mb-4 text-center" style="font-size: 22px;">Seguimiento de
+        actividades</h2>
 
-  <div class="p-4 sm:ml-20">
-    <div class="p-4 mt-14">
-      <div class="container mx-auto p-6 bg-white overflow-hidden flex flex-col justify-center max-h-full">
-        <h2 class="text-xl font-semibold text-black mb-4 text-center" style="font-size: 22px;">Seguimiento de
-          actividades</h2>
-
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <div class="flex items-center">
-            <span
-              class="bg-gray-300 px-10 p-3 border border-gray-300 border-r-0 rounded-l-lg font-semibold">Buscar</span>
-            <input type="text" class="p-3 border border-gray-300 rounded-r-lg w-full" placeholder="Nombre del tutor">
-          </div>
-          <table class="w-full text-sm text-left text-gray-500 mt-8">
-            <thead class="text-xs text-black uppercase bg-gray-50  ">
-              <tr>
-                <th scope="col" class="px-6 py-3">ESTUDIANTE</th>
-                <th scope="col" class="px-6 py-3">CARRERA</th>
-                <th scope="col" class="px-6 py-3">FACULTAD</th>
-                <th scope="col" class="px-6 py-3">PARALELO</th>
-                <th scope="col" class="px-6 py-3">MODALIDAD</th>
-                <th scope="col" class="px-6 py-3">ACCIONES</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let actvities of actvities$ | async"
-                class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100">
-                <td class="px-6 py-4">{{ actvities.assistant }}</td>
-                <td class="px-6 py-4">{{ actvities.career }}</td>
-                <td class="px-6 py-4">{{ actvities.faculty }}</td>
-                <td class="px-6 py-4">{{ actvities.parallel }}</td>
-                <td class="px-6 py-4">{{ actvities.modality }}</td>
-                
-                <td class="px-6 py-4">
-                  <ng-container *ngIf="(actvities.teacherId$ | async) as teacherId">
-                    <a [routerLink]="['/actividades-docentes', teacherId, actvities.assistant]"
-                      class="text-customBlueHover hover:underline">Ver Actividades</a>
-                  </ng-container>
-                  <span *ngIf="!(actvities.teacherId$ | async)" class="text-gray-500">Docente no encontrado</span>
-                </td>
-              </tr>
-            </tbody>
-
-          </table>
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div class="flex items-center">
+          <span
+            class="bg-gray-300 px-10 p-3 border border-gray-300 border-r-0 rounded-l-lg font-semibold">Buscar</span>
+          <input type="text" class="p-3 border border-gray-300 rounded-r-lg w-full" placeholder="Nombre del tutor">
         </div>
+        <table class="w-full text-sm text-left text-gray-500 mt-8">
+          <thead class="text-xs text-black uppercase bg-gray-50  ">
+            <tr>
+              <th scope="col" class="px-6 py-3">ESTUDIANTE</th>
+              <th scope="col" class="px-6 py-3">CARRERA</th>
+              <th scope="col" class="px-6 py-3">FACULTAD</th>
+              <th scope="col" class="px-6 py-3">PARALELO</th>
+              <th scope="col" class="px-6 py-3">MODALIDAD</th>
+              <th scope="col" class="px-6 py-3">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let actvities of actvities$ | async"
+              class="bg-white border-b hover:bg-gray-50 dark:hover:bg-gray-100">
+              <td class="px-6 py-4">{{ actvities.assistant }}</td>
+              <td class="px-6 py-4">{{ actvities.career }}</td>
+              <td class="px-6 py-4">{{ actvities.faculty }}</td>
+              <td class="px-6 py-4">{{ actvities.parallel }}</td>
+              <td class="px-6 py-4">{{ actvities.modality }}</td>
+              
+              <td class="px-6 py-4">
+                <ng-container *ngIf="(actvities.teacherId$ | async) as teacherId">
+                  <a [routerLink]="['/actividades-docentes', teacherId, actvities.assistant]"
+                    class="text-customBlueHover hover:underline">Ver Actividades</a>
+                </ng-container>
+                <span *ngIf="!(actvities.teacherId$ | async)" class="text-gray-500">Docente no encontrado</span>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
       </div>
     </div>
   </div>
-
-
-
-
-</body>
-
-</html>
+</div>

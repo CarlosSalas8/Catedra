@@ -1,122 +1,123 @@
 <div class="min-h-screen bg-gray-100 flex flex-col">
-    <nav class="fixed top-0 z-50 w-full bg-customOrange">
-      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div class="relative flex h-16 items-center justify-between">
-          <div class="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start pl-0 ml-0">
-            <div class="flex flex-shrink-0 items-center">
-              <img class="h-14 w-36" src="/assets/logoutpl.png" alt="Your Company" />
-  
-              <div class="hidden sm:ml-6 sm:block">
-                <div class="flex space-x-4 ml-4">
-                  <a 
-                    class="text-gray-950 hover:text-black rounded-md px-3 py-2 text-sm font-bold"
-                    aria-current="page">AYUDANTE DE CÁTEDRA</a>
-                    <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.name || 'PERÍODO' }}</span>
-                </div>
-                <div class="absolute inset-y-0 right-0 flex items-center">
-                  <a href="#"
-                    class="text-gray-950 bg-white rounded-md hover:bg-customPeach hover:text-black  px-3 py-2 text-sm font-bold"
-                    aria-current="page" [routerLink]="'/login'">INICIAR SESIÓN</a>
-                </div>
+  <nav class="fixed top-0 z-50 w-full bg-customOrange">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start pl-0 ml-0">
+          <div class="flex flex-shrink-0 items-center">
+            <img class="h-14 w-36" src="/assets/logoutpl.png" alt="Your Company" />
+
+            <div class="hidden sm:ml-6 sm:block">
+              <div class="flex space-x-4 ml-4">
+                <a 
+                  class="text-gray-950 hover:text-black rounded-md px-3 py-2 text-sm font-bold"
+                  aria-current="page">AYUDANTE DE CÁTEDRA</a>
+                  <span class="text-gray-950 bg-white rounded-md px-3 py-2 text-sm font-bold" aria-current="page">{{ activePeriod?.name || 'PERÍODO' }}</span>
+              </div>
+              <div class="absolute inset-y-0 right-0 flex items-center">
+                <a href="#"
+                  class="text-gray-950 bg-white rounded-md hover:bg-customPeach hover:text-black  px-3 py-2 text-sm font-bold"
+                  aria-current="page" [routerLink]="'/login'">INICIAR SESIÓN</a>
               </div>
             </div>
-  
           </div>
-          <div class="absolute inset-y-0 right-0 flex items-center sm:hidden">
-            <!-- Mobile menu button-->
-            <button type="button" id="mobile-menu-button"
-              class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-950 hover:bg-customPeach hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-              aria-controls="mobile-menu" aria-expanded="false">
-              <span class="absolute -inset-0.5"></span>
-              <span class="sr-only">Open main menu</span>
-              <!-- Icon when menu is closed. -->
-              <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-              <!-- Icon when menu is open. -->
-              <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-  
-          <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-  
-            <div class="relative ml-3">
-              <div>
-  
-              </div>
+
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center sm:hidden">
+          <!-- Mobile menu button-->
+          <button type="button" id="mobile-menu-button"
+            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-950 hover:bg-customPeach hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            aria-controls="mobile-menu" aria-expanded="false">
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Open main menu</span>
+            <!-- Icon when menu is closed. -->
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+              aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <!-- Icon when menu is open. -->
+            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+              aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+          <div class="relative ml-3">
+            <div>
+
             </div>
           </div>
         </div>
       </div>
-      <div class="hidden sm:hidden" id="mobile-menu">
-        <div class="space-y-1 px-2 pb-3 pt-2">
-          <a href="#"
-            class="text-gray-950 hover:bg-customPeach hover:text-black block rounded-md px-3 py-2 text-base font-bold"
-            aria-current="page" [routerLink]="'/login'">Iniciar Sesión</a>
-        </div>
+    </div>
+    <div class="hidden sm:hidden" id="mobile-menu">
+      <div class="space-y-1 px-2 pb-3 pt-2">
+        <a href="#"
+          class="text-gray-950 hover:bg-customPeach hover:text-black block rounded-md px-3 py-2 text-base font-bold"
+          aria-current="page" [routerLink]="'/login'">Iniciar Sesión</a>
       </div>
-    </nav>
-  
-    <main class="flex-1 mt-16 p-8 bg-white">
-      <div class="  bg-white p-6">
-  
-        <div class="flex justify-center mb-6">
-          <img src="/assets/image29.png" alt="Imagen grande" class="w-full h-auto max-w-md">
-        </div>
-        
-        <h1 class="text-4xl font-bold mb-4 text-center">Ayudante de Cátedra</h1>
-        <div class="container-lg">
-          <div class="row justify-content-center ">
-            <div class="col-lg-8 col-md-10">
-              <p class="mb-4 text-center text-lg">
-                La Utpl se esfuerza por garantizar un adecuado desarrollo en la adquisición de conocimientos y
-                competencias de sus estudiantes en la modalidad de estudio presencial. Para lograr esto, la universidad ha
-                implementado la labor de tutoría como una valiosa herramienta que facilita el acompañamiento de los
-                estudiantes en su proceso de aprendizaje. A través de la tutoría, se pueden identificar de manera oportuna
-                situaciones que puedan dificultar el aprendizaje, evitando así poner en riesgo el éxito académico de los
-                estudiantes.
-              </p>
-            </div>
-          </div>
-        </div>
-  
-  
-        <div class="flex space-x-4 mb-8">
-          <div class="flex-1 bg-home p-4 rounded text-center">
-            <p class="text-2xl font-bold">2</p>
-            <p>Estudiantes</p>
-          </div>
-          <div class="flex-1 bg-home p-4 rounded text-center">
-            <p class="text-2xl font-bold">2</p>
-            <p>Tutores</p>
-          </div>
-          <div class="flex-1 bg-home p-4 rounded text-center">
-            <p class="text-2xl font-bold">2</p>
-            <p>Carreras</p>
-          </div>
-        </div>
-        <div class="flex justify-center">
-          <div class="flex flex-wrap justify-center space-x-4 md:space-x-80">
-            <img src="/assets/logo_ascendere.png" alt="Imagen 1" class="w-auto h-auto max-w-xs md:max-w-full">
-            <img src="/assets/logo_liid.png" alt="Imagen 2" class="w-auto h-auto max-w-xs md:max-w-full">
-          </div>
-        </div>
-        
-        
+    </div>
+  </nav>
+
+  <main class="flex-1 mt-16 p-8 bg-white">
+    <div class="  bg-white p-6">
+
+      <div class="flex justify-center mb-6">
+        <img src="/assets/image29.png" alt="Imagen grande" class="w-full h-auto max-w-md">
+      </div>
       
-  
-  
-  
+      <h1 class="text-4xl font-bold mb-4 text-center">Ayudante de Cátedra</h1>
+      <div class="container-lg">
+        <div class="row justify-content-center ">
+          <div class="col-lg-8 col-md-10">
+            <p class="mb-4 text-center text-lg">
+              La Utpl se esfuerza por garantizar un adecuado desarrollo en la adquisición de conocimientos y
+              competencias de sus estudiantes en la modalidad de estudio presencial. Para lograr esto, la universidad ha
+              implementado la labor de tutoría como una valiosa herramienta que facilita el acompañamiento de los
+              estudiantes en su proceso de aprendizaje. A través de la tutoría, se pueden identificar de manera oportuna
+              situaciones que puedan dificultar el aprendizaje, evitando así poner en riesgo el éxito académico de los
+              estudiantes.
+            </p>
+          </div>
+        </div>
       </div>
-    </main>
-  
-  
-    <footer class="dark:bg-customBlue text-white text-center p-4 font-montserrat text-lg">
-      2024 Proyecto Ayudante de Cátedra
-    </footer>
-  
-  </div>
+
+      <!-- Manual de Usuario -->
+      <div class="flex justify-center mt-8">
+        <a href="https://firebasestorage.googleapis.com/v0/b/catedra-458c0.appspot.com/o/Manual%20de%20usuario%20Sistema%20de%20Gestio%CC%81n%20para%20Ayudantes%20de%20Ca%CC%81tedra.pdf?alt=media&token=094a6572-de23-4c8d-8612-963ad33746bd" target="_blank"
+          class="bg-customOrange text-white font-bold py-2 px-4 rounded mb-8"
+        >
+          Manual de Usuario
+        </a>
+      </div>
+
+      <!-- Objetivos -->
+      <div class="flex space-x-4 mb-8">
+        <div class="flex-1 bg-home p-4 rounded text-center">
+          <p class="text-2xl font-bold">2</p>
+          <p>Estudiantes</p>
+        </div>
+        <div class="flex-1 bg-home p-4 rounded text-center">
+          <p class="text-2xl font-bold">2</p>
+          <p>Tutores</p>
+        </div>
+        <div class="flex-1 bg-home p-4 rounded text-center">
+          <p class="text-2xl font-bold">2</p>
+          <p>Carreras</p>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <div class="flex flex-wrap justify-center space-x-4 md:space-x-80">
+          <img src="/assets/logo_ascendere.png" alt="Imagen 1" class="w-auto h-auto max-w-xs md:max-w-full">
+          <img src="/assets/logo_liid.png" alt="Imagen 2" class="w-auto h-auto max-w-xs md:max-w-full">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="dark:bg-customBlue text-white text-center p-4 font-montserrat text-lg">
+    2024 Proyecto Ayudante de Cátedra
+  </footer>
+</div>

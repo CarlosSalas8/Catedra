@@ -1,13 +1,4 @@
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="h-screen overflow-auto">
+<div class="h-screen overflow-auto">
   <app-navbar-admin></app-navbar-admin>
   <app-aside-admin></app-aside-admin>
 
@@ -21,7 +12,28 @@
             <span class="bg-gray-300 px-10 p-3 border border-gray-300 border-r-0 rounded-l-lg font-semibold">
               Buscar
             </span>
-            <input type="text" class="p-3 border border-gray-300 rounded-r-lg w-full" placeholder="Nombre del director">
+            <input type="text" [(ngModel)]="searchTerm" (input)="searchDirectors()" class="p-3 border border-gray-300 rounded-r-lg w-full" placeholder="Nombre del director">
+          </div>
+
+          <!-- Espaciador de los dos divs-->
+          <div class="h-4"></div>
+
+          <!-- Filtro por carrera y ordenar en ascendente y descendente -->
+          <div *ngIf="user" class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-4" *ngIf="user.role !== 'director'">
+              <label for="career" class="text-sm text-gray-700">Filtrar por carrera:</label>
+              <select [(ngModel)]="selectedCareer" (change)="filterByCareer()" class="text-sm text-gray-700 border border-gray-300 rounded-md p-2">
+                <option value="">Todas</option>
+                <option *ngFor="let career of careers" [value]="career.name">{{ career.name }}</option>
+              </select>
+            </div>
+            <div class="flex items-center space-x-4">
+              <label for="order" class="text-sm text-gray-700">Ordenar por:</label>
+              <select [(ngModel)]="order" (change)="sortDirectores()" class="text-sm text-gray-700 border border-gray-300 rounded-md p-2">
+                <option value="asc">Ascendente</option>
+                <option value="desc">Descendente</option>
+              </select>
+            </div>
           </div>
 
           <table class="w-full text-sm text-left text-gray-500 mt-8">
@@ -52,10 +64,14 @@
 
         <!-- Toggle de Docentes -->
         <div *ngIf="selectedDirectorEmail"
-          class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-          (click)="toggleDocentes('')">
-          <div class="bg-white p-8 rounded-3xl shadow-lg max-w-5xl mx-auto" (click)="$event.stopPropagation()">
-            <h2 class="text-xl font-semibold text-black mb-4 text-center">Docentes de {{ selectedDirectorName | async }}
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-auto"
+          (click)="toggleDocentes('')"
+        >
+          <div class="bg-white p-8 rounded-3xl shadow-lg max-h-full mx-auto overflow-auto my-8"
+           (click)="$event.stopPropagation()"
+          >
+            <h2 class="text-xl font-semibold text-black mb-4 text-center">
+              Docentes de {{ selectedDirectorName | async }}
             </h2>
 
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -205,12 +221,9 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
     </div>
   </div>
-</body>
-
-</html>
+</div>

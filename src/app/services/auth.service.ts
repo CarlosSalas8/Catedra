@@ -14,6 +14,8 @@ import { HttpClient } from '@angular/common/http';
 export class AuthService {
   private auth: Auth;
 
+  private userData: any = null;
+
   activePeriod: any | null = null;
 
   constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore, public periodoService: PeriodoService, private router: Router, private cookieService: CustomCookieService, private httpClient: HttpClient) {
@@ -23,8 +25,110 @@ export class AuthService {
     this.auth = getAuth();
   }
 
+  registerWithEmail(email: string, password: string, name: string) {
+    return this.afAuth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      if (!user) throw new Error('No se pudo crear el usuario');
+
+      // Crear el documento de usuario
+      const userData = {
+        userID: user.uid,
+        email: email,
+        name: name,
+        role: 'student',
+        periodID: this.activePeriod?.id || null,
+        career: ""
+      };
+
+      this.firestore.collection('teachers', ref => ref.where('email', '==', email))
+      .get().toPromise().then((teachers) => {
+        if (teachers) {
+          userData.role = 'teacher';
+
+          const career = teachers.docs[0].data() as any;
+          userData.career = career.career;
+        }
+      });
+
+      this.firestore.collection('directors', ref => ref.where('email', '==', email))
+      .get().toPromise().then((directors) => {
+        if (directors) {
+          userData.role = 'director';
+
+          const career = directors.docs[0].data() as any;
+          userData.career = career.career;
+        }
+      });
+
+      this.firestore.collection('users').doc(user.uid).set(userData);
+      
+      
+      // Actualizar el nombre del usuario
+      return user.updateProfile({
+        displayName: name,
+      }).then(() => {
+        return user;
+      });
+    });
+  }
+
+
+
   loginWithEmail(email: string, password: string) {
-    return this.afAuth.signInWithEmailAndPassword(email, password);
+    return this.afAuth.signInWithEmailAndPassword(email, password).then(async (userCredential) => {
+      const user = userCredential.user;
+      if (!user) throw new Error('No se pudo autenticar el usuario');
+      
+      const userEmail = user.email;
+      if (!userEmail) throw new Error('No se encontró el email del usuario');
+
+      const token = await user.getIdToken();
+      sessionStorage.setItem('userToken', token);
+
+      const adminSnapshot = await this.firestore.collection('users').ref.where('role', '==', 'admin').where('email', '==', userEmail).get();
+      const directorSnapshot = await this.firestore.collection('directors').ref.where('email', '==', userEmail).get();
+      const teacherSnapshot = await this.firestore.collection('teachers').ref.where('email', '==', userEmail).get();
+
+      console.log(teacherSnapshot.empty);
+      
+
+      let role = 'student';
+      if (!adminSnapshot.empty) role = 'admin';
+      else if (!directorSnapshot.empty) role = 'director';
+      else if (!teacherSnapshot.empty) role = 'teacher';
+
+      const adminData =  adminSnapshot.docs[0]?.data() as any;
+      const directorData =  directorSnapshot.docs[0]?.data() as any;
+      const teacherData =  teacherSnapshot.docs[0]?.data() as any;
+      
+
+      const userData = {
+        userID: user.uid,
+        email: userEmail,
+        name: user.displayName,
+        photoURL: user.photoURL,
+        role: role,
+        periodID: this.activePeriod?.id || null, 
+        career: adminData?.career || directorData?.career || teacherData?.career || null
+      };
+
+      await this.firestore.collection('users').doc(user.uid).set(userData, { merge: true });
+
+      // if (role === 'teacher') {
+      //   await this.createTeacherCollection(user);
+      // }
+
+      // 🔹 Guardar usuario en cookies para mantener la sesión
+      this.cookieService.setCookie('user', JSON.stringify(userData), 7); // Se guarda por 7 días
+
+
+
+      return user;
+    })
+    .catch(error => {
+      alert('Error al iniciar sesión. Verifique sus credenciales.');
+    });
   }
 
   loginWithGoogle() {
@@ -235,7 +339,7 @@ export class AuthService {
   }
 
   getCurrentUserRole(): Observable<string> {
-    return of('teacher'); 
+    return this.cookieService.getCookie('user') ? of(JSON.parse(this.cookieService.getCookie('user')).role) : of('student'); 
   }
 
   getCurrentUser() {

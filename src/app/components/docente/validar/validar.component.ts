@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { LogIn } from 'lucide-angular';
+import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
 
 @Component({
@@ -19,15 +19,18 @@ export class ValidarComponent implements OnInit {
   activePeriod: any | null = null;
   files: any[] = [];  // Lista de archivos subidos
 
+  user: any;
+
   constructor(private firestore: AngularFirestore, 
     public periodoService: PeriodoService, 
     private route: ActivatedRoute,
-    private storage: AngularFireStorage) { }
+    private storage: AngularFireStorage,
+    private auth: AuthService,
+  ) {}
 
-
-  ngOnInit(): void {
-
-    
+  async ngOnInit(): Promise<void> {
+    this.user = await this.auth.getCurrentUser5();
+    console.log(this.user);
     
 
     this.periodoService.activePeriod$.subscribe(period => {
@@ -46,9 +49,7 @@ export class ValidarComponent implements OnInit {
         this.loadFiles(); // Cargar los archivos relacionados con la actividad
       });
     }
-
     
-
     this.route.paramMap.subscribe(params => {
       this.teacherId = params.get('id'); // Obtener el id del teacher de los parámetros de la ruta
       if (this.teacherId) {
@@ -78,12 +79,10 @@ export class ValidarComponent implements OnInit {
     });
   }
   
-
   // Seleccionar archivo para abrirlo en una nueva pestaña
   selectFile(fileUrl: string) {
     window.open(fileUrl, '_blank');
   }
-
 
   validateActivity(isValid: boolean): void {
     if (this.activity) {
@@ -95,8 +94,4 @@ export class ValidarComponent implements OnInit {
       }
     }
   }
-
-
-
-
 }

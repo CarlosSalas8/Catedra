@@ -22,7 +22,7 @@
         </div>
 
         <form [formGroup]="loginForm" class="flex flex-col items-center">
-          <button class="w-1/2 bg-customBlue hover:bg-customBlueHover text-white py-2 rounded-lg transition-all duration-300 text-sm mb-3" 
+          <!--button class="w-1/2 bg-customBlue hover:bg-customBlueHover text-white py-2 rounded-lg transition-all duration-300 text-sm mb-3" 
                   (click)="loginWithGoogle()" [disabled]="loading">
             Iniciar Sesión con Google
           </button>
@@ -30,6 +30,30 @@
           <button class="w-1/2 bg-customBlue hover:bg-customBlueHover text-white py-2 rounded-lg transition-all duration-300 text-sm" 
                   (click)="loginWithMicrosoft()" [disabled]="loading">
             Iniciar Sesión con Microsoft
+          </button-->
+
+          <div class="login">
+            <label for="email">Email: </label>
+            <input class="input" type="text" id="email" formControlName="email" />
+
+            <label for="password">Contraseña: </label>
+            <input class="input" type="password" id="password" formControlName="password" />
+          </div>
+
+          <button
+            class="w-1/2 bg-customBlue hover:bg-customBlueHover text-white py-2 rounded-lg transition-all duration-300 text-sm mb-3" 
+            (click)="loginWithEmail()"
+            [disabled]="loading"
+          >
+              Iniciar Sesión con Email
+          </button>
+
+          <button
+            class="w-1/2 bg-customBlue hover:bg-customBlueHover text-white py-2 rounded-lg transition-all duration-300 text-sm mb-3" 
+            routerLink="/register"
+            [disabled]="loading"
+          >
+              Registrate
           </button>
 
           <p *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-md mt-3 text-xs text-center" role="alert">

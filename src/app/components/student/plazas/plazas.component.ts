@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
@@ -35,16 +35,17 @@ export class PlazasComponent implements OnInit {
       if (user) {
         this.firestore.collection('users').doc(user.uid).get().subscribe(doc => {
           this.carreraUsuario = doc.get('career');
+          this.userName = doc.get('name') || user.displayName || 'Nombre no disponible';
           this.filtrarPlazas();
         });
       }
     });
 
-    this.authService.getCurrentUser().subscribe(user => {
-      if (user) {
-        this.userName = user.displayName || 'Nombre no disponible'; // Asumiendo que el nombre está en displayName
-      }
-    });
+    // this.authService.getCurrentUser().subscribe(user => {
+    //   if (user) {
+    //     this.userName = user.displayName || 'Nombre no disponible'; // Asumiendo que el nombre está en displayName
+    //   }
+    // });
 
     this.cargarCiclos();
 
@@ -60,8 +61,9 @@ export class PlazasComponent implements OnInit {
     });
 
     this.form = this.fb.group({
-      phone: ['', Validators.required],
-      academicCycle: ['', Validators.required],
+      phone: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(17), Validators.pattern(/^[+()0-9]*$/)]),
+      ci: new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(13)]),
+      academicCycle: new FormControl('', Validators.required),
     });
   }
 
@@ -97,9 +99,12 @@ export class PlazasComponent implements OnInit {
   }
 
   onSubmit(plazaID: string): void {
-    if (this.form.valid) {
+    if (this.form.valid) {   
       this.guardarDatos(plazaID);
       this.toggleModal(); // Cierra el modal tras guardar
+    } else {
+      this.errorMessage = 'Por favor, complete de manera correcta todos los campos.';
+      this.mostrarAlerta('error');
     }
   }
 
@@ -119,6 +124,7 @@ export class PlazasComponent implements OnInit {
           // Crear el objeto base de la postulación
           const postulacion = {
             id: postId,
+            userID: this.usuarioLogueado?.userID,
             ...formData,
             periodID: this.activePeriod ? this.activePeriod.id : null,
             plazaID: plazaID,
@@ -197,6 +203,6 @@ export class PlazasComponent implements OnInit {
     setTimeout(() => {
       this.showAlert = false;
       this.showError = false; // Oculta ambas alertas después de 4 segundos
-    }, 4000);
+    }, 1000);
   }
 }

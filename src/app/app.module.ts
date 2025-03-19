@@ -12,11 +12,15 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeModule } from './home/home.module';
 import { CoreModule } from './core/core.module';
+import { ActividadesComponent } from './components/admin/actividades/actividades.component';
+import { RegisterComponent } from './components/home/register/register.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    ActividadesComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

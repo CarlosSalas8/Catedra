@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-seguimiento',
@@ -24,12 +25,73 @@ export class SeguimientoComponent implements OnInit {
 
   selectedDocenteName: Observable<string> = of('');
 
+  selectedCareer: string = '';
+  order: 'asc' | 'desc' = 'asc';	
 
-  constructor(private firestore: AngularFirestore, private storage: AngularFireStorage) { }
+  searchTerm: string = '';
 
-  ngOnInit(): void {
-    this.directors$ = this.firestore.collection('directors').valueChanges();
+  careers: any[] = [];
+  user: any;
+
+
+  constructor(
+    private firestore: AngularFirestore,
+    private storage: AngularFireStorage,
+    private authService: AuthService
+  ) { }
+
+  async ngOnInit(): Promise<void> {
+    this.fetchData('careers');
+    
+    this.user = await this.authService.getCurrentUser5();
+
+    this.filterByCareer();
   }
+
+  // Filtro por carrera 
+  filterByCareer() {
+    this.directors$ = this.firestore.collection('directors', ref => {
+      // Si no es administrador, filtrar por la carrera del usuario
+      if (this.user.role !== 'admin') {
+        return ref.where('career', '==', this.user.career).orderBy('name', this.order);
+      }
+      
+      if (this.selectedCareer === '') {
+        return ref.orderBy('name', this.order);
+      }
+      
+      return ref.where('career', '==', this.selectedCareer).orderBy('name', this.order)
+    }).valueChanges();
+  }
+
+  sortDirectores() {
+    this.filterByCareer();
+  }
+
+  searchDirectors() {
+    this.directors$ = this.firestore.collection('directors', ref => {
+      // Si no es administrador, filtrar por la carrera del usuario
+      if (this.user.role !== 'admin') {
+        return ref.where('career', '==', this.user.career)
+                  .orderBy('name', this.order)
+                  .startAt(this.searchTerm)
+                  .endAt(this.searchTerm + '\uf8ff');
+      }
+      
+      if (this.selectedCareer === '') {
+        return ref.orderBy('name', this.order)
+                  .startAt(this.searchTerm)
+                  .endAt(this.searchTerm + '\uf8ff');
+      }
+      
+      return ref.where('career', '==', this.selectedCareer)
+                .orderBy('name', this.order)
+                .startAt(this.searchTerm)
+                .endAt(this.searchTerm + '\uf8ff');
+    }).valueChanges();
+  }
+
+      
 
   toggleDocentes(directorEmail: string) {
     if (this.selectedDirectorEmail === directorEmail) {
@@ -145,5 +207,30 @@ export class SeguimientoComponent implements OnInit {
 
   selectFile(fileUrl: string) {
     window.open(fileUrl, '_blank');
+  }
+
+  fetchData(collection: string): void {
+    this.firestore.collection(collection).snapshotChanges().subscribe((data: any) => {
+      let result = data.map((doc: any) => ({
+        id: doc.payload.doc.id,
+        ...doc.payload.doc.data()
+      }));
+
+      // if (collection === 'academicCycles') {
+      //   this.academicCycles = result.sort((a: { name: string; }, b: { name: string; }) => {
+      //     const numA = parseInt(a.name.replace(/\D/g, ''), 10);
+      //     const numB = parseInt(b.name.replace(/\D/g, ''), 10);
+      //     return numA - numB;
+      //   });
+      // } else 
+      if (collection === 'careers') {
+        this.careers = result;
+      } 
+      // else if (collection === 'faculties') {
+      //   this.faculties = result;
+      // } else if (collection === 'curriculums') {
+      //   this.curriculums = result;
+      // }
+    });
   }
 }

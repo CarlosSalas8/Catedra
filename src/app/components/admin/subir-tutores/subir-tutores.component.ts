@@ -3,6 +3,7 @@ import * as Papa from 'papaparse';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { PeriodoService } from 'src/app/services/periodo.service';
+import { LogIn } from 'lucide-angular';
 
 @Component({
   selector: 'app-subir-tutores',
@@ -70,10 +71,12 @@ export class SubirTutoresComponent implements OnInit {
 
   validateFormat(data: any[]): boolean {
     const requiredHeaders = ['email', 'name', 'career', 'role'];
-
+    
     for (const row of data) {
       for (const header of requiredHeaders) {
         if (!(header in row)) {
+          console.log(`Falta el campo ${header} en el archivo CSV`);
+          
           return false;
         }
       }
@@ -109,12 +112,23 @@ export class SubirTutoresComponent implements OnInit {
           director.id = docRef.ref.id;
           director.periodID = this.activePeriod.id;
           await docRef.set(director);
+
+          // Buscar el usuario por email
+          const userDoc = await this.firestore
+            .collection('users', ref => ref.where('email', '==', director.email))
+            .get()
+            .toPromise();
+
+          if (userDoc && !userDoc.empty) {
+            const userData = userDoc.docs[0].data() as { id: string; role: string; career: string; validated: boolean };
+            await this.firestore.collection('users').doc(userData.id).update({ role: 'director', periodID: this.activePeriod.id });	
+          }
         })
       );
       this.successMessage = 'Archivo CSV subido correctamente.';
     } catch (error) {
-      console.error('Error al subir datos a Firestore', error);
-      this.errorMessage = 'Error al subir datos a Firestore.';
+      console.error('Error al subir datos a la Base de Datos', error);
+      this.errorMessage = 'Error al subir datos a la Base de Datos.';
     } finally {
       this.isLoading = false;
     }

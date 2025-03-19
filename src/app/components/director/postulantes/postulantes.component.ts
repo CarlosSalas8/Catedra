@@ -17,6 +17,12 @@ export class PostulantesComponent implements OnInit {
   plaza: any | null = null;
   plazaID: string | null = null; // ID de la plaza seleccionada
 
+  activitys: any[] = [];
+  activePeriod: any | null = null;
+  usuario: any = null;
+  role: string | null = null;
+
+
   isSaving: { [key: string]: boolean } = {}; // Indica si se están guardando los datos
   saveMessage: string = ''; // Mensaje de estado para mostrar al usuario
 
@@ -24,12 +30,28 @@ export class PostulantesComponent implements OnInit {
     private firestore: AngularFirestore,
     private authService: AuthService,
     private route: ActivatedRoute,
+    public periodoService: PeriodoService
   ) {
 
   }
 
+  cargarActividadesPorEstudiante(assistant: string): void {
+    this.firestore.collection('activities', ref =>
+      ref.where('assistant', '==', assistant) // Ahora assistant tiene el nombre correcto
+    ).valueChanges().subscribe(data => {   
+      this.activitys = data;
+    });
+  }
+
   ngOnInit(): void {
 
+    this.authService.getCurrentUserRole().subscribe(role => {
+      this.role = role;  // Asumes que 'role' es el rol del usuario logueado
+    });
+
+    this.periodoService.activePeriod$.subscribe(period => {
+      this.activePeriod = period;
+    });
     // Capturar el ID de la plaza desde la ruta
     this.plazaID = this.route.snapshot.paramMap.get('id');
 
@@ -144,7 +166,4 @@ export class PostulantesComponent implements OnInit {
       });
     }
   }
-
-
-
 }

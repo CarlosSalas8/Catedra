@@ -18,7 +18,12 @@ export class ActividadesDocentesComponent {
   assistantName: string | null = null;
   usuario: any = null;
 
-  constructor(public periodoService: PeriodoService, private firestore: AngularFirestore, private route: ActivatedRoute, private authService: AuthService) { }
+  constructor(
+    public periodoService: PeriodoService,
+    private firestore: AngularFirestore,
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
 
@@ -57,8 +62,4 @@ export class ActividadesDocentesComponent {
       this.activitys = data;
     });
   }
-
-
-
-
 }

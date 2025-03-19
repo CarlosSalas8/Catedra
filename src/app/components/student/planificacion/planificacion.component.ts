@@ -28,13 +28,13 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, private firestore: AngularFirestore, private router: Router, public periodoService: PeriodoService, private authService: AuthService, private afAuth: AngularFireAuth) {
     this.form = this.fb.group({
-      nameTeacher: ['', Validators.required],
-      assistant: ['', Validators.required],
-      faculty: ['', Validators.required],
-      career: ['', Validators.required],
-      subject: ['', Validators.required],
-      parallel: ['', Validators.required],
-      modality: ['', Validators.required],
+      nameTeacher: new FormControl({value: '', disabled: true}, Validators.required),
+      assistant: new FormControl({value: '', disabled: true}, Validators.required),
+      faculty: new FormControl({value: '', disabled: true}, Validators.required),
+      career: new FormControl({value: '', disabled: true}, Validators.required),
+      subject: new FormControl({value: '', disabled: true}, Validators.required),
+      parallel: new FormControl({value: '', disabled: true}, Validators.required),
+      modality: new FormControl({value: '', disabled: true}, Validators.required),
       activities: this.fb.array([]), // Primer bimestre
       activitiesSegundo: this.fb.array([]), // Segundo bimestre
       activitiesRecuperacion: this.fb.array([]),  // Recuperación
@@ -221,9 +221,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       return;
     }
 
-    
-
-    const formData = this.form.value;
+    const formData = this.form.getRawValue();
     const nameTeacher = formData.nameTeacher;
     const assistant = formData.assistant;
 
@@ -235,8 +233,12 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       subject: formData.subject,
       parallel: formData.parallel,
       modality: formData.modality,
-      emailAssistant: this.userEmail
+      emailAssistant: this.userEmail,
+      plazaID: this.plazasDelUsuario[0].id
     };
+
+    console.log(nameTeacher);
+    
 
     try {
       // 🔹 Obtener el docente desde la colección 'teachers'
@@ -255,6 +257,7 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
       const teacherData = teacherDoc.data() as { email: string };
       generalData.emailTeacher = teacherData.email; // Guardar el email del docente
 
+      console.log(this.activePeriod.id);
       
 
       // 🔹 Consultar las actividades existentes en Firebase para evitar duplicación

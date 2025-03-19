@@ -10,11 +10,13 @@ import { HomeDocenteComponent } from '../components/docente/home-docente/home-do
 import { HomeDirectorComponent } from '../components/director/home-director/home-director.component';
 import { HomeAdminComponent } from '../components/admin/home-admin/home-admin.component';
 import { LoginComponent } from '../components/home/login/login.component';
+import { RegisterComponent } from '../components/home/register/register.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'carrera', component: CarreraComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'home-ayudante', component: HomeAyudanteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'student' } },
   { path: 'home-docente', component: HomeDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'teacher' }, },
   { path: 'home-director', component: HomeDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },

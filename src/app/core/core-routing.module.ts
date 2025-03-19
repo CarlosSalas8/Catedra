@@ -20,6 +20,7 @@ import { PostulantesComponent } from '../components/director/postulantes/postula
 import { SeguimientoDirectorComponent } from '../components/director/seguimiento-director/seguimiento-director.component';
 import { InformeDirectorComponent } from '../components/director/informe-director/informe-director.component';
 import { InformeComponent } from '../components/student/informe/informe.component';
+import { ActividadesComponent } from '../components/admin/actividades/actividades.component';
 
 const routes: Routes = [
 
@@ -39,10 +40,13 @@ const routes: Routes = [
 
 
 
-  { path: 'crear-plaza', component: CrearPlazaComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
-  { path: 'postulantes/:id', component: PostulantesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
-  { path: 'seguimiento-director', component: SeguimientoDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
+  { path: 'crear-plaza', component: CrearPlazaComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['director', 'admin'] } },
+  { path: 'postulantes/:id', component: PostulantesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['director', 'admin'] } },
+  { path: 'seguimiento-director', component: SeguimientoDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['director', 'admin'] } },
   { path: 'informe-director', component: InformeDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
+  { path: 'actividades/:idPlaza/:idAssistant', component: ActividadesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['admin', 'director'] }},
+  { path: 'actividades/:id/:assistant/validar/:actividadId', component: ValidarComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['admin', 'director'] } },
+
 
 
 

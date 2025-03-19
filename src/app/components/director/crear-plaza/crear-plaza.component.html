@@ -1,17 +1,10 @@
-<html lang="en">
+<div class="h-screen overflow-auto">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+  
+  <app-navbar-directors></app-navbar-directors>
 
-<body class="h-screen overflow-auto">
-
-  <app-navbar-directors> </app-navbar-directors>
-
-  <app-aside-directors> </app-aside-directors>
+  <app-aside-admin *ngIf="role == 'admin'"></app-aside-admin>
+  <app-aside-directors *ngIf="role == 'director'"> </app-aside-directors>
 
 
   <div class="p-4 sm:ml-20">
@@ -31,11 +24,38 @@
                 CREAR NUEVA PLAZA
               </button>
               <p class="text-gray-600 text-sm text-center sm:px-4 md:px-20 lg:px-80 py-3">
-                ¡Recuerda que como carrera se pueden postular hasta 3 plazas,<br> si requieres ingresar más plazas
+                ¡Recuerda que como carrera se pueden postular hasta 4 plazas,<br> si requieres ingresar más plazas
                 comunícate con <strong>Nuve Bruceño <br> </strong> <em>nlbriceno&commat;utpl.edu.ec</em>!
               </p>
 
             </div>
+
+            <!-- Filtro por carrera y ordenar en ascendente y descendente -->
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-4" *ngIf="role !== 'director'">
+              <label for="career" class="text-sm text-gray-700">Filtrar por carrera:</label>
+              <select [(ngModel)]="selectedCareer" (change)="cargarPlazas(email)" class="text-sm text-gray-700 border border-gray-300 rounded-md p-2">
+                <option value="">Todas</option>
+                <option *ngFor="let career of careers" [value]="career.name">{{ career.name }}</option>
+              </select>
+            </div>
+            <div class="flex items-center space-x-4">
+              <label for="orderSubject" class="text-sm text-gray-700">Ordenar Asignaturas:</label>
+              <select id="orderSubject" [(ngModel)]="orderSubject" (change)="sortPlazas()" class="text-sm text-gray-700 border border-gray-300 rounded-md p-2">
+                <option value="asc">Ascendente</option>
+                <option value="desc">Descendente</option>
+              </select>
+            </div>
+            <div class="flex items-center space-x-4">
+              <label for="orderTeachers" class="text-sm text-gray-700">Ordenar Docentes:</label>
+              <select id="orderTeachers" [(ngModel)]="orderDocentes" (change)="sortDocentes()" class="text-sm text-gray-700 border border-gray-300 rounded-md p-2">
+                <option value="asc">Ascendente</option>
+                <option value="desc">Descendente</option>
+              </select>
+            </div>
+          </div>
+
+            
             <table class="w-full text-sm text-left text-gray-500 mt-8">
               <thead class="text-xs text-black uppercase bg-gray-50">
                 <tr>
@@ -110,28 +130,28 @@
           <!-- Subject -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Asignatura</label>
-            <input formControlName="subject" type="text" placeholder="ARQUITECTURA DE SOFTWARE"
+            <input formControlName="subject" type="text" placeholder="Nombre de la asignatura"
               class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
           <!-- teacher -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Docente</label>
-            <input formControlName="nameTeacher" type="text" placeholder="Carlos Salas"
+            <input formControlName="nameTeacher" type="text" placeholder="Nombre y apellido completo"
               class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
           <!-- Correo del teacher -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Correo de docente</label>
-            <input formControlName="emailTeacher" type="emailTeacher" placeholder="casalas@utpl.edu.ec"
+            <input formControlName="emailTeacher" type="emailTeacher" placeholder="Correo institucional UTPL"
               class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
           <!-- Paralelo -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Paralelo</label>
-            <input formControlName="parallel" type="text" placeholder="A"
+            <input formControlName="parallel" type="text" placeholder="Paralelo de la asignatura"
               class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
           </div>
 
@@ -174,17 +194,33 @@
     </div>
   </div>
 
+  <div *ngIf="showAlert" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div
+      class="bg-green-100 border border-green-300 p-6 rounded-3xl shadow-xl max-w-md mx-auto flex items-center space-x-4">
+      <svg class="w-8 h-8 text-green-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+      <div>
+        <strong class="font-semibold text-green-700 text-lg">¡Éxito!</strong>
+        <p class="text-black">La postulación se guardó correctamente.</p>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div *ngIf="showError" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div
+      class="bg-red-100 border border-red-300 p-6 rounded-3xl shadow-xl max-w-md mx-auto flex items-center space-x-4">
+      <svg class="w-8 h-8 text-red-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+      <div>
+        <strong class="font-semibold text-red-700 text-lg">Error:</strong>
+        <p class="text-black">{{ errorMessage }}</p>
+      </div>
+    </div>
+  </div>
 
-
-
-
-
-
-
-
-
-
-
-</body>
-
-</html>
+</div>
