@@ -1,0 +1,102 @@
+
+<div class="h-screen overflow-auto">
+
+  <app-navbar-admin *ngIf="role == 'admin'"> </app-navbar-admin>
+  <app-aside-directors *ngIf="role == 'director'"> </app-aside-directors>
+
+  <app-aside-admin *ngIf="role == 'admin'"> </app-aside-admin>
+  <app-aside-directors *ngIf="role == 'director'"> </app-aside-directors>
+
+
+  <div class="p-4 sm:ml-20">
+    <div class="p-4 mt-14">
+      <div class="flex items-center justify-center h-48 rounded relative">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="flex flex-col items-center justify-center px-4">
+            <img src="/assets/images0.png" alt="Imagen" class="inset-0 m-auto object-cover rounded w-2/12" />
+            <p class="text-xl text-gray-950 text-center mt-4 font-bold leading-relaxed">
+              UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA<br>
+              PRESENTACIÓN DE PLANIFICACIÓN AYUDANTE DE CÁTEDRA<br>
+              PERIODO {{ activePeriod?.name || 'PERÍODO' }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-10">
+        <h2 class="text-2xl mb-2">Detalles del Docente</h2><br>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden" *ngIf="activities.length > 0">
+          <table class="min-w-full divide-y divide-gray-200">
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Nombres y Apellidos del Docente Tutor:</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activities[0].nameTeacher }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Nombres y Apellidos del Estudiante Tutor:</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activities[0].assistant }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Facultad</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activities[0].faculty }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Carrera</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activities[0].career }}</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Asignatura</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activities[0].subject }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <button *ngIf="role === 'admin'" class="ml-2 p-2 bg-blue-500 text-white rounded">
+        Aprobar
+      </button>
+
+      <div *ngIf="activities.length > 0" class="mt-10">
+        <h2 class="text-2xl mb-2">Actividades</h2><br>
+        <div
+          class="container mx-auto p-3 bg-white overflow-hidden flex flex-col justify-center max-h-full shadow-md sm:rounded-lg">
+          <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500">
+              <thead class="text-xs text-black uppercase bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3">Actividades a realizar</th>
+                  <th class="px-6 py-3">Fecha de inicio</th>
+                  <th class="px-6 py-3">Fecha de fin</th>
+                  <th class="px-6 py-3">Medio de verificación</th>
+                  <th class="px-6 py-3">Estado</th>
+                  <th class="px-6 py-3">Evidencia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let activity of activities" class="bg-white border-b hover:bg-gray-50">
+                  <td class="px-6 py-4 truncate">{{ activity.activity }}</td>
+                  <td class="px-6 py-4">{{ activity.startdate }}</td>
+                  <td class="px-6 py-4">{{ activity.enddate }}</td>
+                  <td class="px-6 py-4">{{ activity.verificationmethod }}</td>
+                  <td class="px-6 py-4">
+                    <span *ngIf="activity.validated === true" 
+                          class="block w-4 h-4 bg-green-500 rounded-full"></span>
+                    <span *ngIf="activity.validated === false" 
+                          class="block w-4 h-4 bg-gray-500 rounded-full"></span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <a [routerLink]="['/actividades',assistantID,assistantName, 'validar', activity.id]"
+                        class="text-customBlueHover hover:underline">Ingresar</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="activities.length === 0" class="mt-10">
+        <h2 class="text-2xl mb-2">No hay actividades para este docente</h2>
+      </div>
+
+    </div>
+  </div>
+</div>
