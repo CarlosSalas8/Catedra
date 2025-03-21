@@ -70,12 +70,12 @@
 
       <div class="mb-6">
         <label for="academicCycle" class="block text-sm text-center text-gray-700 font-medium mb-2">
-          Selecciona tu ciclo académico para el periodo Abril - Agosto 2025
+          Selecciona tu ciclo académico para el periodo {{ activePeriod.name }}
         </label>
         <select id="academicCycle" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700"
             formControlName="academicCycle">
             
-          <option disabled selected>Selecciona un ciclo</option>
+          <option value="" disabled selected>Selecciona un ciclo</option>
           <option *ngFor="let academicCycle of academicCycles" [value]="academicCycle">{{ academicCycle }}</option>
         </select>
       </div>
@@ -84,7 +84,6 @@
           class="bg-gray-300 text-customBlue py-3 px-8 rounded-lg">Cancelar</button>
         <button type="submit" class="bg-customBlue text-white py-3 px-11 rounded-lg">Enviar</button>
       </div>
-
     </form>
   </div>
 </div>

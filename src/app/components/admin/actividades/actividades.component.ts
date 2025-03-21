@@ -15,21 +15,21 @@ export class ActividadesComponent {
   assistantID: string | null = null;
   activePeriod: any | null = null;
   assistantName: string | null = null;
-  role: any = null;
+  user!: any;
+  role!: string;
+  showAlertNoApproved: boolean = false;
 
   constructor(
     public periodoService: PeriodoService,
     private firestore: AngularFirestore,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
   ) { }
 
-  ngOnInit(): void {
-    console.log();
-    
-    this.authService.getCurrentUserRole().subscribe(role => {
-      this.role = role;  // Asumes que 'role' es el rol del usuario logueado
-    });
+  async ngOnInit(): Promise<void> {
+    this.user = await this.authService.getCurrentUser5()
+
+    this.role = this.user.role;
 
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
@@ -51,9 +51,30 @@ export class ActividadesComponent {
       ref.where('emailAssistant', '==', emailAssistant)
       // .where('plazaID', '==', 'approved')
     ).valueChanges().subscribe(data => {
-      console.log(data);
         
       this.activities = data;
     });
+  }
+
+  aprobarEstudiante(activity: any): void {
+    // Validar que todas las actividades estén aprobadas
+    const allApproved = this.activities.every((act: any) => act.validate === true);
+    if (!allApproved) {
+      this.toggleNoApprovedAlert();
+      return;
+    }
+    
+    // Obtener las personas que aprobaron al estudiante
+    this.firestore.collection('postulant', ref => ref.where('plazaID', '==', activity.plazaID)).valueChanges().subscribe((data: any) => {
+      const postulant = data[0];
+      const approvedBy = postulant.approvedBy || [];
+      approvedBy.push(this.user.name);
+
+      this.firestore.collection('postulant').doc(postulant.id).update({ state: 'approved', approvedBy: approvedBy });
+    });
+  }
+
+  toggleNoApprovedAlert(): void {
+    this.showAlertNoApproved = !this.showAlertNoApproved;
   }
 }

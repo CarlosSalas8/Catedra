@@ -34,6 +34,7 @@ export class CrearPlazaComponent implements OnInit {
 
   showAlert: boolean = false;
   showError: boolean = false;
+  showAlertDelete: boolean = false;
   errorMessage: string = '';
 
   constructor(
@@ -314,15 +315,21 @@ export class CrearPlazaComponent implements OnInit {
 
 
   eliminarPlaza(id: string): void {
+    if (!confirm('¿Estás seguro de eliminar esta plaza?')) return; // Si el usuario cancela,
+    
     this.firestore
       .collection('plazas')
       .doc(id)
       .delete()
-      .then(() => {
-        
+      .then(() => {  
       })
       .catch((error) => {
         console.error('Error al eliminar la plaza:', error);
+        alert('Error al eliminar la plaza.');
+      })
+      .finally(() => {
+        this.toggleAlertDelete();
+        alert('Plaza eliminada correctamente.');
       });
   }
 
@@ -364,5 +371,9 @@ export class CrearPlazaComponent implements OnInit {
       //   this.curriculums = result;
       // }
     });
+  }
+
+  toggleAlertDelete(): void {
+    this.showAlertDelete = !this.showAlertDelete;
   }
 }

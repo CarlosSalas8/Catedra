@@ -217,6 +217,8 @@ export class LoginComponent implements OnInit {
 
     const { email, password } = this.loginForm.value;
 
+    console.log(email, password);
+
     this.authService.loginWithEmail(email, password).then(
       async (user) => {
         if (!user) {
@@ -234,6 +236,9 @@ export class LoginComponent implements OnInit {
                 this.loading = false;
                 return;
               }
+
+              console.log(user.uid);
+              
               const userDoc = await this.firestore.collection('users').doc(user.uid).get().toPromise();
 
               if (userDoc?.exists) {

@@ -61,8 +61,8 @@ export class PlazasComponent implements OnInit {
     });
 
     this.form = this.fb.group({
-      phone: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(17), Validators.pattern(/^[+()0-9]*$/)]),
-      ci: new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(13)]),
+      phone: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(21), Validators.pattern(/^[+()0-9]*$/)]),
+      ci: new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(13)]),
       academicCycle: new FormControl('', Validators.required),
     });
   }
@@ -116,10 +116,20 @@ export class PlazasComponent implements OnInit {
       this.firestore.collection('postulant', ref =>
         ref.where('plazaID', '==', plazaID)
           .where('usuario.userID', '==', this.usuarioLogueado?.userID)
-      ).get().subscribe(querySnapshot => {
+      ).get().subscribe(async querySnapshot => {
         if (querySnapshot.empty) {
           // Generar un nuevo ID para la postulación
           const postId = this.firestore.createId();
+
+          let plaza: any;
+
+          // Obtener los datos de la plaza seleccionada
+          const plazaDoc = await this.firestore.collection('plazas').doc(plazaID).get().toPromise();
+
+          if (plazaDoc!.exists) {
+            plaza = plazaDoc!.data();
+          }
+          
 
           // Crear el objeto base de la postulación
           const postulacion = {
@@ -128,6 +138,17 @@ export class PlazasComponent implements OnInit {
             ...formData,
             periodID: this.activePeriod ? this.activePeriod.id : null,
             plazaID: plazaID,
+            career: plaza!.career || null,
+            curriculum: plaza!.curriculum || null,
+            directorsId: plaza!.directorsId || null,
+            directorsName: plaza!.directorsName || null,
+            emailDirector: plaza!.emailDirector || null,
+            emailTeacher: plaza!.emailTeacher || null,
+            faculty: plaza!.faculty || null,
+            subject: plaza!.subject || null,
+            nameTeacher: plaza!.nameTeacher || null,
+            modality: plaza!.modality || null,
+            parallel: plaza!.parallel || null,
           };
 
           // Recuperar información completa del usuario

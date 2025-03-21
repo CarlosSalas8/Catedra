@@ -15,7 +15,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
   styleUrls: ['./planificacion.component.css']
 })
 export class PlanificacionComponent implements OnInit, OnDestroy {
-
   form: FormGroup;
   activePeriod: any | null = null;
   showPeriodInput: boolean = false;
@@ -45,7 +44,6 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
-      
     });
 
     // Obtener el usuario logueado
@@ -67,7 +65,6 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
         this.activitiesLoaded = true;  // Evita cargar las actividades más de una vez
       });
     }
-
   }
 
   setActivities(activities: any[]): void {

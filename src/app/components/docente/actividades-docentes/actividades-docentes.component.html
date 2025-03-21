@@ -21,27 +21,27 @@
       </div>
       <div class="mt-10">
         <h2 class="text-2xl mb-2">Detalles del Docente</h2><br>
-        <div class="bg-white shadow-md rounded-lg overflow-hidden" *ngIf="activitys.length > 0">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden" *ngIf="activities.length > 0">
           <table class="min-w-full divide-y divide-gray-200">
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Nombre y apellido del docente tutor:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ activitys[0].nameTeacher }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activities[0].nameTeacher }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Nombre y apellido del estudiante tutor:</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ activitys[0].assistant }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activities[0].assistant }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Facultad</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ activitys[0].faculty }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activities[0].faculty }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Carrera</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ activitys[0].career }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activities[0].career }}</td>
             </tr>
             <tr>
               <td class="px-4 py-2 whitespace-nowrap"><strong>Asignatura</strong></td>
-              <td class="px-4 py-2 whitespace-nowrap">{{ activitys[0].subject }}</td>
+              <td class="px-4 py-2 whitespace-nowrap">{{ activities[0].subject }}</td>
             </tr>
           </table>
         </div>
@@ -50,8 +50,13 @@
       <button *ngIf="usuario === 'teacher'" class="ml-2 p-2 bg-blue-500 text-white rounded">
         Aprobar
       </button>
+      <div class="flex justify-center mt-4">
+        <button *ngIf="role === 'admin'" (click)="aprobarEstudiante(activities[0])" class="p-2 bg-blue-500 text-white rounded">
+          Aprobar
+        </button>
+      </div>
 
-      <div *ngIf="activitys.length > 0" class="mt-10">
+      <div *ngIf="activities.length > 0" class="mt-10">
         <h2 class="text-2xl mb-2">Actividades</h2><br>
         <div
           class="container mx-auto p-3 bg-white overflow-hidden flex flex-col justify-center max-h-full shadow-md sm:rounded-lg">
@@ -68,7 +73,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let activity of activitys" class="bg-white border-b hover:bg-gray-50">
+                <tr *ngFor="let activity of activities" class="bg-white border-b hover:bg-gray-50">
                   <td class="px-6 py-4 truncate">{{ activity.activity }}</td>
                   <td class="px-6 py-4">{{ activity.startdate }}</td>
                   <td class="px-6 py-4">{{ activity.enddate }}</td>
@@ -90,16 +95,9 @@
         </div>
       </div>
 
-      <div *ngIf="activitys.length === 0" class="mt-10">
+      <div *ngIf="activities.length === 0" class="mt-10">
         <h2 class="text-2xl mb-2">No hay actividades para este docente</h2>
       </div>
-
-
-
-
-
-
-
     </div>
   </div>
 </div>

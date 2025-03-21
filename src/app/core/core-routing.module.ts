@@ -21,6 +21,7 @@ import { SeguimientoDirectorComponent } from '../components/director/seguimiento
 import { InformeDirectorComponent } from '../components/director/informe-director/informe-director.component';
 import { InformeComponent } from '../components/student/informe/informe.component';
 import { ActividadesComponent } from '../components/admin/actividades/actividades.component';
+import { ListadoEstudiantesComponent } from '../components/docente/listado-estudiantes/listado-estudiantes.component';
 
 const routes: Routes = [
 
@@ -36,28 +37,26 @@ const routes: Routes = [
   { path: 'seguimiento-docente', component: SeguimientoDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'teacher' } },
   { path: 'actividades-docentes/:id/:assistant', component: ActividadesDocentesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'teacher' } },
   { path: 'actividades-docentes/:id/:assistant/validar/:actividadId', component: ValidarComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'teacher' } },
-  { path: 'informe-docente', component: InformeDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'teacher' } },
+  { path: 'informe-docente', component: ListadoEstudiantesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'teacher' } },
+  { path: 'informe-docente/:id', component: InformeDocenteComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'teacher' } },
 
 
 
   { path: 'crear-plaza', component: CrearPlazaComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['director', 'admin'] } },
   { path: 'postulantes/:id', component: PostulantesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['director', 'admin'] } },
   { path: 'seguimiento-director', component: SeguimientoDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['director', 'admin'] } },
-  { path: 'informe-director', component: InformeDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
+  { path: 'informe-director', component: ListadoEstudiantesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
+  { path: 'informe-director/:id', component: InformeDirectorComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'director' } },
   { path: 'actividades/:idPlaza/:idAssistant', component: ActividadesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['admin', 'director'] }},
   { path: 'actividades/:id/:assistant/validar/:actividadId', component: ValidarComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: ['admin', 'director'] } },
-
 
 
 
   { path: 'seguimiento', component: SeguimientoComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
   { path: 'subir-tutores', component: SubirTutoresComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
   { path: 'submit', component: SubmitComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
-  { path: 'informe-admin', component: InformeAdminComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
-
-
-
-
+  { path: 'informe-admin', component: ListadoEstudiantesComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
+  { path: 'informe-admin/:id', component: InformeAdminComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } },
 ];
 
 @NgModule({

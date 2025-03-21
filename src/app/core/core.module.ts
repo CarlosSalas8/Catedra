@@ -21,6 +21,7 @@ import { CrearPlazaComponent } from '../components/director/crear-plaza/crear-pl
 import { PostulantesComponent } from '../components/director/postulantes/postulantes.component';
 import { SeguimientoDirectorComponent } from '../components/director/seguimiento-director/seguimiento-director.component';
 import { InformeDirectorComponent } from '../components/director/informe-director/informe-director.component';
+import { ListadoEstudiantesComponent } from '../components/docente/listado-estudiantes/listado-estudiantes.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { InformeDirectorComponent } from '../components/director/informe-directo
     CrearPlazaComponent,
     PostulantesComponent,
     SeguimientoDirectorComponent,
-    InformeDirectorComponent
+    InformeDirectorComponent,
+    ListadoEstudiantesComponent
   ],
   imports: [
     CommonModule,

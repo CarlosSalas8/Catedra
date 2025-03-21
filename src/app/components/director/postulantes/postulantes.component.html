@@ -1,14 +1,14 @@
 <div class="h-screen overflow-auto">
-
-  <app-navbar-directors> </app-navbar-directors>
+  <app-navbar-directors *ngIf="role == 'director'"> </app-navbar-directors>
+  <app-navbar-directors *ngIf="role == 'admin'"> </app-navbar-directors>
 
   <app-aside-admin *ngIf="role == 'admin'"></app-aside-admin>
   <app-aside-directors *ngIf="role == 'director'"> </app-aside-directors>
 
-  <div class="p-4 sm:ml-20">
+  <div *ngIf="plaza" class="p-2 sm:ml-20">
     <div class="p-4 mt-14">
-      <div class="flex flex-col items-center justify-center h-full w-full">
-        <div class="container mx-auto bg-white flex flex-col justify-center">
+      <div class="inline-flex flex-col items-center justify-center h-full w-full px-8">
+        <div class="bg-white block flex-col justify-center w-full">
           <h1 class="text-black text-center font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
             PLAZAS 
           </h1>
@@ -21,28 +21,28 @@
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
               <table class="min-w-full divide-y divide-gray-200">
                 <tr>
-                  <td class="px-4 py-2 whitespace-nowrap"><strong>Docente</strong></td>
-                  <td class="px-4 py-2 whitespace-nowrap">{{ plaza.nameTeacher }}</td>
+                  <td class="px-2 py-2 whitespace-nowrap"><strong>Docente</strong></td>
+                  <td class="px-2 py-2 whitespace-nowrap">{{ plaza.nameTeacher }}</td>
                 </tr>
                 <tr>
-                  <td class="px-4 py-2 whitespace-nowrap"><strong>Asignatura</strong></td>
-                  <td class="px-4 py-2 whitespace-nowrap">{{ plaza.subject }}</td>
+                  <td class="px-2 py-2 whitespace-nowrap"><strong>Asignatura</strong></td>
+                  <td class="px-2 py-2 whitespace-nowrap">{{ plaza.subject }}</td>
                 </tr>
                 <tr>
-                  <td class="px-4 py-2 whitespace-nowrap"><strong>Malla curricular</strong></td>
-                  <td class="px-4 py-2 whitespace-nowrap">{{ plaza.curriculum }}</td>
+                  <td class="px-2 py-2 whitespace-nowrap"><strong>Malla curricular</strong></td>
+                  <td class="px-2 py-2 whitespace-nowrap">{{ plaza.curriculum }}</td>
                 </tr>
                 <tr>
-                  <td class="px-4 py-2 whitespace-nowrap"><strong>Ciclo requerido</strong></td>
-                  <td class="px-4 py-2 whitespace-nowrap">{{ plaza.academicCycle }}</td>
+                  <td class="px-2 py-2 whitespace-nowrap"><strong>Ciclo requerido</strong></td>
+                  <td class="px-2 py-2 whitespace-nowrap">{{ plaza.academicCycle }}</td>
                 </tr>
                 <tr>
-                  <td class="px-4 py-2 whitespace-nowrap"><strong>Paralelo</strong></td>
-                  <td class="px-4 py-2 whitespace-nowrap">{{ plaza.parallel }}</td>
+                  <td class="px-2 py-2 whitespace-nowrap"><strong>Paralelo</strong></td>
+                  <td class="px-2 py-2 whitespace-nowrap">{{ plaza.parallel }}</td>
                 </tr>
                 <tr>
-                  <td class="px-4 py-2 whitespace-nowrap"><strong>Postulantes</strong></td>
-                  <td class="px-4 py-2 whitespace-nowrap">{{ plaza.postulant.length }}</td>
+                  <td class="px-2 py-2 whitespace-nowrap"><strong>Postulantes</strong></td>
+                  <td class="px-2 py-2 whitespace-nowrap">{{ plaza.postulant.length }}</td>
                 </tr>
               </table>
             </div>
@@ -60,47 +60,58 @@
             <table class="w-full text-sm text-left text-gray-500 mt-8">
               <thead class="text-xs text-black uppercase bg-gray-50">
                 <tr>
-                  <th class="px-2 sm:px-4 md:px-6 py-3">Nombre de postulantes</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3">Correo</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3">Carrera</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3">Ciclo Académico</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3">Número de teléfono</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3" *ngIf="role == 'director' || role == 'admin'">Calificación de la asignatura</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3" *ngIf="role == 'director' || role == 'admin'">Calificación del ciclo espejo</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3" *ngIf="role == 'director'">Guardar Calificaciones</th>
+                  <th class="px-2 py-4">Nombre del postulante</th>
+                  <th class="px-2 py-4">Correo</th>
+                  <th class="px-2 py-4">Cédula</th>
+                  <th class="px-2 py-4">Carrera</th>
+                  <th class="px-2 py-4">Ciclo Académico</th>
+                  <th class="px-2 py-4">Número de teléfono</th>
+                  <th class="px-2 py-4" *ngIf="role == 'director' || role == 'admin'">Calificación de la asignatura</th>
+                  <th class="px-2 py-4" *ngIf="role == 'director' || role == 'admin'">Calificación del ciclo espejo</th>
+                  <th class="px-2 py-4" >Observaciones</th>
+                  <th class="px-2 py-4" *ngIf="role == 'director'">Guardar Calificaciones</th>
                   <!-- th class="px-2 sm:px-4 md:px-6 py-3">Solicitar Entrevista</th -->
-                  <th class="px-2 sm:px-4 md:px-6 py-3">SELECCIÓN DE POSTULANTES</th>
-                  <th class="px-2 sm:px-4 md:px-6 py-3 text-center">Estado</th>
-
-                  
+                  <th class="px-2 py-4">SELECCIÓN DE POSTULANTES</th>
+                  <th class="px-2 py-4">Estado</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let postulante of postulant">
                   <!-- Información de la plaza -->
-                  <td class="px-6 py-4">{{ postulante.usuario?.name }}</td>
-                  <td class="px-6 py-4">{{ postulante.usuario?.email }}</td>
-                  <td class="px-6 py-4">{{ plaza?.career }}</td>
+                  <td class="px-2 py-4">{{ postulante.usuario?.name }}</td>
+                  <td class="px-2 py-4">{{ postulante.usuario?.email }}</td>
+                  <td class="px-2 py-4">{{ postulante.ci }}</td>
+                  <td class="px-2 py-4">{{ plaza?.career }}</td>
                   <!-- Información del postulante -->
-                  <td class="px-6 py-4">{{ postulante.academicCycle }}</td>
-                  <td class="px-6 py-4">{{ postulante.phone }}</td>
-                  <td class="px-6 py-4" *ngIf="role == 'director' || role == 'admin'">
-                    <input type="number"  
+                  <td class="px-2 py-4">{{ postulante.academicCycle }}</td>
+                  <td class="px-2 py-4">{{ postulante.phone }}</td>
+                  <td class="px-2 py-4" *ngIf="role == 'director' || role == 'admin'">
+                    <input 
+                      type="number"  
                       [(ngModel)]="postulante.qualificationCycle" placeholder="Calif. Ciclo"
-                      class="border p-1 rounded-lg w-14"  
+                      class="border p-1 rounded-lg w-14"
+                      [disabled]="role == 'admin'"
                     >
                   </td>
-                  <td class="px-6 py-4" *ngIf="role == 'director' || role == 'admin'">
-                    <input type="number"
+                  <td class="px-2 py-4" *ngIf="role == 'director' || role == 'admin'">
+                    <input 
+                      type="number"
                       [(ngModel)]="postulante.qualificationMirror" placeholder="Calif. Espejo"
                       class="border p-1 rounded-lg w-14"
+                      [disabled]="role == 'admin'"
                     >
                   </td>
 
+                  <td class="px-2 py-4">
+                    <textarea type="text" [(ngModel)]="postulante.observations" placeholder="Observaciones"
+                      class="border p-1 rounded-lg w-32" [disabled]="role == 'admin'"></textarea>
+                  </td>
+
                   <!-- Botón para guardar cambios -->
-                  <td class="px-6 py-4" *ngIf="role == 'director'">
+                  <td class="px-2 py-4" *ngIf="role == 'director'">
                     <div class="text-right mt-4 flex items-center justify-end">
-                      <button (click)="guardarCambios(postulante)" [disabled]="isSaving[postulante.id]"
+                      <button (click)="guardarCambios(postulante)" [disabled]="isSaving[postulante.id] || postulante.havePlaza && !postulante.validated"
+                        [ngClass]="{'bg-gray-300 cursor-not-allowed': isSaving[postulante.id] || postulante.havePlaza && !postulante.validated}"
                         class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">
                         <span *ngIf="!isSaving[postulante.id]">Guardar Cambios</span>
                         <span *ngIf="isSaving[postulante.id]">Guardando...</span>
@@ -119,25 +130,42 @@
                   </td -->
 
                   <!-- Botones de Acción (Aceptar/Rechazar) en una sola celda -->
-                  <td class="px-6 py-4 flex space-x-2">
-                    <button (click)="validatePostulant(true, postulante.id)"
-                      class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">Aceptar</button>
-                    <button (click)="validatePostulant(false, postulante.id)"
-                      class="bg-customBlue text-white px-4 py-2 hover:bg-customBlueHover rounded-lg">Rechazar</button>
+                  <td class="px-4 py-4 flex flex-col gap-2 w-full" *ngIf="!postulante.havePlaza || postulante.validated">
+                    <button 
+                      (click)="validatePostulant(true, postulante.id)"
+                      class="bg-customBlue text-white px-1 py-1 hover:bg-customBlueHover rounded-lg"
+                    >
+                      Aceptar
+                    </button>
+                    <button 
+                      (click)="validatePostulant(false, postulante.id)"
+                      class="bg-customBlue text-white px-1 py-1 hover:bg-customBlueHover rounded-lg"
+                    >
+                      Rechazar
+                    </button>
                   </td>
 
-                  <td class="px-6 py-4 text-center">
+                  
+                  <td class="px-4 py-4 flex space-x-2" *ngIf="postulante.havePlaza && !postulante.validated">
                     <span 
-                      [ngClass]="{
-                        'bg-green-200 text-green-800': postulante.validated === true,
-                        'bg-red-200 text-red-800': postulante.validated === false
-                      }"
-                      class="px-4 py-2 rounded-lg font-semibold"
+                      class="px-2 py-2 rounded-lg font-semibold"
                     >
-                      {{ postulante.validated === true ? 'Aceptado' : (postulante.validated === false ? 'Rechazado' : 'PENDIENTE') }}
+                      {{ postulante.validated === true ? 'Aceptado' : (postulante.validated === false ? 'Rechazado' : postulante.havePlaza ? "TIENE PLAZA ASIGNADA" : "PENDIENTE") }}
                     </span>
                   </td>
 
+                  <td class="px-4 py-4 text-center">
+                    <span 
+                      [ngClass]="{
+                        'bg-green-200 text-green-800': postulante.validated === true,
+                        'bg-red-200 text-red-800': postulante.validated === false,
+                        'bg-yellow-200 text-yellow-800': postulante.havePlaza && !postulante.validated,
+                      }"
+                      class="px-2 py-2 rounded-lg font-semibold"
+                    >
+                      {{ postulante.validated === true ? 'Aceptado' : (postulante.validated === false ? 'Rechazado' : postulante.havePlaza ? "Asignado" : "PENDIENTE") }}
+                    </span>
+                  </td>
                 </tr>
               </tbody>
             </table>

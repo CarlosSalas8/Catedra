@@ -1,139 +1,194 @@
-<!DOCTYPE html>
-<html lang="es">
+<app-navbar-admin> </app-navbar-admin>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desarrollo de Informe y Evaluación</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+<app-aside-admin> </app-aside-admin>
 
-<body>
-    <app-navbar-admin> </app-navbar-admin>
+<main class="ml-16 mt-16 p-6">
+    <div class="bg-white font-['Inter']">
+        <!-- Título Principal -->
+        <h1 class="text-center text-lg font-semibold mb-6">DESARROLLO DE INFORME Y EVALUACIÓN</h1>
 
-    <app-aside-admin> </app-aside-admin>
+        <!-- Primera Sección -->
+        <div class="bg-[#fff9e5] p-6 rounded-lg mb-8">
+            <p class="text-sm text-center mb-4">
+                En la siguiente sección se encuentra el informe de Ayudante de Cátedra y la Evaluación del Becario
+                de Responsabilidad Universitaria (BRU) Ayudante de Cátedra Modalidad Presencial
+            </p>
 
-    <main class="ml-16 mt-16 p-6">
-        <div class="bg-white font-['Inter']">
-            <!-- Título Principal -->
-            <h1 class="text-center text-lg font-semibold mb-6">DESARROLLO DE INFORME Y EVALUACIÓN</h1>
+            <h2 class="text-center font-semibold mb-4">INFORME DE AYUDANTE DE CÁTEDRA</h2>
 
-            <!-- Primera Sección -->
-            <div class="bg-[#fff9e5] p-6 rounded-lg mb-8">
-                <p class="text-sm text-center mb-4">
-                    En la siguiente sección se encuentra el informe de Ayudante de Cátedra y la Evaluación del Becario
-                    de Responsabilidad Universitaria (BRU) Ayudante de Cátedra Modalidad Presencial
-                </p>
+            <ul class="list-disc text-sm space-y-2 mb-6 mx-8">
+                <li>
+                    El estudiante debe descargar el formato adjunto y generar su informe a partir del mismo. Una vez
+                    completado, se debe firmar por parte del docente encargado de la ayudantía y el estudiante
+                    ayudante de cátedra en la sección correspondiente.
+                </li>
+                <li>Una vez firmado y validado, se debe cargar en el sistema.</li>
+            </ul>
 
-                <h2 class="text-center font-semibold mb-4">INFORME DE AYUDANTE DE CÁTEDRA</h2>
-
-                <ul class="list-disc text-sm space-y-2 mb-6 mx-8">
-                    <li>El estudiante debe descargar el formato adjunto y generar su informe a partir del mismo. Una vez
-                        completado, se debe firmar por parte del docente encargado de la ayudantía y el estudiante
-                        ayudante de cátedra en la sección correspondiente.</li>
-                    <li>Una vez firmado y validado, se debe cargar en el sistema.</li>
-                </ul>
-
-                <div class="max-w-md mx-auto mb-6">
-                    <!-- Botón de Descarga -->
+            <div class="max-w-md mx-auto mb-6">
+                <!-- Botón de Descarga -->
+                <div class="grid md:grid-flow-row gap-6 justify-center">
+                    <!-- Botón Descargar -->
                     <div class="border border-slate-400 rounded-lg p-4 text-center">
-                        <p class="font-semibold mb-2">DESCARGAR INFORME DE AYUDANTE DE CÁTEDRA
-                        </p>
-                        <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                        <p class="font-semibold mb-2">DESCARGAR EL INFORME DE AYUDANTE DE CÁTEDRA</p>
+                        <a 
+                            class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2 inline-block"
+                            *ngIf="postulation && postulation.informe && postulation.informe.url else noInforme"
+                            target="_blank"
+                            [href]="postulation.informe.url"
+                        >
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                             </svg>
-                        </button>
+                        </a>
+    
+                        <ng-template #noInforme>
+                            <p><b>PENDIENTE</b></p>
+                        </ng-template>
+                        <p
+                            *ngIf="postulation && postulation.informe && postulation.informe.date"
+                        >
+                            <small><b>Fecha de Carga: {{ postulation.informe.date.toDate() | date: 'dd/MM/yyyy' }}</b></small>
+                        </p>
                         <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
                     </div>
-
-
-                    <!-- Dropdown y Comentarios -->
-                    <div class="max-w-md mx-auto mt-6">
-                        <select class="w-full p-2 border rounded mb-4">
-                            <option value="" disabled selected>PENDIENTE</option>
-                            <option value="1">Opción 1</option>
-                            <option value="2">Opción 2</option>
-                        </select>
-                    </div>
                 </div>
 
-                <div class="mb-4 w-full">
-                    <div class="mb-2">Comentario</div>
-                    <input class="w-full h-12 bg-gray-100 rounded px-4 block">
+                <!-- Dropdown y Comentarios -->
+                <form 
+                    [formGroup]="informeForm"
+                    class="max-w-md mx-auto mt-6"
+                    *ngIf="postulation && postulation.informe"
+                >
+                    <select class="w-full p-2 border rounded mb-4" formControlName="state">
+                        <option value="PENDIENTE" selected>PENDIENTE</option>
+                        <option value="VALIDADO">VALIDADO</option>
+                        <option value="NO VALIDADO">NO VALIDADO</option>
+                    </select>
+                </form>
+            </div>
+
+            <form
+                [formGroup]="informeForm"
+                class="mb-4 w-full"
+                *ngIf="postulation && postulation.informe"
+            >
+                <label for="informe-comment" class="mb-2">Comentario</label>
+                <input id="informe-comment" formControlName="comment" class="w-full h-12 bg-gray-100 rounded px-4 block">
+                <div class="mt-4 w-full">
+                    <button
+                        class="bg-customBlue hover:bg-customBlueHover text-white py-2 px-6 rounded mx-auto block mb-2"
+                        type="submit"
+                        (click)="uploadInforme()"
+                    >
+                        Guardar
+                    </button>
                 </div>
+            </form>
+        </div>
+    </div>
 
-                <button
-                    class="bg-customBlue hover:bg-customBlueHover text-white py-2 px-6 rounded mx-auto block mb-2">Aceptar</button>
+    <!-- Segunda Sección -->
+    <div class="bg-[#e6f0ff] p-6 rounded-lg mt-6">
+        <h2 class="text-center font-semibold mb-4">EVALUACIÓN DEL BECARIO DE RESPONSABILIDAD UNIVERSITARIA (BRU)
+        </h2>
 
+        <ul class="list-disc text-sm space-y-2 mb-6 mx-8">
+            <li>
+                El docente debe descargar el formato adjunto y generar la evaluación. Una vez completado, se
+                debe firmar por parte del docente.
+            </li>
+            <li>Una vez firmado y validado, se debe cargar en el sistema.</li>
+        </ul>
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- Botón Descargar Evaluación -->
+            <div class="border border-slate-400 rounded-lg p-4 text-center">
+                <p class="font-semibold mb-2">
+                    DESCARGAR EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA
+                </p>
+                <a 
+                    *ngIf="postulation && postulation.informeDocente && postulation.informeDocente.evaluacion else noEvaluacion"
+                    class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2 inline-block"
+                    [href]="postulation?.informeDocente.evaluacion?.url"
+                    target="_blank"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                </a>
+                <p *ngIf="postulation && postulation.informeDocente && postulation.informeDocente.evaluacion">
+                    <small><b>Fecha de Carga: </b> {{ postulation.informeDocente.evaluacion.date.toDate() | date }}</small>
+                </p>
+                <ng-template #noEvaluacion>
+                    <p><b>PENDIENTE</b></p>
+                </ng-template>
+                <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
+            </div>
+
+
+            <!-- Botón Descargar Declaratoria -->
+            <div class="border border-slate-400 rounded-lg p-4 text-center">
+                <p class="font-semibold mb-2">DESCARGAR DECLARATORIA DE CONFLICTO DE INTERÉS</p>
+                <a 
+                    *ngIf="postulation && postulation.informeDocente && postulation.informeDocente.declaratoria else noDeclaratoria"
+                    class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2 inline-block"
+                    [href]="postulation?.informeDocente?.declaratoria?.url"
+                    target="_blank"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                </a>
+                <p *ngIf="postulation && postulation.informeDocente && postulation.informeDocente.declaratoria">
+                    <small><b>Fecha de Carga: </b> {{ postulation.informeDocente.declaratoria.date.toDate() | date }}</small>
+                </p>
+                <ng-template #noDeclaratoria>
+                    <p><b>PENDIENTE</b></p>
+                </ng-template>
+                <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
             </div>
         </div>
+        <form
+            [formGroup]="informeDocenteForm"
+            class="max-w-md mx-auto mt-6"
+            *ngIf="postulation && postulation.informeDocente && postulation.informeDocente.declaratoria && postulation.informeDocente.evaluacion"
+        >
+            <select formControlName="state" class="w-full p-2 border rounded mb-4">
+                <option value="PENDIENTE" selected>PENDIENTE</option>
+                <option value="VALIDADO">VALIDADO</option>
+                <option value="NO VALIDADO">NO VALIDADO</option>
+            </select>
+        </form>
 
-        <!-- Segunda Sección -->
-        <div class="bg-[#e6f0ff] p-6 rounded-lg mt-6">
-            <h2 class="text-center font-semibold mb-4">EVALUACIÓN DEL BECARIO DE RESPONSABILIDAD UNIVERSITARIA (BRU)
-            </h2>
+        <form
+            [formGroup]="informeDocenteForm"
+            class="mb-4 w-full"
+            *ngIf="postulation && postulation.informeDocente && postulation.informeDocente.declaratoria && postulation.informeDocente.evaluacion"
+        >
+            <label for="informeDocente-comment" class="mb-2">Comentario</label>
+            <input id="informeDocente-comment" formControlName="comment" class="w-full h-12 bg-gray-100 rounded px-4 block">
+        </form>
 
-            <ul class="list-disc text-sm space-y-2 mb-6 mx-8">
-                <li>El docente debe descargar el formato adjunto y generar la evaluación. Una vez completado, se
-                    debe
-                    firmar
-                    por parte del docente.</li>
-                <li>Una vez firmado y validado, se debe cargar en el sistema.</li>
-            </ul>
-
-            <div class="grid md:grid-cols-2 gap-6">
-
-                <!-- Botón Descargar Evaluación -->
-                <div class="border border-slate-400 rounded-lg p-4 text-center">
-                    <p class="font-semibold mb-2">DESCARGAR EVALUACIÓN DE BECARIO DE RESPONSABILIDAD UNIVERSITARIA
-                    </p>
-                    <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                    </button>
-                    <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
-                </div>
-
-
-                <!-- Botón Descargar Declaratoria -->
-                <div class="border border-slate-400 rounded-lg p-4 text-center">
-                    <p class="font-semibold mb-2">DESCARGAR DECLARATORIA DE CONFLICTO DE INTERÉS</p>
-                    <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                    </button>
-                    <p class="text-xs text-gray-600">Se descarga en formato de PDF</p>
-                </div>
-            </div>
-            <div class="max-w-md mx-auto mt-6">
-                <select class="w-full p-2 border rounded mb-4">
-                    <option value="" disabled selected>PENDIENTE</option>
-                    <option value="1">Opción 1</option>
-                    <option value="2">Opción 2</option>
-                </select>
-            </div>
-
-            <div class="mb-4 w-full">
-                <div class="mb-2">Comentario</div>
-                <input class="w-full h-12 bg-gray-100 rounded px-4 block">
-            </div>
-
+        <form
+            [formGroup]="informeDocenteForm"
+            class="mb-4 w-full"
+            *ngIf="postulation && postulation.informeDocente && postulation.informeDocente.declaratoria && postulation.informeDocente.evaluacion"
+        >
             <button
-                class="bg-customBlue hover:bg-customBlueHover text-white py-2 px-6 rounded mx-auto block mb-2">Aceptar</button>
-
-        </div>
-
-
-    </main>
-</body>
-
-</html>
+                class="bg-customBlue hover:bg-customBlueHover text-white py-2 px-6 rounded mx-auto block mb-2"
+                type="submit"
+                (click)="uploadInformeDocente()"
+            >
+                Guardar
+            </button>
+        </form>
+    </div>
+</main>

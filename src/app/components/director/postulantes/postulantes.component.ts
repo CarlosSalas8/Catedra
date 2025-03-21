@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { LogIn } from 'lucide-angular';
 import { map, Observable, of, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { PeriodoService } from 'src/app/services/periodo.service';
@@ -44,7 +45,6 @@ export class PostulantesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.authService.getCurrentUserRole().subscribe(role => {
       this.role = role;  // Asumes que 'role' es el rol del usuario logueado
     });
@@ -58,19 +58,24 @@ export class PostulantesComponent implements OnInit {
     if (this.plazaID) {
       // Obtener los datos de las plazas y filtrar por el ID de la plaza
       this.authService.getPlazas().subscribe((plazas) => {
-        this.plaza = plazas.find((plaza: any) => plaza.id === this.plazaID);
+        this.plaza = plazas.find((plaza: any) => plaza.id === this.plazaID);      
         this.postulant = this.plaza ? this.plaza.postulant : [];
       });
 
-      // Suscribirse a los cambios en la colección 'postulant'
+      // Suscribirse a los cambios en la colección 'postulant' 
       this.authService.getPostulant().subscribe((postulantes) => {
-        this.postulant = postulantes.filter(postulante => postulante.plazaID === this.plazaID);
-        
+        this.postulant = postulantes.filter(postulante => postulante.plazaID === this.plazaID)
+          .map(postulante => {
+            this.firestore.collection('users').doc(postulante.userID).get().toPromise().then((userDoc) => {
+              if (userDoc && userDoc.exists) {
+                postulante.userName = userDoc.get('name') || '';
+                postulante.havePlaza = userDoc.get('validated') || false;
+              }
+            });
+            return postulante;
+        });
       });
-
     }
-
-
   }
 
   // Método para validar o no validar a un postulante y actualizar en 'users'
@@ -114,8 +119,6 @@ export class PostulantesComponent implements OnInit {
   }
 
 
-
-
   solicitarEntrevista(postulante: any): void {
     // Lógica para solicitar entrevista (ejemplo: mostrar mensaje o guardar en la base de datos)
     
@@ -140,6 +143,7 @@ export class PostulantesComponent implements OnInit {
         ...postulante,
         qualificationCycle: postulante.qualificationCycle || null,
         qualificationMirror: postulante.qualificationMirror || null,
+        observations: postulante.observations || ''
       };
 
       // Actualizar solo el postulante correspondiente en la colección de plazas
@@ -149,7 +153,8 @@ export class PostulantesComponent implements OnInit {
         // Actualizar solo el postulante en la colección de postulantes
         this.firestore.collection('postulant').doc(postulante.id).update({
           qualificationCycle: updatedPostulante.qualificationCycle,
-          qualificationMirror: updatedPostulante.qualificationMirror
+          qualificationMirror: updatedPostulante.qualificationMirror,
+          observations: updatedPostulante.observations
         }).then(() => {
           this.isSaving[postulante.id] = false; // Detener la animación de guardado
           this.saveMessage = 'Cambios guardados exitosamente.'; // Mensaje de éxito

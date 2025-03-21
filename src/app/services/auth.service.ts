@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable, map, of, switchMap } from 'rxjs';
-import { Auth, getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, User } from 'firebase/auth';
+import { Auth, getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, User, UserCredential } from 'firebase/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { PeriodoService } from './periodo.service';
 import { CanActivate, Router } from '@angular/router';
@@ -75,12 +75,16 @@ export class AuthService {
 
 
 
-  loginWithEmail(email: string, password: string) {
-    return this.afAuth.signInWithEmailAndPassword(email, password).then(async (userCredential) => {
+  loginWithEmail(email: string, password: string) : Promise<any> {
+    return this.afAuth.signInWithEmailAndPassword(email, password)
+    .then(async (userCredential) => {
+      
       const user = userCredential.user;
+      
       if (!user) throw new Error('No se pudo autenticar el usuario');
       
       const userEmail = user.email;
+      const uid = user.uid;
       if (!userEmail) throw new Error('No se encontró el email del usuario');
 
       const token = await user.getIdToken();
@@ -89,10 +93,9 @@ export class AuthService {
       const adminSnapshot = await this.firestore.collection('users').ref.where('role', '==', 'admin').where('email', '==', userEmail).get();
       const directorSnapshot = await this.firestore.collection('directors').ref.where('email', '==', userEmail).get();
       const teacherSnapshot = await this.firestore.collection('teachers').ref.where('email', '==', userEmail).get();
+      const userSnapshot = await this.firestore.collection('users').ref.where('userID', '==', uid).get();
 
-      console.log(teacherSnapshot.empty);
       
-
       let role = 'student';
       if (!adminSnapshot.empty) role = 'admin';
       else if (!directorSnapshot.empty) role = 'director';
@@ -101,16 +104,16 @@ export class AuthService {
       const adminData =  adminSnapshot.docs[0]?.data() as any;
       const directorData =  directorSnapshot.docs[0]?.data() as any;
       const teacherData =  teacherSnapshot.docs[0]?.data() as any;
+      const userDataReal = userSnapshot.docs[0]?.data() as any;
       
-
       const userData = {
         userID: user.uid,
         email: userEmail,
-        name: user.displayName,
+        name: userDataReal.name || user.displayName,
         photoURL: user.photoURL,
         role: role,
         periodID: this.activePeriod?.id || null, 
-        career: adminData?.career || directorData?.career || teacherData?.career || null
+        career: adminData?.career || directorData?.career || teacherData?.career || userDataReal.career || null
       };
 
       await this.firestore.collection('users').doc(user.uid).set(userData, { merge: true });
@@ -121,8 +124,6 @@ export class AuthService {
 
       // 🔹 Guardar usuario en cookies para mantener la sesión
       this.cookieService.setCookie('user', JSON.stringify(userData), 7); // Se guarda por 7 días
-
-
 
       return user;
     })

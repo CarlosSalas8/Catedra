@@ -16,6 +16,7 @@ export class RevisarComponent implements OnInit {
   isLoading: boolean = false;
   showSuccessMessage: boolean = false;
   files: any[] = [];  // Almacenar la lista de archivos subidos
+  period: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -26,6 +27,12 @@ export class RevisarComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+
+    // Obtener periodo
+    this.firestore.collection('period', ref => ref.where("status", "==", true)).valueChanges().subscribe((data: any) => {
+      this.period = data[0].name;
+    })
+
     if (id) {
       this.firestore.collection('activities').doc(id).valueChanges().subscribe((data: any) => {
         this.activity = data;
@@ -33,6 +40,8 @@ export class RevisarComponent implements OnInit {
       });
     }
   }
+
+
   // Cargar archivos de Firebase Storage sin duplicados
   loadFiles() {
     const filePath = `actividades/${this.activity.id}/`;

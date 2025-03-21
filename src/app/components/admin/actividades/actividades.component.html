@@ -1,11 +1,11 @@
-
 <div class="h-screen overflow-auto">
-
   <app-navbar-admin *ngIf="role == 'admin'"> </app-navbar-admin>
   <app-aside-directors *ngIf="role == 'director'"> </app-aside-directors>
+  <app-aside-student *ngIf="role == 'student'"> </app-aside-student>
 
   <app-aside-admin *ngIf="role == 'admin'"> </app-aside-admin>
   <app-aside-directors *ngIf="role == 'director'"> </app-aside-directors>
+  <app-aside-student *ngIf="role == 'student'"> </app-aside-student>
 
 
   <div class="p-4 sm:ml-20">
@@ -50,9 +50,11 @@
         </div>
       </div>
 
-      <button *ngIf="role === 'admin'" class="ml-2 p-2 bg-blue-500 text-white rounded">
-        Aprobar
-      </button>
+      <div class="flex justify-center mt-4">
+        <button *ngIf="role === 'admin'" (click)="aprobarEstudiante(activities[0])" class="p-2 bg-blue-500 text-white rounded">
+          Aprobar
+        </button>
+      </div>
 
       <div *ngIf="activities.length > 0" class="mt-10">
         <h2 class="text-2xl mb-2">Actividades</h2><br>
@@ -96,7 +98,25 @@
       <div *ngIf="activities.length === 0" class="mt-10">
         <h2 class="text-2xl mb-2">No hay actividades para este docente</h2>
       </div>
+    </div>
+  </div>
+</div>
 
+<!-- alerta eliminacion de plaza -->
+<div *ngIf="showAlertNoApproved" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div
+    class="bg-white border border-gray-300 p-6 rounded-3xl shadow-xl max-w-md mx-auto flex items-center space-x-4">
+    <svg class="w-8 h-8 text-red-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+    <div>
+      <strong class="font-semibold text-red-700 text-lg">¡Atención!</strong>
+      <p class="text-black">No se puede aprobar al estudiante porque no todas las actividades están aprobadas.</p>
+      <div class="flex justify-center mt-6 space-x-4">
+        <button type="button" (click)="toggleNoApprovedAlert()"
+          class="bg-gray-300 hover:bg-gray-400 text-customBlue font-semibold py-3 px-8 rounded-lg">Aceptar</button>
+      </div>
     </div>
   </div>
 </div>

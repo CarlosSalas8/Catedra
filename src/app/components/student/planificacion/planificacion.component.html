@@ -1,210 +1,196 @@
-<html lang="en">
+<app-navbar-student> </app-navbar-student>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-</head>
+<app-aside-student></app-aside-student>
 
-<body>
+<form [formGroup]="form" (ngSubmit)="guardarDatos()">
 
-  <app-navbar-student> </app-navbar-student>
-
-  <app-aside-student></app-aside-student>
-
-  <form [formGroup]="form" (ngSubmit)="guardarDatos()">
-
-    <div class="p-4 sm:ml-20">
-      <div class="p-4 mt-14">
-        <div class="flex items-center justify-center h-48 rounded relative">
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="flex flex-col items-center justify-center px-4">
-              <img src="/assets/images0.png" alt="Imagen" class="inset-0 m-auto object-cover rounded w-2/12" />
-              <p class="text-xl text-gray-950 text-center mt-4 font-bold leading-relaxed">
-                UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA<br>
-                PRESENTACIÓN DE PLANIFICACIÓN AYUDANTE DE CÁTEDRA<br>
-                PERIODO {{ activePeriod?.name || 'PERÍODO' }}
-              </p>
-            </div>
+  <div class="p-4 sm:ml-20">
+    <div class="p-4 mt-14">
+      <div class="flex items-center justify-center h-48 rounded relative">
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="flex flex-col items-center justify-center px-4">
+            <img src="/assets/images0.png" alt="Imagen" class="inset-0 m-auto object-cover rounded w-2/12" />
+            <p class="text-xl text-gray-950 text-center mt-4 font-bold leading-relaxed">
+              UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA<br>
+              PRESENTACIÓN DE PLANIFICACIÓN AYUDANTE DE CÁTEDRA<br>
+              PERIODO {{ activePeriod?.name || 'PERÍODO' }}
+            </p>
           </div>
         </div>
-
-        <div class="p-4 border-2  mt-10 rounded-lg">
-          <p class="mb-5 font-bold">DATOS</p>
-          <div class="mb-4 flex justify-between items-center">
-            <label for="small-input2" class="text-sm font-bold text-gray-900 dark:text-gray-900 ">Nombres y apellido
-              del
-              docente</label>
-            <input type="text" formControlName="nameTeacher" id="nameTeacher"
-              class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          </div>
-
-          <div class="mb-4 flex justify-between items-center">
-            <label for="small-input2" class="text-sm font-bold text-gray-900 dark:text-gray-900">Nombres y apellido
-              del
-              ayudante de cátedra</label>
-            <input type="text" formControlName="assistant" id="assistant"
-              class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          </div>
-          <div class="mb-4 flex justify-between items-center">
-            <label for="small-input3" class="text-sm font-bold text-gray-900 dark:text-gray-900">Facultad</label>
-            <input type="text" formControlName="faculty" id="faculty"
-              class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          </div>
-          <div class="mb-4 flex justify-between items-center">
-            <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Carrera</label>
-            <input type="text" formControlName="career" id="career"
-              class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          </div>
-          <div class="mb-4 flex justify-between items-center">
-            <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Asignatura</label>
-            <input type="text" formControlName="subject" id="subject"
-              class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          </div>
-          <div class="mb-4 flex justify-between items-center">
-            <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Paralelo</label>
-            <input type="text" formControlName="parallel" id="parallel"
-              class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          </div>
-          
-          <div class="mb-4 flex justify-between items-center">
-            <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Modalidad</label>
-            <input type="text" formControlName="modality" id="modality"
-              class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          </div>
-        </div>
-
-        <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
-          <p class="mb-5 font-bold">Act. Primer Bimestre </p>
-          <div formArrayName="activities">
-            <div *ngFor="let item of activities.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
-              <div class="items-center justify-center h-24 rounded">
-                <label for="activity{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a
-                  realizar</label>
-                <input type="text" [formControl]="getactivityControl(i)" [id]="'activity' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <button type="button" (click)="confirmRemoveItem(i, 'primer_bimestre')">Eliminar actividad</button>
-              </div>
-              <div class="items-center justify-center h-24 rounded">
-                <label for="startdate{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
-                  inicio</label><br>
-                <input type="date" [formControl]="getstartdateControl(i)" [id]="'startdate' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              </div>
-
-              <div class="items-center justify-center h-24 rounded">
-                <label for="enddate{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
-                  fin</label><br>
-                <input type="date" [formControl]="getenddateControl(i)" [id]="'enddate' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              </div>
-
-              <div class="items-center justify-center h-24 rounded ">
-                <label for="verificationmethod{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio
-                  de verificación</label>
-                <input type="text" [formControl]="getverificationmethodControl(i)" [id]="'verificationmethod' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              </div>
-            </div>
-          </div>
-
-          <div class="flex">
-            <button type="button"
-            class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300"
-              (click)="addItems()">Agregar actividad</button>
-          </div>
-        </div>
-
-        <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
-          <p class="mb-5 font-bold">Act. Segundo Bimestre </p>
-          <div formArrayName="activitiesSegundo">
-            <div *ngFor="let item of activitiesSegundo.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
-              <div class="items-center justify-center h-24 rounded ">
-                <label for="activitySegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades
-                  a realizar</label>
-                <input type="text" [formControl]="getactivitySegundoControl(i)" [id]="'activitySegundo' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <button type="button" (click)="confirmRemoveItem(i, 'segundo_bimestre')">Eliminar actividad</button>
-              </div>
-              <div class="items-center justify-center h-24 rounded ">
-                <label for="startdateSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
-                  de inicio</label><br>
-                <input type="date" [formControl]="getstartdateSegundoControl(i)" [id]="'startdateSegundo' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              </div>
-              <div class="items-center justify-center h-24 rounded ">
-                <label for="enddateSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
-                  fin</label><br>
-                <input type="date" [formControl]="getenddateSegundoControl(i)" [id]="'enddateSegundo' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              </div>
-              <div class="items-center justify-center h-24 rounded ">
-                <label for="verificationmethodSegundo{{i}}"
-                  class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio de verificación</label>
-                <input type="text" [formControl]="getverificationmethodSegundoControl(i)"
-                  [id]="'verificationmethodSegundo' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              </div>
-            </div>
-          </div>
-          <div class="flex">
-            <button type="button"
-              class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300"
-              (click)="addItemsSegundo()">Agregar actividad</button>
-          </div>
-        </div>
-
-        <div class="p-4 border-2 mt-5 mb-6 rounded-lg">
-          <p class="mb-5 font-bold">Act. Periodo de Recuperación </p>
-          <div formArrayName="activitiesRecuperacion">
-            <div *ngFor="let item of activitiesRecuperacion.controls; let i = index"
-              class="grid grid-cols-4 gap-24 mb-5">
-              <div class="items-center justify-center h-24 rounded ">
-                <label for="activityRecuperacion{{i}}"
-                  class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a realizar</label>
-                <input type="text" [formControl]="getactivityRecuperacionControl(i)" [id]="'activityRecuperacion' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <button type="button" (click)="confirmRemoveItem(i, 'recuperacion')">Eliminar actividad</button>
-              </div>
-              <div class="items-center justify-center h-24 rounded ">
-                <label for="startdateRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
-                  de inicio</label><br>
-                <input type="date" [formControl]="getstartdateRecuperacionControl(i)" [id]="'startdateRecuperacion' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              </div>
-              <div class="items-center justify-center h-24 rounded ">
-                <label for="enddateRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
-                  fin</label><br>
-                <input type="date" [formControl]="getenddateRecuperacionControl(i)" [id]="'enddateRecuperacion' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              </div>
-              <div class="items-center justify-center h-24 rounded ">
-                <label for="verificationmethodRecuperacion{{i}}"
-                  class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio de verificación</label>
-                <input type="text" [formControl]="getverificationmethodRecuperacionControl(i)"
-                  [id]="'verificationmethodRecuperacion' + i"
-                  class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              </div>
-            </div>
-          </div>
-          <div class="flex">
-            <button type="button"
-              class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300"
-              (click)="addItemsRecuperacion()">Agregar actividad</button>
-          </div>
-        </div>
-
-        <div class="flex items-center justify-center h-20 mb-4 rounded">
-          <button type="submit"
-            class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300">
-            Guardar
-          </button>
-        </div>
-
       </div>
+
+      <div class="p-4 border-2  mt-10 rounded-lg">
+        <p class="mb-5 font-bold">DATOS</p>
+        <div class="mb-4 flex justify-between items-center">
+          <label for="small-input2" class="text-sm font-bold text-gray-900 dark:text-gray-900 ">Nombres y apellido
+            del
+            docente</label>
+          <input type="text" formControlName="nameTeacher" id="nameTeacher"
+            class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+
+        <div class="mb-4 flex justify-between items-center">
+          <label for="small-input2" class="text-sm font-bold text-gray-900 dark:text-gray-900">Nombres y apellido
+            del
+            ayudante de cátedra</label>
+          <input type="text" formControlName="assistant" id="assistant"
+            class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <div class="mb-4 flex justify-between items-center">
+          <label for="small-input3" class="text-sm font-bold text-gray-900 dark:text-gray-900">Facultad</label>
+          <input type="text" formControlName="faculty" id="faculty"
+            class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <div class="mb-4 flex justify-between items-center">
+          <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Carrera</label>
+          <input type="text" formControlName="career" id="career"
+            class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <div class="mb-4 flex justify-between items-center">
+          <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Asignatura</label>
+          <input type="text" formControlName="subject" id="subject"
+            class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <div class="mb-4 flex justify-between items-center">
+          <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Paralelo</label>
+          <input type="text" formControlName="parallel" id="parallel"
+            class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        
+        <div class="mb-4 flex justify-between items-center">
+          <label for="small-input4" class="text-sm font-bold text-gray-900 dark:text-gray-900">Modalidad</label>
+          <input type="text" formControlName="modality" id="modality"
+            class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+      </div>
+
+      <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+        <p class="mb-5 font-bold">Act. Primer Bimestre </p>
+        <div formArrayName="activities">
+          <div *ngFor="let item of activities.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
+            <div class="items-center justify-center h-24 rounded">
+              <label for="activity{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a
+                realizar</label>
+              <input type="text" [formControl]="getactivityControl(i)" [id]="'activity' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <button type="button" (click)="confirmRemoveItem(i, 'primer_bimestre')">Eliminar actividad</button>
+            </div>
+            <div class="items-center justify-center h-24 rounded">
+              <label for="startdate{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
+                inicio</label><br>
+              <input type="date" [formControl]="getstartdateControl(i)" [id]="'startdate' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+
+            <div class="items-center justify-center h-24 rounded">
+              <label for="enddate{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
+                fin</label><br>
+              <input type="date" [formControl]="getenddateControl(i)" [id]="'enddate' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+
+            <div class="items-center justify-center h-24 rounded ">
+              <label for="verificationmethod{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio
+                de verificación</label>
+              <input type="text" [formControl]="getverificationmethodControl(i)" [id]="'verificationmethod' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+          </div>
+        </div>
+
+        <div class="flex">
+          <button type="button"
+          class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300"
+            (click)="addItems()">Agregar actividad</button>
+        </div>
+      </div>
+
+      <div class="p-4 border-2  mt-5 mb-6 rounded-lg">
+        <p class="mb-5 font-bold">Act. Segundo Bimestre </p>
+        <div formArrayName="activitiesSegundo">
+          <div *ngFor="let item of activitiesSegundo.controls; let i = index" class="grid grid-cols-4 gap-24 mb-5">
+            <div class="items-center justify-center h-24 rounded ">
+              <label for="activitySegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades
+                a realizar</label>
+              <input type="text" [formControl]="getactivitySegundoControl(i)" [id]="'activitySegundo' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <button type="button" (click)="confirmRemoveItem(i, 'segundo_bimestre')">Eliminar actividad</button>
+            </div>
+            <div class="items-center justify-center h-24 rounded ">
+              <label for="startdateSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
+                de inicio</label><br>
+              <input type="date" [formControl]="getstartdateSegundoControl(i)" [id]="'startdateSegundo' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+            <div class="items-center justify-center h-24 rounded ">
+              <label for="enddateSegundo{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
+                fin</label><br>
+              <input type="date" [formControl]="getenddateSegundoControl(i)" [id]="'enddateSegundo' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+            <div class="items-center justify-center h-24 rounded ">
+              <label for="verificationmethodSegundo{{i}}"
+                class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio de verificación</label>
+              <input type="text" [formControl]="getverificationmethodSegundoControl(i)"
+                [id]="'verificationmethodSegundo' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+          </div>
+        </div>
+        <div class="flex">
+          <button type="button"
+            class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300"
+            (click)="addItemsSegundo()">Agregar actividad</button>
+        </div>
+      </div>
+
+      <div class="p-4 border-2 mt-5 mb-6 rounded-lg">
+        <p class="mb-5 font-bold">Act. Periodo de Recuperación </p>
+        <div formArrayName="activitiesRecuperacion">
+          <div *ngFor="let item of activitiesRecuperacion.controls; let i = index"
+            class="grid grid-cols-4 gap-24 mb-5">
+            <div class="items-center justify-center h-24 rounded ">
+              <label for="activityRecuperacion{{i}}"
+                class="text-sm font-bold text-gray-900 dark:text-gray-900">Actividades a realizar</label>
+              <input type="text" [formControl]="getactivityRecuperacionControl(i)" [id]="'activityRecuperacion' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <button type="button" (click)="confirmRemoveItem(i, 'recuperacion')">Eliminar actividad</button>
+            </div>
+            <div class="items-center justify-center h-24 rounded ">
+              <label for="startdateRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha
+                de inicio</label><br>
+              <input type="date" [formControl]="getstartdateRecuperacionControl(i)" [id]="'startdateRecuperacion' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+            <div class="items-center justify-center h-24 rounded ">
+              <label for="enddateRecuperacion{{i}}" class="text-sm font-bold text-gray-900 dark:text-gray-900">Fecha de
+                fin</label><br>
+              <input type="date" [formControl]="getenddateRecuperacionControl(i)" [id]="'enddateRecuperacion' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+            <div class="items-center justify-center h-24 rounded ">
+              <label for="verificationmethodRecuperacion{{i}}"
+                class="text-sm font-bold text-gray-900 dark:text-gray-900">Medio de verificación</label>
+              <input type="text" [formControl]="getverificationmethodRecuperacionControl(i)"
+                [id]="'verificationmethodRecuperacion' + i"
+                class="w-2/3 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-customWhite dark:border-slate-300 dark:placeholder-slate-300 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+          </div>
+        </div>
+        <div class="flex">
+          <button type="button"
+            class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300"
+            (click)="addItemsRecuperacion()">Agregar actividad</button>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center h-20 mb-4 rounded">
+        <button type="submit"
+          class="bg-customBlue hover:bg-customBlueHover text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center transition duration-300">
+          Guardar
+        </button>
+      </div>
+
     </div>
-  </form>
-
-</body>
-
-</html>
+  </div>
+</form>
