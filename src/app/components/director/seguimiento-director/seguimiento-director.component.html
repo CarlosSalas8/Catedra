@@ -59,139 +59,137 @@
     </div>
   </div>
 
-        <!-- Toggle de Docentes -->
-        <div 
-          *ngIf="selectedDocenteEmail"
-          class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-auto"
-          (click)="toggleEstudiantes('')"
-        >
-          <div
-            class="bg-white p-8 rounded-3xl shadow-lg max-w-5xl mx-auto max-h-full overflow-auto"
-            (click)="$event.stopPropagation()"
-          >
-            <!-- Tabla de Estudiantes -->
-            <div  class="mt-6">
-              <h3 class="text-md font-semibold text-black text-center">
-                Estudiantes de {{ selectedDocenteName | async }}
-              </h3>
-              <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-                <table class="w-full text-sm text-left text-gray-500">
-                  <thead class="text-xs text-black uppercase bg-gray-50">
-                    <tr>
-                      <th class="px-6 py-3">Estudiante</th>
-                      <th class="px-6 py-3">Carrera</th>
-                      <th class="px-6 py-3">Facultad</th>
-                      <th class="px-6 py-3">Paralelo</th>
-                      <th class="px-6 py-3">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let estudiante of estudiantes$ | async" class="bg-white border-b hover:bg-gray-50">
-                      <td class="px-6 py-4">{{ estudiante.name }}</td>
-                      <td class="px-6 py-4">{{ estudiante.career }}</td>
-                      <td class="px-6 py-4">{{ estudiante.faculty }}</td>
-                      <td class="px-6 py-4">{{ estudiante.parallel }}</td>
-                      <td class="px-6 py-4">
-                        <button (click)="toggleActividades(estudiante.email, estudiante.name)" class="text-customBlueHover hover:underline">
-                          {{ selectedEstudianteEmail === estudiante.email ? 'Ocultar' : 'Ver Actividades' }}
-                        </button>
-                        <span> | </span>
-                        <button 
-                          [routerLink]="['/actividades', estudiante.id, estudiante.email]"
-                          class="text-customBlueHover hover:underline"
-                        >
-                          Ver Planificación
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+    <!-- Toggle de Docentes -->
+    <div 
+      *ngIf="selectedDocenteEmail"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-auto"
+      (click)="toggleEstudiantes('')"
+    >
+      <div
+        class="bg-white p-8 rounded-3xl shadow-lg max-w-5xl mx-auto max-h-full overflow-auto"
+        (click)="$event.stopPropagation()"
+      >
+        <!-- Tabla de Estudiantes -->
+        <div  class="mt-6">
+          <h3 class="text-md font-semibold text-black text-center">
+            Estudiantes de {{ selectedDocenteName | async }}
+          </h3>
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
+            <table class="w-full text-sm text-left text-gray-500">
+              <thead class="text-xs text-black uppercase bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3">Estudiante</th>
+                  <th class="px-6 py-3">Carrera</th>
+                  <th class="px-6 py-3">Facultad</th>
+                  <th class="px-6 py-3">Paralelo</th>
+                  <th class="px-6 py-3">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let estudiante of estudiantes$ | async" class="bg-white border-b hover:bg-gray-50">
+                  <td class="px-6 py-4">{{ estudiante.name }}</td>
+                  <td class="px-6 py-4">{{ estudiante.career }}</td>
+                  <td class="px-6 py-4">{{ estudiante.faculty }}</td>
+                  <td class="px-6 py-4">{{ estudiante.parallel }}</td>
+                  <td class="px-6 py-4">
+                    <button (click)="toggleActividades(estudiante.email, estudiante.name)" class="text-customBlueHover hover:underline">
+                      {{ selectedEstudianteEmail === estudiante.email ? 'Ocultar' : 'Ver Actividades' }}
+                    </button>
+                    <span> | </span>
+                    <button 
+                      [routerLink]="['/actividades', estudiante.id, estudiante.email]"
+                      class="text-customBlueHover hover:underline"
+                    >
+                      Ver Planificación
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tabla de Actividades -->
+        <div *ngIf="selectedEstudianteEmail" class="mt-6">
+          <h3 class="text-md font-semibold text-black text-center">Actividades de {{ selectedEstudianteName }}</h3>
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
+            <table class="w-full text-sm text-left text-gray-500">
+              <thead class="text-xs text-black uppercase bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3">Actividades a realizar</th>
+                  <th class="px-6 py-3">Fecha de inicio</th>
+                  <th class="px-6 py-3">Fecha de fin</th>
+                  <th class="px-6 py-3">Medio de verificación</th>
+                  <th class="px-6 py-3">Estado</th>
+                  <th class="px-6 py-3">Evidencia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let activity of activities$ | async" class="bg-white border-b hover:bg-gray-50">
+                  <td class="px-6 py-4 truncate">{{ activity.activity }}</td>
+                  <td class="px-6 py-4">{{ activity.startdate }}</td>
+                  <td class="px-6 py-4">{{ activity.enddate }}</td>
+                  <td class="px-6 py-4">{{ activity.verificationmethod }}</td>
+                  <td class="px-6 py-4">
+                    <span class="block w-4 h-4 rounded-full"
+                      [ngClass]="{ 'bg-green-500': activity.validated, 'bg-gray-500': !activity.validated }"></span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <button (click)="loadActivityDetails(activity.id)" class="text-customBlueHover hover:underline">
+                      Ver Detalles
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Modal de Detalles de la Actividad -->
+        <div *ngIf="activityDetails$ | async as activityDetails"
+          class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-lg w-full relative">
+            <!-- Botón de cierre -->
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-lg"
+              (click)="closeActivityDetails()">
+              ✕
+            </button>
+
+            <!-- Título -->
+            <h3 class="text-lg font-semibold text-gray-900 text-center mb-6">Detalles de la Actividad</h3>
+
+            <!-- Información de la Actividad -->
+            <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+              <p class="text-sm text-gray-700"><strong class="font-semibold">Actividad:</strong> {{
+                activityDetails.activity }}</p>
+              <p class="text-sm text-gray-700"><strong class="font-semibold">Fecha de inicio:</strong> {{
+                activityDetails.startdate }}</p>
+              <p class="text-sm text-gray-700"><strong class="font-semibold">Fecha de fin:</strong> {{
+                activityDetails.enddate }}</p>
+              <p class="text-sm text-gray-700"><strong class="font-semibold">Medio de verificación:</strong> {{
+                activityDetails.verificationmethod }}</p>
             </div>
 
-            <!-- Tabla de Actividades -->
-            <div *ngIf="selectedEstudianteEmail" class="mt-6">
-              <h3 class="text-md font-semibold text-black text-center">Actividades de {{ selectedEstudianteName }}</h3>
-              <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-                <table class="w-full text-sm text-left text-gray-500">
-                  <thead class="text-xs text-black uppercase bg-gray-50">
-                    <tr>
-                      <th class="px-6 py-3">Actividades a realizar</th>
-                      <th class="px-6 py-3">Fecha de inicio</th>
-                      <th class="px-6 py-3">Fecha de fin</th>
-                      <th class="px-6 py-3">Medio de verificación</th>
-                      <th class="px-6 py-3">Estado</th>
-                      <th class="px-6 py-3">Evidencia</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let activity of activities$ | async" class="bg-white border-b hover:bg-gray-50">
-                      <td class="px-6 py-4 truncate">{{ activity.activity }}</td>
-                      <td class="px-6 py-4">{{ activity.startdate }}</td>
-                      <td class="px-6 py-4">{{ activity.enddate }}</td>
-                      <td class="px-6 py-4">{{ activity.verificationmethod }}</td>
-                      <td class="px-6 py-4">
-                        <span class="block w-4 h-4 rounded-full"
-                          [ngClass]="{ 'bg-green-500': activity.validated, 'bg-gray-500': !activity.validated }"></span>
-                      </td>
-                      <td class="px-6 py-4">
-                        <button (click)="loadActivityDetails(activity.id)" class="text-customBlueHover hover:underline">
-                          Ver Detalles
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- Modal de Detalles de la Actividad -->
-            <div *ngIf="activityDetails$ | async as activityDetails"
-              class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-              <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-lg w-full relative">
-                <!-- Botón de cierre -->
-                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-lg"
-                  (click)="closeActivityDetails()">
-                  ✕
-                </button>
-
-                <!-- Título -->
-                <h3 class="text-lg font-semibold text-gray-900 text-center mb-6">Detalles de la Actividad</h3>
-
-                <!-- Información de la Actividad -->
-                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
-                  <p class="text-sm text-gray-700"><strong class="font-semibold">Actividad:</strong> {{
-                    activityDetails.activity }}</p>
-                  <p class="text-sm text-gray-700"><strong class="font-semibold">Fecha de inicio:</strong> {{
-                    activityDetails.startdate }}</p>
-                  <p class="text-sm text-gray-700"><strong class="font-semibold">Fecha de fin:</strong> {{
-                    activityDetails.enddate }}</p>
-                  <p class="text-sm text-gray-700"><strong class="font-semibold">Medio de verificación:</strong> {{
-                    activityDetails.verificationmethod }}</p>
-                </div>
-
-                <!-- Archivos Subidos -->
-                <div class="mt-6">
-                  <h2 class="text-md font-semibold text-gray-900 mb-3">Archivos Subidos</h2>
-                  <ul *ngIf="files.length > 0">
-                    <li *ngFor="let file of files"
-                      class="flex items-center justify-between bg-white border rounded-lg p-3 mb-2 shadow-sm">
-                      <span class="text-gray-700 text-sm truncate">{{ file.name }}</span>
-                      <button
-                        class="bg-customBlue hover:bg-customBlueHover text-white text-sm px-3 py-1 rounded-lg flex items-center justify-center"
-                        (click)="selectFile(file.url)">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                          stroke="currentColor" class="w-5 h-5">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
-                        </svg>
-                      </button>
-                    </li>
-                  </ul>
-                  <p *ngIf="files.length === 0" class="text-gray-500 text-sm text-center">No hay archivos subidos aún.</p>
-                </div>
-              </div>
+            <!-- Archivos Subidos -->
+            <div class="mt-6">
+              <h2 class="text-md font-semibold text-gray-900 mb-3">Archivos Subidos</h2>
+              <ul *ngIf="files.length > 0">
+                <li *ngFor="let file of files"
+                  class="flex items-center justify-between bg-white border rounded-lg p-3 mb-2 shadow-sm">
+                  <span class="text-gray-700 text-sm truncate">{{ file.name }}</span>
+                  <button
+                    class="bg-customBlue hover:bg-customBlueHover text-white text-sm px-3 py-1 rounded-lg flex items-center justify-center"
+                    (click)="selectFile(file.url)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                      stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+              <p *ngIf="files.length === 0" class="text-gray-500 text-sm text-center">No hay archivos subidos aún.</p>
             </div>
           </div>
         </div>

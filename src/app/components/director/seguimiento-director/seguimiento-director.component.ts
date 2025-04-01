@@ -34,7 +34,6 @@ export class SeguimientoDirectorComponent implements OnInit {
   user: any;
 
   constructor(private firestore: AngularFirestore, private storage: AngularFireStorage, private authService: AuthService) { }
-  constructor(private firestore: AngularFirestore, private storage: AngularFireStorage, private authService: AuthService) { }
 
   async ngOnInit(): Promise<void> {
     this.fetchData('careers');

@@ -56,7 +56,6 @@ export class PlanificacionComponent implements OnInit, OnDestroy {
 
         if (user.email) {
           this.obtenerPlazasDelUsuario(user.email); // Pasar el email del usuario
-          this.checkIfValidatedCurriculum(user.email);
         }
       } else {
         console.error('No hay un usuario autenticado.');
