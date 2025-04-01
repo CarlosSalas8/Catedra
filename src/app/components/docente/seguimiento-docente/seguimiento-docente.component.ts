@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,6 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 export class SeguimientoDocenteComponent implements OnInit {
 
   actvities$: Observable<any[]> | undefined;
+  searchText: string = '';
+  private searchSubject = new BehaviorSubject<string>('');
 
   constructor(
     private firestore: AngularFirestore,
@@ -39,10 +41,12 @@ export class SeguimientoDocenteComponent implements OnInit {
   }
 
   private cargarActividades(emailDocente: string): void {
-    this.actvities$ = this.firestore.collection('activities', ref =>
+    const activities$ = this.firestore.collection('activities', ref =>
       ref.where('emailTeacher', '==', emailDocente)
-    ).valueChanges().pipe(
-      map(activities => {
+    ).valueChanges();
+  
+    this.actvities$ = combineLatest([activities$, this.searchSubject]).pipe(
+      map(([activities, searchText]) => {
         const uniqueStudents = new Map();
         activities.forEach(activity => {
           const typedActivity = activity as { assistant: string };
@@ -57,8 +61,24 @@ export class SeguimientoDocenteComponent implements OnInit {
             });
           }
         });
-        return Array.from(uniqueStudents.values());
+  
+        let filteredActivities = Array.from(uniqueStudents.values());
+  
+        // Filtrar por el texto ingresado en la búsqueda
+        if (searchText) {
+          filteredActivities = filteredActivities.filter(activity =>
+            activity.assistant.toLowerCase().includes(searchText.toLowerCase())
+          );
+        }
+  
+        return filteredActivities;
       })
     );
   }
+
+  filterActivities(): void {
+    this.searchSubject.next(this.searchText);
+  }
+  
+  
 }

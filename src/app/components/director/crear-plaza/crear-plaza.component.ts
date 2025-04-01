@@ -103,9 +103,6 @@ export class CrearPlazaComponent implements OnInit {
       .subscribe((data: any[]) => {
         if (data.length > 0) {
           this.directors = data[0]; // Guardar el director autenticado
-          
-        } else {
-          console.warn('No se encontró director para el email:', email);
         }
       });
   }
@@ -311,7 +308,7 @@ export class CrearPlazaComponent implements OnInit {
         postulant: this.selectedPlaza.postulant || [], // Mantener postulantes existentes
       })
       .then(() => {
-        
+
         this.form.reset();
       })
       .catch((error) => {

@@ -79,14 +79,12 @@
                   <td class="px-6 py-4">{{ activity.enddate }}</td>
                   <td class="px-6 py-4">{{ activity.verificationmethod }}</td>
                   <td class="px-6 py-4">
-                    <span *ngIf="activity.validated === true" 
-                          class="block w-4 h-4 bg-green-500 rounded-full"></span>
-                    <span *ngIf="activity.validated === false" 
-                          class="block w-4 h-4 bg-gray-500 rounded-full"></span>
+                    <span *ngIf="activity.validated === true" class="block w-4 h-4 bg-green-500 rounded-full"></span>
+                    <span *ngIf="activity.validated === false" class="block w-4 h-4 bg-gray-500 rounded-full"></span>
                   </td>
                   <td class="px-6 py-4">
                     <a [routerLink]="['/actividades-docentes',assistantID,assistantName, 'validar', activity.id]"
-                       class="text-customBlueHover hover:underline">Ingresar</a>
+                      class="text-customBlueHover hover:underline">Ingresar</a>
                   </td>
                 </tr>
               </tbody>

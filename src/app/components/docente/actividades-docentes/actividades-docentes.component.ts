@@ -42,20 +42,14 @@ export class ActividadesDocentesComponent {
     this.route.paramMap.subscribe(params => {
       this.assistantID = params.get('assistant');  // Esto es un ID, no el nombre
 
-      // Extraer el nombre real del asistente desde el último segmento de la URL
       const urlSegments = window.location.pathname.split('/');
       this.assistantName = decodeURIComponent(urlSegments[urlSegments.length - 1]);
-
-      
 
       if (this.assistantName) {
         this.cargarActividadesPorEstudiante(this.assistantName);
       }
     });
   }
-
-
-
 
   cargarActividadesPorEstudiante(assistant: string): void {
     this.firestore.collection('activities', ref =>

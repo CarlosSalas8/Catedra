@@ -47,7 +47,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let director of directors$ | async" class="bg-white border-b hover:bg-gray-50">
+              <tr *ngFor="let director of filteredDirectores" class="bg-white border-b hover:bg-gray-50">
                 <td class="px-6 py-4">{{ director.name }}</td>
                 <td class="px-6 py-4">{{ director.faculty }}</td>
                 <td class="px-6 py-4">{{ director.career }}</td>

@@ -12,6 +12,11 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SeguimientoDirectorComponent implements OnInit {
 
+
+  allDocentes: any[] = [];
+
+  searchTerm: string = '';
+
   docentes$: Observable<any[]> | undefined;
   estudiantes$: Observable<any[]> | undefined;
   activities$: Observable<any[]> | undefined;
@@ -28,6 +33,7 @@ export class SeguimientoDirectorComponent implements OnInit {
   careers: any[] = [];
   user: any;
 
+  constructor(private firestore: AngularFirestore, private storage: AngularFireStorage, private authService: AuthService) { }
   constructor(private firestore: AngularFirestore, private storage: AngularFireStorage, private authService: AuthService) { }
 
   async ngOnInit(): Promise<void> {
