@@ -44,13 +44,51 @@ export class ListadoEstudiantesComponent {
         });
       }
     });
+
+    // this.updatePostulants();
   }
+
+  // Recorrer todos los postulant para actualizar los datos de los estudiantes de la plaza como parallel, emailTeacher, emailDirector, directorsName, directorsId, academicCycle, career, currculum, faculty, modality, nameTeacher, subject desde el atributo plazaID
+  private async updatePostulants(): Promise<void> {
+    const postulants = await this.firestore.collection('postulant').get().toPromise();
+
+    if (!postulants) return;
+
+    postulants.docs.forEach(async postulant => {
+      const postulantData = postulant.data() as any;
+      const plaza = await this.firestore.collection('plazas').doc(postulantData.plazaID).get().toPromise();
+      const plazaData = plaza!.data() as any;
+
+      await postulant.ref.update({
+        parallel: plazaData.parallel,
+        emailTeacher: plazaData.emailTeacher,
+        emailDirector: plazaData.emailDirector,
+        directorsName: plazaData.directorsName,
+        directorsId: plazaData.directorsId,
+        academicCycle: plazaData.academicCycle,
+        career: plazaData.career,
+        curriculum: plazaData.curriculum,
+        faculty: plazaData.faculty,
+        modality: plazaData.modality,
+        nameTeacher: plazaData.nameTeacher,
+        subject: plazaData.subject
+      });
+    });
+  }
+  
+
 
   private cargarActividades(emailDocente: string): void {
     this.studients$ = this.firestore.collection('postulant', ref => {
       if (this.user.role === 'teacher') {
         return ref.where('emailTeacher', '==', emailDocente);
       }
+
+      if (this.user.role === 'director') {
+        return ref.where('emailDirector', '==', emailDocente);
+      }
+
+      
 
       return ref.where('validated', '==', true);
     }).valueChanges();

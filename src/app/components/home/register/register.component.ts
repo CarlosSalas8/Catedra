@@ -47,7 +47,10 @@ export class RegisterComponent {
       this.loading = true;
       this.errorMessage = '';
   
-      const { email, password, name, confirmPassword } = this.loginForm.value;
+      let { email, password, name, confirmPassword } = this.loginForm.value;
+
+      name = name.trim().toUpperCase();
+      email = email.trim().toLowerCase();
   
       if (password !== confirmPassword) {
         this.errorMessage = 'Las contraseñas no coinciden.';

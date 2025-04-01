@@ -1,7 +1,7 @@
 <div class="h-screen overflow-auto">
   <app-navbar-admin *ngIf="role == 'admin'"> </app-navbar-admin>
-  <app-aside-directors *ngIf="role == 'director'"> </app-aside-directors>
-  <app-aside-student *ngIf="role == 'student'"> </app-aside-student>
+  <app-navbar-directors *ngIf="role == 'director'"> </app-navbar-directors>
+  <app-navbar-student *ngIf="role == 'student'"> </app-navbar-student>
 
   <app-aside-admin *ngIf="role == 'admin'"> </app-aside-admin>
   <app-aside-directors *ngIf="role == 'director'"> </app-aside-directors>
@@ -54,6 +54,29 @@
         <button *ngIf="role === 'admin'" (click)="aprobarEstudiante(activities[0])" class="p-2 bg-blue-500 text-white rounded">
           Aprobar
         </button>
+      </div>
+
+      <div *ngIf="postulant" class="bg-white shadow-md rounded-lg overflow-hidden p-6 mt-8">
+        <h2 class="text-2xl mb-4 font-bold">Lista de Verificación</h2>
+        <table *ngIf="postulant.state" class="min-w-full divide-y divide-gray-200">
+            <tr>
+              <td class="px-4 py-2 whitespace-nowrap"><strong>Nombres y Apellidos:</strong></td>
+              <td class="px-4 py-2 whitespace-nowrap text-center font-semibold "><b>Validación</b></td>
+            </tr>
+            <tr *ngFor="let post of postulant.approvedBy">
+              <td class="px-4 py-2 whitespace-nowrap">{{ post.name }}</td>
+              <td class="px-2 py-2 whitespace-nowrap">
+                <span *ngIf="post.state === 'Validado'"
+                  class="block w-full text-center px-4 py-2 bg-customgreen text-black font-bold border-b-2 border-black">
+                  Validado
+                </span>
+                <span *ngIf="post.state === 'No Validado'"
+                  class="block w-full text-center px-4 py-2 bg-customgray text-black font-bold border-b-2 border-black">
+                  No Validado
+                </span>
+              </td>
+            </tr>
+        </table>
       </div>
 
       <div *ngIf="activities.length > 0" class="mt-10">

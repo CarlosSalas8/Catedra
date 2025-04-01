@@ -133,13 +133,17 @@
                   <td class="px-4 py-4 flex flex-col gap-2 w-full" *ngIf="!postulante.havePlaza || postulante.validated">
                     <button 
                       (click)="validatePostulant(true, postulante.id)"
-                      class="bg-customBlue text-white px-1 py-1 hover:bg-customBlueHover rounded-lg"
+                      class="bg-customBlue text-white px-1 py-1 hover:bg-customBlueHover rounded-lg cursor-not-allowed disabled:opacity-50"
+                      style="cursor: not-allowed;"
+                      [disabled]="true"
                     >
                       Aceptar
                     </button>
                     <button 
                       (click)="validatePostulant(false, postulante.id)"
-                      class="bg-customBlue text-white px-1 py-1 hover:bg-customBlueHover rounded-lg"
+                      class="bg-customBlue text-white px-1 py-1 hover:bg-customBlueHover rounded-lg cursor-not-allowed disabled:opacity-50"
+                      style="cursor: not-allowed;"
+                      [disabled]="true"
                     >
                       Rechazar
                     </button>

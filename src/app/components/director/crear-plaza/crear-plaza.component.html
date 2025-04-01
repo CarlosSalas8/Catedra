@@ -18,7 +18,9 @@
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="flex flex-col md:flex-row items-center text-lg mb-4">
               <button (click)="toggleModal()"
-                class="bg-customBlue text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold hover:bg-customBlueHover mb-4 md:mb-0 md:mr-4">
+                class="bg-customBlue text-white px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold hover:bg-customBlueHover mb-4 md:mb-0 md:mr-4"
+                *ngIf="false"
+              >
                 CREAR NUEVA PLAZA
               </button>
               <p class="text-gray-600 text-sm text-center sm:px-4 md:px-20 lg:px-80 py-3">
@@ -150,28 +152,50 @@
           <div>
             <label class="block text-gray-700 font-medium mb-2">Asignatura</label>
             <input formControlName="subject" type="text" placeholder="Nombre de la asignatura"
-              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700"
+              (ngModelChange)="subject.value = subject.value.toUpperCase()"
+              (input)="subject.value = subject.value.toUpperCase()"
+              #subject
+            >
           </div>
 
           <!-- teacher -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Docente</label>
-            <input formControlName="nameTeacher" type="text" placeholder="Nombre y apellido completo"
-              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+            <input 
+              formControlName="nameTeacher"
+              type="text"
+              placeholder="Nombre y apellido completo"
+              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700"
+              (ngModelChange)="nameTeacher.value = nameTeacher.value.toUpperCase()"
+              (input)="nameTeacher.value = nameTeacher.value.toUpperCase()"
+              #nameTeacher
+            >
           </div>
 
           <!-- Correo del teacher -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Correo de docente</label>
-            <input formControlName="emailTeacher" type="emailTeacher" placeholder="Correo institucional UTPL"
-              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+            <input 
+              formControlName="emailTeacher"
+              type="email" 
+              placeholder="Correo institucional UTPL"
+              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700" 
+              (input)="emailTeacher.value = emailTeacher.value.toLowerCase()"
+              #emailTeacher
+            >
           </div>
 
           <!-- Paralelo -->
           <div>
             <label class="block text-gray-700 font-medium mb-2">Paralelo</label>
-            <input formControlName="parallel" type="text" placeholder="Paralelo de la asignatura"
-              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700">
+            <input 
+              formControlName="parallel" type="text" placeholder="Paralelo de la asignatura"
+              class="w-full lg:w-72 p-2 border rounded-lg text-gray-700"
+              (ngModelChange)="parallel.value = parallel.value.toUpperCase()"
+              (input)="parallel.value = parallel.value.toUpperCase()"
+              #parallel
+            >
           </div>
 
           <!-- Malla Curricular -->
@@ -179,7 +203,7 @@
             <label class="block text-gray-700 font-medium mb-2">Malla Curricular</label>
             <select id="curriculum" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700"
               formControlName="curriculum">
-              <option value="" disabled>Selecciona una opción</option>
+              <option value="" selected disabled>Selecciona una opción</option>
               <option *ngFor="let curriculum of curriculums" [value]="curriculum">{{ curriculum }}</option>
             </select>
           </div>
@@ -189,7 +213,7 @@
             <label class="block text-gray-700 font-medium mb-2">Ciclo requerido</label>
             <select id="academicCycle" class="w-full lg:w-72 p-2 border rounded-lg text-gray-700"
               formControlName="academicCycle">
-              <option value="" disabled>Selecciona una opción</option>
+              <option value="" selected disabled>Selecciona una opción</option>
               <option *ngFor="let academicCycle of academicCycles" [value]="academicCycle">{{ academicCycle }}</option>
             </select>
           </div>

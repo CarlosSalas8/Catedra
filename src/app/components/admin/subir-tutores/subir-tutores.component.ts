@@ -3,7 +3,7 @@ import * as Papa from 'papaparse';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { PeriodoService } from 'src/app/services/periodo.service';
-import { LogIn } from 'lucide-angular';
+import { EmailService } from 'src/app/services/email.service';
 
 @Component({
   selector: 'app-subir-tutores',
@@ -16,7 +16,12 @@ export class SubirTutoresComponent implements OnInit {
   successMessage: string = '';
   isLoading: boolean = false;
 
-  constructor(public periodoService: PeriodoService, private afAuth: AngularFireAuth, private firestore: AngularFirestore) {}
+  constructor(
+    public periodoService: PeriodoService,
+    private afAuth: AngularFireAuth,
+    private firestore: AngularFirestore,
+    private emailService: EmailService
+  ) {}
 
   ngOnInit(): void {
     this.periodoService.activePeriod$.subscribe(period => {
@@ -133,5 +138,9 @@ export class SubirTutoresComponent implements OnInit {
       this.isLoading = false;
     }
   }
-  
+
+  // Llamar a la call function para enviar correos
+  enviarCorreos() {
+    console.log(this.emailService.sendEmail());
+  }
 }

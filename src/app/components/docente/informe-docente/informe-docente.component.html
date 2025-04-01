@@ -97,6 +97,48 @@
             </ul>
 
             <div class="grid md:grid-cols-2 gap-6">
+                <!-- Botón Descargar -->
+                <div class="border border-slate-400 rounded-lg p-4 text-center">
+                    <p class="font-semibold mb-2">
+                        DESCARGAR FORMATO DE LA DECLARATORIA DE CONFLICTOS DE INTERÉS TUTOR - ESTUDIANTES
+                    </p>
+                    <a
+                        href="https://firebasestorage.googleapis.com/v0/b/catedra-458c0.appspot.com/o/Declaracio%CC%81n%20de%20conflictos%20de%20intere%CC%81s%20tutor%20-%20estudiante.pdf?alt=media&token=dad0b0e8-3ca4-4f19-bed4-bb76304a46a8"
+                        _target="blank"
+                    >
+                        <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                        </button>
+                    </a>
+                    <p class="text-xs text-gray-600">Se descarga en formato PDF</p>
+                </div>
+
+                <!-- Botón Descargar -->
+                <div class="border border-slate-400 rounded-lg p-4 text-center">
+                    <p class="font-semibold mb-2">
+                        DESCARGAR FORMATO DE EVALUACIÓN DEL AYUDANTE DE CATEDRA
+                    </p>
+                    <a 
+                        href="https://firebasestorage.googleapis.com/v0/b/catedra-458c0.appspot.com/o/Formato%20Evaluacion%20AC.docx?alt=media&token=66ad8fd2-d2f0-4241-b03a-c7c1cd0d5171"
+                        _target="blank"
+                    >
+                        <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                        </button>
+                    </a>
+                    <p class="text-xs text-gray-600">Se descarga en formato de Word</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
                 <!-- Botón Descargar Evaluación -->
                 <div class="border border-slate-400 rounded-lg p-4 text-center">
                     <label class="font-semibold mb-2" for="evaluacion">
@@ -245,15 +287,15 @@
                         </span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Mostrar Comentario -->
-                <div
-                    *ngIf="postulation && postulation.informeDocente.comment && postulation.informeDocente.comment.trim() != ''"
-                    class="bg-[#f0f0f0] p-6 rounded-lg mb-2 mt-4"
-                >
-                    <p class="font-semibold mb-2">Comentario del administrador</p>
-                    <p>{{ postulation.informeDocente.comment }}</p>
-                </div>
+            <!-- Mostrar Comentario -->
+            <div
+                *ngIf="postulation && postulation.informeDocente && postulation.informeDocente.comment && postulation.informeDocente.comment.trim() != ''"
+                class="bg-[#f0f0f0] p-6 rounded-lg mb-2 mt-4"
+            >
+                <p class="font-semibold mb-2">Comentario del administrador</p>
+                <p>{{ postulation.informeDocente.comment }}</p>
             </div>
         </div>
     </div>

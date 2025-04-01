@@ -49,7 +49,7 @@ import { ListadoEstudiantesComponent } from '../components/docente/listado-estud
   imports: [
     CommonModule,
     CoreRoutingModule,
-    SharedModule
+    SharedModule,
   ]
 })
 export class CoreModule { }

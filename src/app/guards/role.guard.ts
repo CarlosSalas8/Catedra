@@ -12,8 +12,6 @@ export class RoleGuard implements CanActivate {
     async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
         const expectedRoles = route.data['expectedRole'];
         const user = await this.authService.getCurrentUser5();
-        console.log(user);
-        
 
         if (user) {
             if (Array.isArray(expectedRoles) && expectedRoles.includes(user.role)) {

@@ -202,6 +202,12 @@ export class CrearPlazaComponent implements OnInit {
   guardarDatos(): void {
     if (this.form.valid) {
       const formData = this.form.value;
+      // poner en mayúsculas los campos de texto
+      formData.subject = formData.subject.toUpperCase();
+      formData.parallel = formData.parallel.toUpperCase();
+      formData.nameTeacher = formData.nameTeacher.toUpperCase();
+      formData.emailTeacher = formData.emailTeacher.toLowerCase();
+
       const subject = formData.subject;
       const parallel = formData.parallel;
       const periodID = this.activePeriod ? this.activePeriod.id : null;
@@ -241,7 +247,7 @@ export class CrearPlazaComponent implements OnInit {
                 .set({
                   id: plazaID,
                   ...formData,
-                  nameTeacher: docenteData.name ||  formData.nameTeacher,
+                  nameTeacher: docenteData.name ||  formData.nameTeacher.toUpperCase(),
                   teacherId: docenteData.id || null,
                   teacherEmail: formData.emailTeacher,
                   periodID: periodID,
@@ -322,6 +328,7 @@ export class CrearPlazaComponent implements OnInit {
       .doc(id)
       .delete()
       .then(() => {  
+        alert('Plaza eliminada correctamente.');
       })
       .catch((error) => {
         console.error('Error al eliminar la plaza:', error);
@@ -329,7 +336,6 @@ export class CrearPlazaComponent implements OnInit {
       })
       .finally(() => {
         this.toggleAlertDelete();
-        alert('Plaza eliminada correctamente.');
       });
   }
 

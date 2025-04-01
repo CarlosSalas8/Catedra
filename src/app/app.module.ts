@@ -14,6 +14,9 @@ import { HomeModule } from './home/home.module';
 import { CoreModule } from './core/core.module';
 import { ActividadesComponent } from './components/admin/actividades/actividades.component';
 import { RegisterComponent } from './components/home/register/register.component';
+import { getFunctions, provideFunctions } from '@angular/fire/functions';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideAuth,getAuth } from '@angular/fire/auth';
 
 
 @NgModule({
@@ -29,6 +32,9 @@ import { RegisterComponent } from './components/home/register/register.component
     AngularFireStorageModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFunctions(() => getFunctions()),
+    provideAuth(() => getAuth()),
     SharedModule,
     HomeModule,
     CoreModule,
@@ -36,7 +42,7 @@ import { RegisterComponent } from './components/home/register/register.component
   ],
 
   providers: [
-    AuthService
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })

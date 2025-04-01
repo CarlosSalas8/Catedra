@@ -76,7 +76,72 @@ export class PostulantesComponent implements OnInit {
         });
       });
     }
+
+    // this.updateValidatedPostulantsInPlazas();
   }
+
+  // Actualizar el validated en la lista de postulantes de todas plazas desde la coleccion plaza desde la coleccion postulant
+  updateValidatedPostulantsInPlazas(): void {
+    this.firestore.collection('plazas').get().toPromise().then((plazas) => {
+      plazas!.forEach((plazaDoc) => {
+        const plazaData = plazaDoc.data() as { postulant: any[] };
+
+        plazaData.postulant?.forEach((postulant) => {
+          const postulantId = postulant.id;
+
+          this.firestore.collection('postulant').doc(postulantId).get().toPromise().then((postulantDoc) => {
+            if (postulantDoc && postulantDoc.exists) {
+              const validated = postulantDoc.get('validated');
+
+              if (validated === undefined) {
+                return;
+              }
+
+              const postulantIndex = plazaData.postulant?.findIndex(postulant => postulant.id === postulantId);
+
+              if (postulantIndex !== undefined && postulantIndex !== -1) {
+                plazaData.postulant[postulantIndex].validated = validated;
+
+                // Actualizar solo el postulante correspondiente en la colección de plazas
+                this.firestore.collection('plazas').doc(plazaDoc.id).update({
+                  postulant: plazaData.postulant
+                }).then(() => {
+                  
+                }).catch(error => {
+                  console.error('Error al actualizar la validación del postulante en la plaza:', error);
+                });
+              }
+            }
+          });
+        });
+      });
+    });
+  }
+
+
+  
+  // Método para actualizar el campo 'validated' en la colección 'postulant' y 'users'
+  updateValidatedPostulantsInUsers(): void {
+    this.firestore.collection('postulant').get().toPromise().then((postulants) => {
+      postulants!.forEach((postulantDoc) => {
+        const postulantData = postulantDoc.data() as { plazaID: string, usuario: { userID: string } };
+        const userId = postulantData.usuario?.userID;
+
+        if (userId) {
+          this.firestore.collection('users').doc(userId).get().toPromise().then((userDoc) => {
+            if (userDoc && userDoc.exists) {
+              const validated = userDoc.get('validated') || false;
+
+              this.firestore.collection('postulant').doc(postulantDoc.id).update({
+                validated: validated
+              });
+            }
+          });
+        }
+      });
+    });
+  }
+
 
   // Método para validar o no validar a un postulante y actualizar en 'users'
   validatePostulant(isValid: boolean, postulanteId: string): void {
@@ -85,7 +150,7 @@ export class PostulantesComponent implements OnInit {
       this.firestore.collection('postulant').doc(postulanteId).get().toPromise().then((postulantDoc) => {
         if (postulantDoc && postulantDoc.exists) {
           // Extraer el userID del documento del postulante
-          const postulantData = postulantDoc.data() as { usuario?: { userID?: string } };
+          const postulantData = postulantDoc.data() as { usuario?: { userID?: string }, plazaID: string };
           const userId = postulantData.usuario?.userID;
 
           // Actualizar el campo 'validated' en la colección 'postulant'
@@ -97,6 +162,29 @@ export class PostulantesComponent implements OnInit {
             console.error('Error al actualizar la validación del postulante:', error);
           });
 
+          // Obtener los datos de la plaza de la que se postuló el usuario y actualizar el validate en la lista de postulantes
+          if (postulantData.plazaID) {
+            this.firestore.collection('plazas').doc(postulantData.plazaID).get().toPromise().then((plazaDoc) => {
+              if (plazaDoc && plazaDoc.exists) {
+                const plazaData = plazaDoc.data() as { postulant: any[] };
+                const postulantIndex = plazaData.postulant?.findIndex(postulant => postulant.id === postulanteId);
+
+                if (postulantIndex !== undefined && postulantIndex !== -1) {
+                  plazaData.postulant[postulantIndex].validated = isValid;
+
+                  // Actualizar solo el postulante correspondiente en la colección de plazas
+                  this.firestore.collection('plazas').doc(postulantData.plazaID).update({
+                    postulant: plazaData.postulant
+                  }).then(() => {
+                    
+                  }).catch(error => {
+                    console.error('Error al actualizar la validación del postulante en la plaza:', error);
+                  });
+                }
+              }
+            });
+          }
+          
           // Actualizar el campo 'validated' en la colección 'users' si userID existe
           if (userId) {
             this.firestore.collection('users').doc(userId).update({

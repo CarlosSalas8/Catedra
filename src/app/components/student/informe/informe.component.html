@@ -30,15 +30,21 @@
                 <!-- Botón Descargar -->
                 <div class="border border-slate-400 rounded-lg p-4 text-center">
                     <p class="font-semibold mb-2">DESCARGAR FORMATO DE INFORME DE AYUDANTE DE CÁTEDRA</p>
-                    <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                        </svg>
-                    </button>
+                    <a 
+                        href="https://firebasestorage.googleapis.com/v0/b/catedra-458c0.appspot.com/o/Formato%20Informe%20de%20Ayudante%20de%20Ca%CC%81tedra.docx?alt=media&token=9f0071e0-fe5d-4cb3-890c-8c4ded25b219"
+                        target="_blank"
+                    >
+                        <button class="bg-customBlue hover:bg-customBlueHover text-white w-full py-2 rounded mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                        </button>
+                    </a>
                     <p class="text-xs text-gray-600">Se descarga en formato de Word</p>
                 </div>
+                
                 <!-- Botón Cargar -->
                 <div class="border border-slate-400 rounded-lg p-4 text-center">
                     <label class="font-semibold mb-2" for="pdfPlanTrabajoDocente">CARGA EL INFORME DE AYUDANTE DE CÁTEDRA</label>
@@ -215,7 +221,7 @@
 
             <!-- Mostrar Comentario -->
             <div
-                *ngIf="postulation && postulation.informeDocente.comment && postulation.informeDocente.comment.trim() != ''"
+                *ngIf="postulation &&  postulation.informeDocente && postulation.informeDocente.comment && postulation.informeDocente.comment.trim() != ''"
                 class="bg-[#f0f0f0] p-6 rounded-lg mb-2 mt-4"
             >
                 <p class="font-semibold mb-2">Comentario del administrador</p>
