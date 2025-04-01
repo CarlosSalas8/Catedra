@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oficio</title>
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+
+        .header {
+            text-align: left;
+            max-height: 6rem;
+        }
+
+        .logo {
+            max-height: 6rem;  
+            padding: 0 1.2rem;
+            margin: 0;
+        }
+
+        .content {
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 1em;
+            margin-bottom: 10px;
+            background-color: #D9D9D9;
+            padding: 1.5rem;
+            margin: 0;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1em;
+            margin: 0;
+            padding: .6rem;
+            text-align: center;
+            background-color: #F6F9FF;
+            margin-bottom: 1rem;
+        }
+
+        .content p {
+            font-size: .75em;
+            line-height: 1.6;
+            padding: .5rem 2rem;
+        }
+
+        ul {
+            display: inline-block;
+            font-size: .75em;
+            line-height: 1.6;
+            padding: 0 6rem;
+        }
+
+        ul li {
+            list-style-type: '-         ';
+        }
+
+        .united {
+            line-height: 1.1 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Utilizar solo etiquetas div, ya que los clientes de correo no detectan etiquetas como header o footer -->
+    <div class="container">
+        <div class="header">
+            <img 
+                src="https://medialab.utpl.edu.ec/wp-content/uploads/2017/10/utpl-color.png"
+                alt="UTPL Logo"
+                class="logo"
+            >
+        </div>
+        <div class="content">
+            <p>
+                <strong>Oficio Circular Nro. 032-VA-UTPL-2025</strong>
+                <br>
+                Loja, {{ date }}
+            </p>
+            <p>
+                Estimado/a <br>
+                <strong>{{ teacherName }}</strong><br>
+                <strong>Docente de la asignatura: </strong>{{subject}} <br>
+                <strong>Carrera: </strong> {{career}} <br>
+                <strong>Universidad Técnica Particular de Loja</strong> <br>
+                Presente.-
+            </p>
+
+            <p>
+                Estimado docente <br>
+                Dentro del proyecto de Ayudantes de Cátedra gestionado por el Vicerrectorado Académico y según los requerimientos de la carrera, se ha designado a el/la estudiante con datos:
+            </p>
+
+            <p>
+                <ul>
+                    <li>Nombre: {{ studentName }}</li>
+                    <li>Cédula: {{ ci }}</li>
+                    <li>Correo: {{ email }}</li>
+                    <li>Celular: {{ phone }}</li>
+                </ul>
+            </p>
+
+            <p>
+                El estudiante ha sido designado como Ayudante de Cátedra para el período académico {{period}}. <br>
+                Solicito amablemente programar una reunión presencial o virtual (Zoom u otro medio tecnológico) para planificar conjuntamente las actividades de la asignatura en el Sistema de Gestión para Ayudante de Cátedra: 
+                <a href="https://ayudantecatedra.liidutpl.ec/home">https://ayudantecatedra.liidutpl.ec/home</a>
+            </p>
+            <p>
+                Además se deben tomar en cuenta lo siguiente: <br>
+                <ul>
+                    <li>
+                        El estudiante deberá generar la planificación en el Sistema de Gestión 
+                        (puede consultar el <a href="">manual del estudiante</a>).
+                    </li>
+                    <li>
+                        El docente y director podrán visualizar dicha planificación una vez generada 
+                        (pueden consultar el <a href="">manual del docente</a> y el <a href="">manual del director</a>).</a>
+                    </li>
+                    <li>
+                        Fecha límite para completar esta actividad: 18 de abril de 2025.
+                    </li>
+                </ul>
+            </p>
+            <p>
+                A continuación, se presenta el proyecto donde encontrará las funciones del docente, funciones que debe cumplir el/la estudiante y el reconocimiento que recibirá.
+            </p>
+            <p><a href="https://portales.utpl.edu.ec/ayudantesdecatedra">https://portales.utpl.edu.ec/ayudantesdecatedra</a></p>
+
+            <p>Es importante mencionar las siguientes consideraciones para el buen desarrollo de este proyecto:</p>
+            <ul>
+                <li>
+                    El estudiante seleccionado debe cumplir estrictamente con todos los requisitos establecidos en el apartado “Perfil del estudiante de ayudante de cátedra” del proyecto adjunto.
+                </li>
+                <li>
+                    Considerar que las becas se aplican únicamente en períodos académicos que el estudiante genere matrícula y arancel, no aplica para otro tipo de servicio, es decir, el estudiante deberá registrar matrícula en el período académico: abril – agosto 2025.
+                </li>
+                <li>
+                    En caso de no cumplir con todos los requisitos establecidos, el estudiante no podrá hacer efectivo el porcentaje de beca para la matrícula del siguiente período académico.
+                </li>
+                <li>
+                    Si el estudiante seleccionado desde la titulación no cumple con todos los requisitos establecidos y participa de este proyecto, el Vicerrectorado Académico otorgará únicamente un certificado de participación.
+                </li>
+            </ul>
+
+            <p>Se adjunta el <strong>Anexo 1:</strong> Planificación de actividades ayudantes de cátedra.</p>
+            <p>Cualquier inquietud comunicarse con la Mgtr. Nuve Briceño Preciado (<a href="mailto:nlbriceno@utpl.edu.ec">nlbriceno@utpl.edu.ec</a>) Ext. 2391.</p>
+            <p>Agradezco su oportuna colaboración.</p>
+            <p>Muy atentamente,</p>
+
+            <p class="united">
+                Dra. Rosario de Rivas Manzano <br>
+                <strong>Vicerrectora Académica</strong> <br>
+                <small>Adj.: Lo indicado.</small> <br>
+                <small>Cc.: Director de Carrera</small> <br>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
