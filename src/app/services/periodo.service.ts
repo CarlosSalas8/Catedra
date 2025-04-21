@@ -74,9 +74,4 @@ export class PeriodoService {
       })
     );
   }
-
-  
-  
-
-  
 }

@@ -1,4 +1,3 @@
-
 const {log} = require("firebase-functions/logger");
 const {onCall, HttpsError} = require("firebase-functions/v2/https");
 const admin = require("./conf").admin;
@@ -27,20 +26,27 @@ export const sendEmailTeachers = onCall(async (request: any) => {
     return user;
   });
 
-  // Get all teachers data
-  const teachers = await db.collection("teachers").get();
+  let teachers: any;
+
+  if (request.data && request.data.career) {
+    teachers = await db.collection("teachers").where("career", "==", request.data.career).get();
+  }
+  else {
+    // Get all teachers data
+    teachers = await db.collection("teachers").get();
+  }
+
+  // Get active period 
+  const period = await db.collection("period").where("status", "==", true).get();
+  if (period.empty) {
+    throw new HttpsError("not-found", "No active period found.");
+  }
+  const periodData = period.docs[0].data();
 
   // Loop through all teachers and send an email to each one
   teachers.forEach(async (teacher: { data: () => any; }) => {
     const teacherData = teacher.data();
     const email = teacherData.email;
-
-    // Get active period 
-    const period = await db.collection("period").where("status", "==", true).get();
-    if (period.empty) {
-      throw new HttpsError("not-found", "No active period found.");
-    }
-    const periodData = period.docs[0].data();
 
     // Get the students data from postulant collection
     const students = await db.collection("postulant")
@@ -48,7 +54,8 @@ export const sendEmailTeachers = onCall(async (request: any) => {
       .where("emailTeacher", "==", teacherData.email)
       .where("plazaID", "==", teacherData.plaza || "")
       .where("validated", "==", true)
-      .where("isTest", "==", true).get();
+      // .where("isTest", "==", true)
+      .get();
 
     log("Students found: " + students.size);
     if (students.empty) {
@@ -62,7 +69,7 @@ export const sendEmailTeachers = onCall(async (request: any) => {
       const studentData = student.data();
       const studentEmail = studentData.usuario.email;
       const studentName = studentData.usuario.name;
-      const subject = "Oficio de inicio del Proyecto de Ayudantes de Catedra";
+      const subject = `Notificación Asignación "Ayudante de Cátedra" - Período ${periodData.name}`;
 
       const replacements = {
         // Date with this format: Lunes, 31 de Marzo de 2025
@@ -81,10 +88,31 @@ export const sendEmailTeachers = onCall(async (request: any) => {
         phone: studentData.phone,
         period: periodData.name,
       };
-      await sendEmail.sendEmail(email, subject, replacements, [studentEmail, teacherData.emailDirector]);
+      await sendEmail.sendEmail(
+        email, subject, replacements,
+        [
+          studentEmail, teacherData.emailDirector,
+          "nlbriceno@utpl.edu.ec"
+        ]
+      );
+
       log("Email sent to teacher: " + email + " with student data: " + studentData.usuario.name);
     });
   });
 
+  if (teachers.empty) {
+    throw new HttpsError("not-found", "No teachers found.");
+  }
+  log("Emails sent to all teachers with approved students.");
+
+  if (request.data && request.data.career) {
+    log("Emails sent to teachers with career: " + request.data.career);
+
+    // Set a flag to indicate that the emails were sent in the career
+    await db.collection("careers").doc(request.data.careerId).update({
+      [`emailsSent${periodData.id}`]: true,
+    });
+  }
+
   return { success: true, message: "Emails sent successfully." }; 
-},);
+});

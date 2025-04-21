@@ -2,14 +2,6 @@
 
 <app-aside-admin> </app-aside-admin>
 
-<!-- Boton Enviar Correos -->
-<div class="fixed bottom-0 right-0 p-4 sm:ml-20 sm:mr-20 mb-10">
-  <button
-    class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    type="button" (click)="enviarCorreos()">Enviar Correos</button>
-</div>
-  
-
 <!-- subir-tutores.component.html -->
 <div class="p-4 sm:ml-20">
   <div class="p-4 mt-14">
@@ -71,9 +63,35 @@
         <div *ngIf="errorMessage" class="mt-4 text-red-600 font-semibold">{{ errorMessage }}</div>
       </div>
 
+      <div class="m-4"></div>
 
-
-
+      <!-- Boton Enviar Correos -->
+      <h2 class="text-xl font-semibold text-black mb-4 text-center">Enviar Oficios</h2>
+      <div class="p-4 sm:ml-20 sm:mr-20 mb-10">
+        <div class="flex items-center space-x-4">
+          <label for="carrera">Seleccione una carrera para enviar los oficios</label>
+          <select
+            class="shadow-lg appearance-none border border-gray-300 rounded-lg py-2 px-4 text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+            id="carrera" name="carrera" required
+            [(ngModel)]="selectedOption"
+          >
+            <option value="" disabled selected>Seleccione una carrera</option>
+            <option
+              *ngFor="let option of careers"
+              [disabled]="option[paramDisable] && option[paramDisable] == true"
+              [value]="option.id"
+            >
+              {{ option.name }}
+            </option>
+          </select>
+          <button
+            class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="button" 
+            (click)="enviarCorreos(selectedOption)">
+            Enviar Correos
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

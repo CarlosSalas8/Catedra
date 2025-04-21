@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oficio</title>
+    <title>Oficio Circular Nro. 033-VA-UTPL-2025</title>
     <style type="text/css">
         * {
             box-sizing: border-box;
@@ -64,17 +64,20 @@
             font-size: .75em;
             line-height: 1.6;
             padding: .5rem 2rem;
+            text-align: justify;
         }
 
         ul {
             display: inline-block;
             font-size: .75em;
             line-height: 1.6;
-            padding: 0 6rem;
+            padding-left: 6rem;
+            padding-right: 2rem;
         }
 
         ul li {
-            list-style-type: '-         ';
+            list-style-type: '-        ';
+            text-align: justify;
         }
 
         .united {
@@ -94,7 +97,7 @@
         </div>
         <div class="content">
             <p>
-                <strong>Oficio Circular Nro. 032-VA-UTPL-2025</strong>
+                <strong>Oficio Circular Nro. 033-VA-UTPL-2025</strong>
                 <br>
                 Loja, {{ date }}
             </p>
@@ -108,7 +111,9 @@
             </p>
 
             <p>
-                Estimado docente <br>
+                Estimado docente: <br>
+            </p>
+            <p>
                 Dentro del proyecto de Ayudantes de Cátedra gestionado por el Vicerrectorado Académico y según los requerimientos de la carrera, se ha designado a el/la estudiante con datos:
             </p>
 
@@ -122,8 +127,7 @@
             </p>
 
             <p>
-                El estudiante ha sido designado como Ayudante de Cátedra para el período académico {{period}}. <br>
-                Solicito amablemente programar una reunión presencial o virtual (Zoom u otro medio tecnológico) para planificar conjuntamente las actividades de la asignatura en el Sistema de Gestión para Ayudante de Cátedra: 
+                Seleccionado como Ayudante de Cátedra para el período académico {{period}}; En este contexto me permito solicitar a usted comedidamente se programe una reunión presencial o mediante la plataforma ZOOM u otro medio tecnológico con el/la estudiante seleccionado a fin de que planifiquen conjuntamente las actividades de la asignatura a través del Sistema de Gestión para Ayudante de Cátedra: 
                 <a href="https://ayudantecatedra.liidutpl.ec/home">https://ayudantecatedra.liidutpl.ec/home</a>
             </p>
             <p>
@@ -131,11 +135,12 @@
                 <ul>
                     <li>
                         El estudiante deberá generar la planificación en el Sistema de Gestión 
-                        (puede consultar el <a href="">manual del estudiante</a>).
+                        (puede consultar el <a href="https://firebasestorage.googleapis.com/v0/b/catedra-458c0.appspot.com/o/Manual%20de%20usuario%20Sistema%20de%20Gestio%CC%81n%20para%20Ayudantes%20de%20Ca%CC%81tedra.pdf?alt=media&token=93c14037-bb91-4bd3-9eda-9080826d0d17">manual del estudiante</a>).
                     </li>
                     <li>
                         El docente y director podrán visualizar dicha planificación una vez generada 
-                        (pueden consultar el <a href="">manual del docente</a> y el <a href="">manual del director</a>).</a>
+                        (pueden consultar el <a href="https://firebasestorage.googleapis.com/v0/b/catedra-458c0.appspot.com/o/Manual%20de%20docente%20Sistema%20de%20Gestio%CC%81n%20para%20Ayudantes%20de%20Ca%CC%81tedra.pdf?alt=media&token=d6d0de27-5d01-493e-b73f-c7616faf52fe">manual del docente</a> y el 
+                        <a href="https://firebasestorage.googleapis.com/v0/b/catedra-458c0.appspot.com/o/Manual%20de%20director%20Sistema%20de%20Gestio%CC%81n%20para%20Ayudantes%20de%20Ca%CC%81tedra.pdf?alt=media&token=ca188f1e-9d1d-4f05-81c8-cc627f09670d">manual del director</a>).
                     </li>
                     <li>
                         Fecha límite para completar esta actividad: 18 de abril de 2025.
@@ -143,9 +148,8 @@
                 </ul>
             </p>
             <p>
-                A continuación, se presenta el proyecto donde encontrará las funciones del docente, funciones que debe cumplir el/la estudiante y el reconocimiento que recibirá.
+                A continuación, se presenta el proyecto donde encontrará las funciones del docente, funciones que debe cumplir el/la estudiante y el reconocimiento que recibirá. <a href="https://portales.utpl.edu.ec/ayudantesdecatedra">https://portales.utpl.edu.ec/ayudantesdecatedra</a>
             </p>
-            <p><a href="https://portales.utpl.edu.ec/ayudantesdecatedra">https://portales.utpl.edu.ec/ayudantesdecatedra</a></p>
 
             <p>Es importante mencionar las siguientes consideraciones para el buen desarrollo de este proyecto:</p>
             <ul>
@@ -153,7 +157,7 @@
                     El estudiante seleccionado debe cumplir estrictamente con todos los requisitos establecidos en el apartado “Perfil del estudiante de ayudante de cátedra” del proyecto adjunto.
                 </li>
                 <li>
-                    Considerar que las becas se aplican únicamente en períodos académicos que el estudiante genere matrícula y arancel, no aplica para otro tipo de servicio, es decir, el estudiante deberá registrar matrícula en el período académico: abril – agosto 2025.
+                    Considerar que las becas se aplican únicamente en períodos académicos que el estudiante genere matrícula y arancel, no aplica para otro tipo de servicio, es decir, el estudiante deberá registrar matrícula en el período académico: {{ period }}.
                 </li>
                 <li>
                     En caso de no cumplir con todos los requisitos establecidos, el estudiante no podrá hacer efectivo el porcentaje de beca para la matrícula del siguiente período académico.
@@ -168,6 +172,7 @@
             <p>Agradezco su oportuna colaboración.</p>
             <p>Muy atentamente,</p>
 
+            <br>
             <p class="united">
                 Dra. Rosario de Rivas Manzano <br>
                 <strong>Vicerrectora Académica</strong> <br>

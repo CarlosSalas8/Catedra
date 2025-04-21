@@ -16,6 +16,10 @@ export class SubirTutoresComponent implements OnInit {
   successMessage: string = '';
   isLoading: boolean = false;
 
+  selectedOption: string = '';
+  careers: any[] = [];
+  paramDisable: string = 'emailsSent';
+
   constructor(
     public periodoService: PeriodoService,
     private afAuth: AngularFireAuth,
@@ -26,7 +30,13 @@ export class SubirTutoresComponent implements OnInit {
   ngOnInit(): void {
     this.periodoService.activePeriod$.subscribe(period => {
       this.activePeriod = period;
+
+      if (period) {
+        this.paramDisable = `emailsSent${period.id}`;
+      }
     });
+
+    this.fetchData('careers');
   }
 
   onFileSelected(event: any) {
@@ -140,7 +150,55 @@ export class SubirTutoresComponent implements OnInit {
   }
 
   // Llamar a la call function para enviar correos
-  enviarCorreos() {
-    console.log(this.emailService.sendEmail());
+  enviarCorreos(career: string) {
+    this.isLoading = true;
+    this.successMessage = '';
+    this.errorMessage = '';
+    
+    if (!career || career === '') {
+      this.errorMessage = 'Por favor seleccione una carrera.';
+      this.isLoading = false;
+      return;
+    }
+
+    // Buscar el nombre de la carrera en el array de carreras
+    const selectedCareer = this.careers.find((c) => c.id === career);
+    
+    this.emailService.sendEmail(selectedCareer.name, selectedCareer.id).then(() => {
+      this.successMessage = 'Correos enviados correctamente.';
+      this.selectedOption = ''; // Limpiar la opción seleccionada
+    })
+    .catch((error) => {
+      console.error('Error al enviar correos', error);
+      this.errorMessage = 'Error al enviar correos.';
+    })
+    .finally(() => {
+      this.isLoading = false;
+    });
+  }
+
+  fetchData(collection: string): void {
+    this.firestore.collection(collection).snapshotChanges().subscribe((data: any) => {
+      let result = data.map((doc: any) => ({
+        id: doc.payload.doc.id,
+        ...doc.payload.doc.data()
+      }));
+
+      // if (collection === 'academicCycles') {
+      //   this.academicCycles = result.sort((a: { name: string; }, b: { name: string; }) => {
+      //     const numA = parseInt(a.name.replace(/\D/g, ''), 10);
+      //     const numB = parseInt(b.name.replace(/\D/g, ''), 10);
+      //     return numA - numB;
+      //   });
+      // } else 
+      if (collection === 'careers') {
+        this.careers = result;
+      } 
+      // else if (collection === 'faculties') {
+      //   this.faculties = result;
+      // } else if (collection === 'curriculums') {
+      //   this.curriculums = result;
+      // }
+    });
   }
 }

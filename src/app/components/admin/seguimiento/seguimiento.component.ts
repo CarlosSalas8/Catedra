@@ -11,7 +11,6 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./seguimiento.component.css']
 })
 export class SeguimientoComponent implements OnInit {
-
   directors$: Observable<any[]> | undefined;
   docentes$: Observable<any[]> | undefined;
   estudiantes$: Observable<any[]> | undefined;
@@ -91,8 +90,6 @@ export class SeguimientoComponent implements OnInit {
     }).valueChanges();
   }
 
-      
-
   toggleDocentes(directorEmail: string) {
     if (this.selectedDirectorEmail === directorEmail) {
       this.cerrarTodo();
@@ -111,8 +108,6 @@ export class SeguimientoComponent implements OnInit {
       );
     }
   }
-
-
 
   toggleEstudiantes(docenteEmail: string) {
     if (this.selectedDocenteEmail === docenteEmail) {

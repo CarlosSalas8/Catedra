@@ -92,11 +92,13 @@ export async function sendEmail(
       secondaryEmail.value(),
     ];
   } else {
-    mailOptions.cc = [user.value(),
-      secondaryEmail.value(),
+    mailOptions.cc = [
+      user.value(),
+      // secondaryEmail.value(),
       ...cc,
     ];
     mailOptions.cc = cc;
+    // mailOptions.bcc = ['aarivera7@utpl.edu.ec']
   }
   
 

@@ -10,7 +10,7 @@ export class EmailService {
     private functions: Functions
   ) { }
 
-  sendEmail () {
-    return httpsCallable(this.functions, 'sendEmailTeachers')({});
+  sendEmail (career: string, id: string) {
+    return httpsCallable(this.functions, 'sendEmailTeachers')({career: career, careerId: id});
   }
 }
